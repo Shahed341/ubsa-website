@@ -5,7 +5,9 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import Events from './pages/Events';
 import Gallery from './pages/Gallery';
-import About from './pages/About'; // <--- Import About Page
+import About from './pages/About';
+import Contact from './pages/Contact';
+import Sponsors from './pages/Sponsors';
 
 function App() {
   return (
@@ -15,9 +17,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/events" element={<Events />} />
         <Route path="/gallery" element={<Gallery />} />
-        <Route path="/about" element={<About />} /> {/* <--- Add Route */}
-        {/* You can point /contact to About if you want the info there, or keep a separate page */}
-        <Route path="/contact" element={<About />} /> 
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/sponsors" element={<Sponsors />} />
       </Routes>
       <Footer />
     </Router>
