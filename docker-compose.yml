@@ -1,6 +1,7 @@
 version: '3.8'
 
 services:
+  # --- 1. FRONTEND (React) ---
   frontend:
     build:
       context: ./frontend
@@ -9,16 +10,49 @@ services:
     ports:
       - "5173:5173"
     volumes:
-      # Syncs your local folder with the container so changes update instantly
       - ./frontend:/app
       - /app/node_modules
     environment:
-      - CHOKIDAR_USEPOLLING=true # Helps hot-reload work on Windows
+      - CHOKIDAR_USEPOLLING=true
     stdin_open: true
     tty: true
+    depends_on:
+      - backend
 
-  # backend: 
-  #   # Uncomment and configure this when you are ready to work on the backend
-  #   build: ./backend
-  #   ports:
-  #     - "5000:5000"
+  # --- 2. BACKEND (Node/Express) ---
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ubsa-backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    environment:
+      # Docker Networking: Host is the service name 'db', not 'localhost'
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASSWORD=rootpassword
+      - DB_NAME=ubsa_db
+      - PORT=5000
+    depends_on:
+      - db
+
+  # --- 3. DATABASE (MySQL) ---
+  db:
+    image: mysql:8.0
+    container_name: ubsa-db
+    cap_add:
+      - SYS_NICE # Suppresses some harmless MySQL warnings in Docker
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: ubsa_db
+    ports:
+      - "3306:3306" # Allows you to connect via MySQL Workbench on localhost:3306
+    volumes:
+      - db_data:/var/lib/mysql # Persists data even if container stops
+
+volumes:
+  db_data:
