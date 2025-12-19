@@ -1,0 +1,208 @@
+/* Page Layout */
+.about-page {
+  padding-top: 140px; /* Space for Navbar */
+  padding-bottom: 4rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  background-color: var(--bg-main, #001d1d);
+  min-height: 100vh;
+  color: var(--text-main, #ffeac8);
+}
+
+.text-highlight {
+  color: var(--head-main, #e36f04);
+}
+
+/* Hero Section */
+.about-hero {
+  text-align: center;
+  margin-bottom: 4rem;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.page-title {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+}
+
+.page-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-mute, #eacda3);
+  line-height: 1.6;
+}
+
+/* Mission & Vision Cards */
+.mission-vision-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 6rem;
+}
+
+.mv-card {
+  background: rgba(0, 79, 38, 0.2); /* Dark Green Tint */
+  border: 1px solid var(--bg-sec, #004f26);
+  padding: 2.5rem;
+  border-radius: 16px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.mv-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--head-main, #e36f04);
+}
+
+.mv-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.mv-card h2 {
+  color: var(--head-main, #e36f04);
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+}
+
+.mv-card p {
+  color: var(--text-mute, #eacda3);
+  line-height: 1.7;
+}
+
+/* Executive Committee */
+.team-section {
+  margin-bottom: 6rem;
+  text-align: center;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.team-card {
+  background: #001313;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.team-card:hover {
+  border-color: var(--head-main, #e36f04);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.team-img-wrapper {
+  width: 100%;
+  height: 280px;
+  overflow: hidden;
+}
+
+.team-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+  filter: grayscale(20%);
+}
+
+.team-card:hover img {
+  transform: scale(1.05);
+  filter: grayscale(0%);
+}
+
+.team-info {
+  padding: 1.5rem;
+}
+
+.team-info h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--text-main);
+}
+
+.team-role {
+  display: block;
+  margin-top: 0.5rem;
+  color: var(--head-main, #e36f04);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Join Us Section */
+.join-us-section {
+  background: linear-gradient(135deg, var(--bg-sec) 0%, #00251a 100%);
+  border-radius: 20px;
+  padding: 4rem 2rem;
+  text-align: center;
+  border: 1px solid rgba(227, 111, 4, 0.3);
+}
+
+.join-content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: #fff;
+}
+
+.benefits-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto 3rem auto;
+  max-width: 600px;
+  text-align: left;
+}
+
+.benefits-list li {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: var(--text-mute);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding-bottom: 0.5rem;
+}
+
+.benefits-list strong {
+  color: var(--head-main, #e36f04);
+}
+
+.btn-join-large {
+  display: inline-block;
+  background-color: var(--btn-pri, #db280a);
+  color: #fff;
+  padding: 1rem 3rem;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  text-decoration: none;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.btn-join-large:hover {
+  background-color: #ff3311;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(219, 40, 10, 0.4);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .mission-vision-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .page-title {
+    font-size: 2.5rem;
+  }
+}

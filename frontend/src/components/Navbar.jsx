@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import logo from '../assets/UBSA_Logo.png'; // Correctly points to your new transparent file
+import logo from '../assets/UBSA_Logo.png'; 
 import '../style/Navbar.css';
 
 export default function Navbar() {
@@ -22,8 +22,14 @@ export default function Navbar() {
 
         {/* Navigation Links */}
         <nav className="nav-menu">
+          <Link to="/about" className={`nav-link ${isActive('/about')}`}>
+            About
+          </Link>
           <Link to="/events" className={`nav-link ${isActive('/events')}`}>
             Events
+          </Link>
+          <Link to="/gallery" className={`nav-link ${isActive('/gallery')}`}>
+            Gallery
           </Link>
           <Link to="/contact" className={`nav-link ${isActive('/contact')}`}>
             Contact
