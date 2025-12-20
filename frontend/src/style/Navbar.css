@@ -1,38 +1,49 @@
-/* Navbar Wrapper */
+/* src/style/Navbar.css */
+
+/* --- MAIN NAVBAR WRAPPER --- */
 .ubsa-navbar {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 100;
-  background: linear-gradient(to bottom, var(--bg-main, #001d1d) 10%, transparent);
+  z-index: 1000;
+  
+  /* User's Gradient Style */
+  background: linear-gradient(to bottom, #001d1d 10%, transparent);
+  
   padding: 0 2rem;
   font-family: 'Inter', sans-serif;
   transition: background 0.3s ease;
-  
-  /* CRITICAL FIX: Ensures padding doesn't push elements off screen */
   box-sizing: border-box; 
+  
+  /* Optional: Add a slight blur to make text readable over images */
+  backdrop-filter: blur(2px); 
 }
 
-/* Flex Container */
+/* --- FLEX CONTAINER --- */
 .nav-container {
-  max-width: 1200px;
+  max-width: 1400px; /* Increased slightly to fit all links */
   height: 90px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%; /* Ensures it fills the allowed space */
+  position: relative; /* Crucial for centering the menu */
 }
 
-/* Logo Button Styling */
+/* --- LEFT SIDE (Logo) --- */
+.nav-left {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
 .nav-logo {
   display: flex;
   align-items: center;
   transition: transform 0.2s ease, filter 0.2s ease;
   cursor: pointer;
-  
-  /* Prevent logo from shrinking if space is tight */
   flex-shrink: 0; 
 }
 
@@ -48,25 +59,31 @@
   display: block;
 }
 
-/* Navigation Links */
-.nav-menu {
+/* --- CENTER (Desktop Menu) --- */
+/* Absolute positioning ensures it is DEAD CENTER regardless of logo/button widths */
+.nav-menu-desktop {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
-  gap: 2.5rem;
+  gap: 2rem;
   align-items: center;
 }
 
 .nav-link {
   font-weight: 500;
   font-size: 1rem;
-  color: var(--text-main, #ffeac8);
+  color: #ffeac8;
   text-decoration: none;
   transition: color 0.3s ease;
   position: relative;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .nav-link:hover,
 .nav-link.active {
-  color: var(--accent, #e36f04);
+  color: #e36f04;
 }
 
 .nav-link.active::after {
@@ -76,47 +93,116 @@
   height: 2px;
   bottom: -4px;
   left: 0;
-  background-color: var(--accent, #e36f04);
+  background-color: #e36f04;
 }
 
-/* Join Button Container */
-.nav-cta {
-  flex-shrink: 0; /* Prevents button from being squashed */
+/* --- RIGHT SIDE (Button & Toggle) --- */
+.nav-right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1.5rem;
 }
 
-/* Join Button */
-.btn-join {
-  background-color: var(--btn-pri, #db280a);
+/* Member+ Button (Using .btn-join styles) */
+.btn-member {
+  background-color: #db280a; /* Red */
   color: #fff;
   padding: 0.7rem 1.5rem;
   border-radius: 4px;
   font-weight: bold;
   text-decoration: none;
   transition: background-color 0.3s ease, transform 0.2s;
-  white-space: nowrap; /* Prevents text from wrapping */
+  white-space: nowrap;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.btn-join:hover {
+.btn-member:hover {
   background-color: #b01f07;
   transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(219, 40, 10, 0.3);
 }
 
-/* --- MOBILE FIXES --- */
-@media (max-width: 768px) {
-  .nav-menu { display: none; }
-  
-  .ubsa-navbar { 
-    /* Reduce side padding on mobile to give content more room */
-    padding: 0 1rem; 
+.plus {
+  margin-left: 2px;
+  font-size: 1.1em;
+}
+
+/* --- MOBILE TOGGLE ICON --- */
+.mobile-toggle {
+  display: none; /* Hidden on desktop */
+  font-size: 1.8rem;
+  color: #ffeac8;
+  cursor: pointer;
+  z-index: 1001;
+  transition: color 0.3s ease;
+}
+
+.mobile-toggle:hover {
+  color: #e36f04;
+}
+
+/* --- MOBILE MENU OVERLAY --- */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 29, 29, 0.98); /* Deep dark background */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  transform: translateY(-100%);
+  transition: transform 0.4s ease-in-out;
+  z-index: 999;
+}
+
+.mobile-menu.open {
+  transform: translateY(0);
+}
+
+.mobile-menu a {
+  color: #fff;
+  font-size: 1.5rem;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.mobile-menu a:hover {
+  color: #e36f04;
+}
+
+/* --- RESPONSIVENESS --- */
+@media (max-width: 900px) {
+  .ubsa-navbar {
+    padding: 0 1rem;
   }
   
-  .logo-img { 
-    height: 50px; /* Resize logo for smaller header */
+  .nav-menu-desktop {
+    display: none; /* Hide center links */
+  }
+  
+  .mobile-toggle {
+    display: block; /* Show hamburger */
   }
 
-  /* Compact Button for Mobile */
-  .btn-join {
-    padding: 0.5rem 1rem; /* Smaller padding */
-    font-size: 0.85rem;   /* Slightly smaller text */
+  .logo-img {
+    height: 50px;
+  }
+
+  .btn-member {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+  
+  .nav-container {
+    height: 70px;
   }
 }

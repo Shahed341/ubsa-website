@@ -23,16 +23,16 @@ import ManageGallery from './pages/adminpages/ManageGallery';
 function App() {
   const location = useLocation();
 
-  // Check if the current route is an admin route
+  // Logic: True if URL starts with "/admin", False otherwise
   const isAdminRoute = location.pathname.startsWith('/admin');
 
   return (
     <>
-      {/* Only show Navbar if NOT on admin pages (optional, remove check if you want Nav on admin) */}
+      {/* 1. Show Navbar if NOT Admin */}
       {!isAdminRoute && <Navbar />}
 
       <Routes>
-        {/* --- PUBLIC ROUTES --- */}
+        {/* Public Routes */}
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/events" element={<Events />} />
@@ -40,39 +40,14 @@ function App() {
         <Route path="/sponsors" element={<Sponsors />} />
         <Route path="/contact" element={<Contact />} />
 
-        {/* --- ADMIN ROUTES --- */}
-        {/* Login Page */}
+        {/* Admin Routes */}
         <Route path="/admin" element={<Login />} />
-
-        {/* Protected Dashboard Pages */}
-        <Route 
-          path="/admin/dashboard" 
-          element={
-            <ProtectedAdminRoute>
-              <Dashboard />
-            </ProtectedAdminRoute>
-          } 
-        />
-        <Route 
-          path="/admin/add-event" 
-          element={
-            <ProtectedAdminRoute>
-              <AddEvent />
-            </ProtectedAdminRoute>
-          } 
-        />
-        <Route 
-          path="/admin/manage-gallery" 
-          element={
-            <ProtectedAdminRoute>
-              <ManageGallery />
-            </ProtectedAdminRoute>
-          } 
-        />
+        <Route path="/admin/dashboard" element={<ProtectedAdminRoute><Dashboard /></ProtectedAdminRoute>} />
+        <Route path="/admin/add-event" element={<ProtectedAdminRoute><AddEvent /></ProtectedAdminRoute>} />
+        <Route path="/admin/manage-gallery" element={<ProtectedAdminRoute><ManageGallery /></ProtectedAdminRoute>} />
       </Routes>
 
-      {/* --- CONDITIONAL FOOTER --- */}
-      {/* Hide Footer if we are on any admin route */}
+      {/* 2. Show Footer if NOT Admin */}
       {!isAdminRoute && <Footer />}
     </>
   );
