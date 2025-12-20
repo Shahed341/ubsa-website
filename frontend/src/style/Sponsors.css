@@ -2,16 +2,38 @@
 
 /* --- PAGE CONTAINER --- */
 .sponsors-page {
+  position: relative;
   min-height: 100vh;
   padding: 140px 2rem 4rem;
-  background-color: #001313; /* Deep Dark Green Base */
-  
-  /* Subtle Background Gradient */
-  background-image: 
-    radial-gradient(circle at 10% 20%, rgba(0, 50, 30, 0.4), transparent 40%),
-    radial-gradient(circle at 90% 80%, rgba(211, 47, 47, 0.15), transparent 40%);
   color: #fff;
   font-family: 'Inter', sans-serif;
+  z-index: 1;
+  overflow-x: hidden;
+}
+
+/* --- FIXED BLURRED BACKGROUND (Tiger BG) --- */
+.sponsors-page::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  
+  /* Background Image + Dark Overlay for readability */
+  background: 
+    linear-gradient(rgba(0, 10, 5, 0.8), rgba(0, 0, 0, 0.85)), 
+    url('../assets/TigerGalleryPageBG.jpg');
+    
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  
+  /* --- THE 5% BLUR FIX --- */
+  filter: blur(5px);
+  transform: scale(1.05); /* Slight zoom to hide blurred edges */
+  z-index: -1;
+  pointer-events: none;
 }
 
 /* --- HERO SECTION --- */
@@ -196,8 +218,9 @@
   background: #c25e00;
   transform: scale(1.05);
   box-shadow: 0 0 20px rgba(227, 111, 4, 0.4);
-}/* Add to src/style/Sponsors.css */
+}
 
+/* --- MODAL SPECIFIC STYLES --- */
 .clickable {
   cursor: pointer;
 }
