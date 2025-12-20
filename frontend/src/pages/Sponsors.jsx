@@ -1,40 +1,89 @@
 import React, { useState, useEffect } from 'react';
 import '../style/Sponsors.css';
+// Reusing Event modal styles or define specific ones in Sponsors.css
+import '../style/Events.css'; 
 
 export default function Sponsors() {
   const [sponsors, setSponsors] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedSponsor, setSelectedSponsor] = useState(null);
 
+  // --- 1. FETCH DATA ---
   useEffect(() => {
     fetch('http://localhost:5000/api/sponsors')
       .then(res => res.json())
       .then(data => {
-        // If backend returns empty, show mock data for design preview
-        if (data.length === 0) {
-            setSponsors(MOCK_SPONSORS);
-        } else {
+        if (data.length > 0) {
             setSponsors(data);
+        } else {
+            // Fallback for demo if DB is empty
+            setSponsors(MOCK_SPONSORS);
         }
         setLoading(false);
       })
       .catch(err => {
         console.error("Error fetching sponsors:", err);
-        // Fallback to mock data on error so page isn't empty
-        setSponsors(MOCK_SPONSORS); 
+        setSponsors(MOCK_SPONSORS);
         setLoading(false);
       });
   }, []);
 
+  // --- 2. HELPER FUNCTIONS ---
   const getImageUrl = (url) => {
-    if (!url) return 'https://placehold.co/400x200?text=Sponsor+Logo';
+    if (!url) return 'https://placehold.co/600x400?text=Sponsor';
     return url.startsWith('http') ? url : `http://localhost:5000${url}`;
+  };
+
+  // --- 3. MODAL COMPONENT (Internal) ---
+  const SponsorModal = ({ sponsor, onClose }) => {
+    if (!sponsor) return null;
+    return (
+      <div className="event-modal-overlay" onClick={onClose}>
+        <div className="event-modal-glass" onClick={(e) => e.stopPropagation()}>
+          <button className="modal-close-btn" onClick={onClose}>&times;</button>
+          
+          <div className="modal-content-wrapper">
+            {/* LEFT: Text Details */}
+            <div className="modal-details">
+              <span className="sponsor-tier-badge-modal">{sponsor.tier || "Partner"}</span>
+              <h2 className="modal-title">{sponsor.name}</h2>
+              
+              <div className="modal-meta-row">
+                <span className="meta-tag">🤝 Contribution: {sponsor.contribution || "Sponsorship"}</span>
+              </div>
+
+              {/* Special Discount Section in Modal */}
+              <div className="sponsor-modal-discount">
+                <h3>🔒 Member Exclusive</h3>
+                <p className="discount-title">{sponsor.discount_title || "Special Deal"}</p>
+                <p className="discount-desc">{sponsor.discount_desc || "Show your UBSA membership card to redeem this offer."}</p>
+              </div>
+
+              <div className="modal-description-scroll">
+                <p>{sponsor.description || "No description available."}</p>
+                {sponsor.website && (
+                   <a href={sponsor.website} target="_blank" rel="noreferrer" className="modal-website-link">
+                     Visit Website →
+                   </a>
+                )}
+              </div>
+            </div>
+
+            {/* RIGHT: Image */}
+            <div className="modal-image-col">
+              <img src={getImageUrl(sponsor.image_url)} alt={sponsor.name} />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   };
 
   if (loading) return <div className="loading-text">Loading Partners...</div>;
 
   return (
     <div className="sponsors-page">
-      {/* --- HERO SECTION --- */}
+      {/* --- HEADER --- */}
       <header className="sponsors-hero">
         <h1 className="page-title">Our <span className="text-highlight">Partners</span></h1>
         <p className="page-subtitle">
@@ -42,12 +91,15 @@ export default function Sponsors() {
         </p>
       </header>
 
-      {/* --- SPONSORS GRID --- */}
+      {/* --- GRID SECTION --- */}
       <section className="sponsors-grid-container">
         {sponsors.map((sponsor) => (
-          <div key={sponsor.id} className="glass-sponsor-card">
-            
-            {/* 1. Header: Logo & Tier */}
+          <div 
+            key={sponsor.id} 
+            className="glass-sponsor-card clickable" 
+            onClick={() => setSelectedSponsor(sponsor)}
+          >
+            {/* Header: Logo & Tier */}
             <div className="card-header">
               <div className="sponsor-logo-wrapper">
                 <img src={getImageUrl(sponsor.image_url)} alt={sponsor.name} />
@@ -57,53 +109,53 @@ export default function Sponsors() {
               </div>
             </div>
 
-            {/* 2. Body: Name & Contribution */}
+            {/* Body: Info */}
             <div className="card-body">
               <h2 className="sponsor-name">{sponsor.name}</h2>
               <p className="sponsor-contribution">
                 <span className="label">Contribution:</span> {sponsor.contribution || "Supporting Student Success"}
               </p>
-              <p className="sponsor-desc">
-                {sponsor.description || "Proud supporter of the Bangladeshi Students' Association."}
-              </p>
             </div>
 
-            {/* 3. Footer: MEMBER EXCLUSIVE DISCOUNT */}
+            {/* Footer: Discount Preview */}
             <div className="card-footer-discount">
               <div className="discount-header">
-                <span className="lock-icon">🔒</span> 
-                For UBSA Members Only
+                <span className="lock-icon">🔒</span> For Members
               </div>
               <div className="discount-details">
-                <h3>{sponsor.discount_title || "10% OFF"}</h3>
-                <p>{sponsor.discount_desc || "Show your membership card to redeem."}</p>
+                <h3>{sponsor.discount_title || "View Details"}</h3>
               </div>
             </div>
-
           </div>
         ))}
       </section>
 
-      {/* --- CTA SECTION --- */}
+      {/* --- CTA --- */}
       <section className="sponsor-cta">
         <h2>Want to become a partner?</h2>
         <a href="mailto:ubsa.usask@gmail.com" className="btn-partner">Contact Us</a>
       </section>
+
+      {/* --- RENDER MODAL --- */}
+      {selectedSponsor && (
+        <SponsorModal sponsor={selectedSponsor} onClose={() => setSelectedSponsor(null)} />
+      )}
     </div>
   );
 }
 
-// --- MOCK DATA (REMOVE THIS ONCE BACKEND HAS REAL DATA) ---
+// --- MOCK DATA (Fallback) ---
 const MOCK_SPONSORS = [
   {
     id: 1,
     name: "Deshi Bazaar",
     tier: "Platinum",
-    image_url: "", // Will use placeholder
+    image_url: "",
     contribution: "Annual Event Sponsorship",
     description: "The premium destination for authentic South Asian groceries in Saskatoon.",
     discount_title: "10% OFF GROCERIES",
-    discount_desc: "Get flat 10% off on bills over $50. Valid on weekends."
+    discount_desc: "Get flat 10% off on bills over $50. Valid on weekends.",
+    website: "https://google.com"
   },
   {
     id: 2,

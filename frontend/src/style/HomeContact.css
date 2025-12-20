@@ -1,0 +1,120 @@
+/* src/style/HomeContact.css */
+
+.home-contact-section {
+  position: relative;
+  padding: 6rem 2rem 8rem; /* Extra padding bottom for footer spacing */
+  background-color: #000;
+  color: #fff;
+}
+
+.home-contact-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* --- GLASS CARD --- */
+.contact-glass-card {
+  display: flex;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+
+/* --- LEFT COLUMN (Text) --- */
+.contact-text-col {
+  flex: 1;
+  padding: 3rem;
+  background: linear-gradient(135deg, rgba(227, 111, 4, 0.1), transparent);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.contact-text-col .section-title-home {
+  font-size: 2.5rem;
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+.contact-text-col .section-subtitle {
+  text-align: left;
+  margin-bottom: 2rem;
+  color: #ccc;
+}
+
+.quick-info p {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: #ddd;
+}
+
+/* --- RIGHT COLUMN (Form) --- */
+.contact-form-col {
+  flex: 1.2;
+  padding: 3rem;
+  background: rgba(0,0,0,0.2);
+}
+
+.form-group-home {
+  margin-bottom: 1rem;
+}
+
+.form-group-home input,
+.form-group-home textarea {
+  width: 100%;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.form-group-home input:focus,
+.form-group-home textarea:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #e36f04;
+}
+
+.btn-send-home {
+  width: 100%;
+  padding: 1rem;
+  background: #e36f04;
+  color: #000;
+  font-weight: 800;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+.btn-send-home:hover {
+  background: #fff;
+  color: #e36f04;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(227, 111, 4, 0.4);
+}
+
+/* --- MOBILE RESPONSIVE --- */
+@media (max-width: 768px) {
+  .contact-glass-card {
+    flex-direction: column;
+  }
+  
+  .contact-text-col, .contact-form-col {
+    padding: 2rem;
+  }
+
+  .contact-text-col .section-title-home {
+    font-size: 2rem;
+  }
+}

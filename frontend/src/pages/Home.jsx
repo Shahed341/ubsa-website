@@ -1,28 +1,30 @@
 import React from 'react';
 import TigerHero from '../components/TigerHero';
-// Import the new component
 import HomeGallery from '../components/HomeGallery'; 
-import Events from './Events'; 
+import HomeSponsors from '../components/HomeSponsors';
+import HomeContact from '../components/HomeContact';
+import Events from './Events';
 
 export default function Home() {
   return (
-    <>
+    <div className="home-container">
       <TigerHero />
 
-      {/* Main Content Wrapper (White background) */}
-      <div style={{ position: 'relative', zIndex: 10, background: '#ffffff' }}>
+      <div style={{ position: 'relative', zIndex: 10, background: '#000' }}>
         
-        {/* Events Section */}
+        {/* 1. Events */}
         <Events isHome={true} />
         
-        {/* --- NEW GALLERY SECTION --- */}
-        {/* The component itself handles its dark background */}
+        {/* 2. Gallery */}
         <HomeGallery />
 
-        {/* (You can remove the old Gallery import if you aren't using it anymore) */}
-        {/* <Gallery /> */}
-        
+        {/* 3. Sponsors */}
+        <HomeSponsors />
+
+        {/* 4. Contact Form */}
+        <HomeContact />
+
       </div>
-    </>
+    </div>
   );
 }

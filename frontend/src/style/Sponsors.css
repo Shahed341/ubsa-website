@@ -196,4 +196,56 @@
   background: #c25e00;
   transform: scale(1.05);
   box-shadow: 0 0 20px rgba(227, 111, 4, 0.4);
+}/* Add to src/style/Sponsors.css */
+
+.clickable {
+  cursor: pointer;
+}
+
+.sponsor-tier-badge-modal {
+  display: inline-block;
+  background: #e36f04;
+  color: #000;
+  font-weight: bold;
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.sponsor-modal-discount {
+  background: rgba(211, 47, 47, 0.1); /* Red tint */
+  border-left: 4px solid #d32f2f;
+  padding: 1rem;
+  margin: 1.5rem 0;
+  border-radius: 0 8px 8px 0;
+}
+
+.sponsor-modal-discount h3 {
+  color: #ff6b6b;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.sponsor-modal-discount .discount-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 0.2rem;
+}
+
+.modal-website-link {
+  display: inline-block;
+  margin-top: 1rem;
+  color: #e36f04;
+  text-decoration: none;
+  font-weight: bold;
+  border-bottom: 1px solid transparent;
+  transition: border 0.3s;
+}
+
+.modal-website-link:hover {
+  border-bottom: 1px solid #e36f04;
 }
