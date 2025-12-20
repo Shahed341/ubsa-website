@@ -9,6 +9,7 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import Sponsors from './pages/Sponsors';
 import AddEvent from './pages/adminpages/AddEvent';
+import ManageGallery from './pages/adminpages/ManageGallery';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/sponsors" element={<Sponsors />} />
         <Route path="/admin/add-event" element={<AddEvent />} />
+        <Route path="/admin/manage-gallery" element={<ManageGallery />} />
       </Routes>
       <Footer />
     </Router>

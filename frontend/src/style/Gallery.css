@@ -1,26 +1,80 @@
-/* Page Layout */
+/* =========================================
+   1. MAIN PAGE CONTAINER & BACKGROUND
+   ========================================= */
 .gallery-page {
-  padding-top: 140px;
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  padding-top: 140px; 
   padding-bottom: 4rem;
-  max-width: 1200px;
-  margin: 0 auto;
   padding-left: 2rem;
   padding-right: 2rem;
-  min-height: 100vh;
-  /* Dark BG matches the rest of the site */
-  background-color: var(--bg-main, #001d1d);
+  
+  /* Text color inherits white for readability on dark bg */
+  color: white;
+  
+  /* Ensure content sits above the blurred background layer */
+  z-index: 1; 
+  
+  /* Center content max width */
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
+/* --- THE BLURRED BACKGROUND LAYER (Pseudo-Element) --- */
+.gallery-page::before {
+  content: "";
+  position: fixed; /* Stuck to the screen */
+  top: 0;
+  left: 0;
+  width: 100vw;  /* Full viewport width */
+  height: 100vh; /* Full viewport height */
+  z-index: -1;   /* Put behind content */
+
+  /* Use the image passed from React variable */
+  background-image: 
+      linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), /* Dark overlay */
+      var(--gallery-bg);
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  /* THE BLUR EFFECT (5px ≈ 5%) */
+  filter: blur(5px); 
+  
+  /* Scale prevents white edges from appearing due to the blur */
+  transform: scale(1.05); 
+}
+
+/* =========================================
+   2. HEADER STYLES
+   ========================================= */
 .gallery-header {
   text-align: center;
   margin-bottom: 3rem;
+}
+
+.page-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  margin-bottom: 0.5rem;
 }
 
 .text-highlight {
   color: var(--head-main, #e36f04);
 }
 
-/* Filter Buttons */
+.page-subtitle {
+  font-size: 1.2rem;
+  color: #ccc;
+}
+
+/* =========================================
+   3. FILTER BUTTONS
+   ========================================= */
 .gallery-filter {
   display: flex;
   justify-content: center;
@@ -30,22 +84,26 @@
 }
 
 .filter-btn {
-  background: transparent;
-  border: 1px solid var(--bg-sec, #004f26);
-  color: var(--text-mute, #eacda3);
+  background: rgba(255, 255, 255, 0.1); /* Glassy look */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #eacda3;
   padding: 0.6rem 1.5rem;
   border-radius: 50px;
   cursor: pointer;
   transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
 }
 
 .filter-btn.active, .filter-btn:hover {
   background: var(--head-main, #e36f04);
   color: #fff;
-  border-color: var(--head-main);
+  border-color: var(--head-main, #e36f04);
+  box-shadow: 0 0 15px rgba(227, 111, 4, 0.4);
 }
 
-/* Grid System */
+/* =========================================
+   4. GRID SYSTEM
+   ========================================= */
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -54,11 +112,12 @@
 
 .gallery-item {
   position: relative;
-  aspect-ratio: 4/3; /* Keeps all boxes same size */
+  aspect-ratio: 4/3; /* Keeps all boxes same ratio */
   border-radius: 12px;
   overflow: hidden;
   cursor: pointer;
   border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0,0,0,0.3);
 }
 
 .gallery-item img {
@@ -91,34 +150,42 @@
 .image-overlay span {
   color: #fff;
   font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
 }
 
-/* Lightbox (Popup) */
+/* =========================================
+   5. LIGHTBOX (POPUP)
+   ========================================= */
 .lightbox {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.95);
+  background: rgba(0, 0, 0, 0.95); /* Very dark dimming */
   z-index: 2000;
   display: flex;
   justify-content: center;
   align-items: center;
   animation: fadeIn 0.2s ease-in;
+  backdrop-filter: blur(10px);
 }
 
 .lightbox-content {
   position: relative;
   max-width: 90vw;
   max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .lightbox-content img {
   max-width: 100%;
   max-height: 80vh;
   border-radius: 8px;
-  box-shadow: 0 0 20px rgba(227, 111, 4, 0.3);
+  box-shadow: 0 0 30px rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,255,255,0.1);
 }
 
 .lightbox-caption {
@@ -137,6 +204,11 @@
   color: #fff;
   font-size: 2.5rem;
   cursor: pointer;
+  transition: color 0.2s;
+}
+
+.close-btn:hover {
+  color: var(--head-main, #e36f04);
 }
 
 @keyframes fadeIn {

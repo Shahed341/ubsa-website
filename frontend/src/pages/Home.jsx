@@ -1,6 +1,7 @@
 import React from 'react';
 import TigerHero from '../components/TigerHero';
-import Gallery from './Gallery';
+// Import the new component
+import HomeGallery from '../components/HomeGallery'; 
 import Events from './Events'; 
 
 export default function Home() {
@@ -8,15 +9,18 @@ export default function Home() {
     <>
       <TigerHero />
 
-      {/* Main Content Wrapper */}
-      {/* Changed background to '#ffffff' (White) */}
+      {/* Main Content Wrapper (White background) */}
       <div style={{ position: 'relative', zIndex: 10, background: '#ffffff' }}>
         
-        {/* Events Section (Will auto-adapt colors via CSS) */}
+        {/* Events Section */}
         <Events isHome={true} />
+        
+        {/* --- NEW GALLERY SECTION --- */}
+        {/* The component itself handles its dark background */}
+        <HomeGallery />
 
-        {/* Gallery Section */}
-        <Gallery />
+        {/* (You can remove the old Gallery import if you aren't using it anymore) */}
+        {/* <Gallery /> */}
         
       </div>
     </>

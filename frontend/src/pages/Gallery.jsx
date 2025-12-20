@@ -1,34 +1,47 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../style/Gallery.css';
-
-// Using mock images for now so the page doesn't crash. 
-// You can replace these URLs with your local imports later.
-const MOCK_IMAGES = [
-  { id: 1, src: "https://images.unsplash.com/photo-1561058286-9a40579a1841?w=800", category: "Festivals", caption: "Pohela Boishakh Colors" },
-  { id: 2, src: "https://images.unsplash.com/photo-1528605248644-14dd04022da1?w=800", category: "Community", caption: "Community Gathering" },
-  { id: 3, src: "https://images.unsplash.com/photo-1517135384666-88b14e59a72e?w=800", category: "Community", caption: "Annual Picnic" },
-  { id: 4, src: "https://images.unsplash.com/photo-1626224583764-847890e05399?w=800", category: "Sports", caption: "Badminton Tournament" },
-  { id: 5, src: "https://images.unsplash.com/photo-1604606774045-3bb7c2658a46?w=800", category: "Festivals", caption: "Cultural Night" },
-  { id: 6, src: "https://images.unsplash.com/photo-1543503258-a239b9c92257?w=800", category: "Events", caption: "Freshers Reception" },
-];
+// Ensure this path matches exactly where your file is
+import galleryBg from '../assets/TigerGalleryPageBG.jpg'; 
 
 export default function Gallery() {
+  const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [category, setCategory] = useState('All');
   const [selectedImage, setSelectedImage] = useState(null);
 
   const categories = ['All', 'Festivals', 'Community', 'Sports', 'Events'];
 
+  // 1. Fetch Images from Backend API
+  useEffect(() => {
+    fetch('http://localhost:5000/api/gallery')
+      .then(res => res.json())
+      .then(data => {
+        setImages(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Error fetching gallery:", err);
+        setLoading(false);
+      });
+  }, []);
+
+  // 2. Filter Logic
   const filteredImages = category === 'All' 
-    ? MOCK_IMAGES 
-    : MOCK_IMAGES.filter(img => img.category === category);
+    ? images 
+    : images.filter(img => img.category === category);
 
   return (
-    <div className="gallery-page">
+    // Pass the background image to CSS via variable
+    <div className="gallery-page" style={{ '--gallery-bg': `url(${galleryBg})` }}>
       
       {/* Header */}
       <div className="gallery-header">
-        <h1 className="page-title">Moments of <span className="text-highlight">Joy</span></h1>
-        <p className="page-subtitle">Snapshots from the UBSA community.</p>
+        <h1 className="page-title">
+          Moments of <span className="text-highlight">Joy</span>
+        </h1>
+        <p className="page-subtitle">
+          Snapshots from the UBSA community.
+        </p>
       </div>
 
       {/* Filter Buttons */}
@@ -46,18 +59,24 @@ export default function Gallery() {
 
       {/* Grid */}
       <div className="gallery-grid">
-        {filteredImages.map((img) => (
-          <div 
-            key={img.id} 
-            className="gallery-item"
-            onClick={() => setSelectedImage(img)}
-          >
-            <img src={img.src} alt={img.caption} loading="lazy" />
-            <div className="image-overlay">
-              <span>{img.caption}</span>
+        {loading ? (
+          <p style={{textAlign: 'center', width: '100%', fontStyle: 'italic'}}>Loading photos...</p>
+        ) : filteredImages.length > 0 ? (
+          filteredImages.map((img) => (
+            <div 
+              key={img.id} 
+              className="gallery-item"
+              onClick={() => setSelectedImage(img)}
+            >
+              <img src={img.src} alt={img.caption} loading="lazy" />
+              <div className="image-overlay">
+                <span>{img.caption}</span>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p style={{textAlign: 'center', width: '100%'}}>No photos found in this category.</p>
+        )}
       </div>
 
       {/* Lightbox Modal */}

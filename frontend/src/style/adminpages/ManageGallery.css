@@ -1,0 +1,148 @@
+.admin-gallery-container {
+    padding: 140px 2rem 4rem;
+    min-height: 100vh;
+    background-color: #001d1d;
+    color: #fff;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.admin-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    border-bottom: 3px solid #e36f04;
+    display: inline-block;
+}
+
+/* --- GLASS CARDS --- */
+.admin-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 3rem;
+    backdrop-filter: blur(5px);
+}
+
+.admin-card h2 {
+    color: #e36f04;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 0.5rem;
+}
+
+/* --- FORM STYLES --- */
+.admin-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 0.5rem;
+    color: #ccc;
+    font-size: 0.9rem;
+}
+
+.form-group input, .form-group select {
+    padding: 0.8rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    font-size: 1rem;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #e36f04;
+}
+
+/* --- BUTTONS --- */
+.admin-btn {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+.add-btn {
+    grid-column: span 2;
+    background: #2e7d32; /* Green */
+    color: white;
+    margin-top: 1rem;
+}
+
+.add-btn:hover { background: #1b5e20; }
+
+.delete-btn {
+    background: #d32f2f; /* Red */
+    color: white;
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
+.delete-btn:hover { background: #b71c1c; }
+
+.status-msg {
+    grid-column: span 2;
+    text-align: center;
+    margin-top: 1rem;
+    color: #e36f04;
+    font-weight: bold;
+}
+
+/* --- PHOTO GRID --- */
+.admin-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.admin-photo-card {
+    background: rgba(0,0,0,0.3);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.admin-photo-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.admin-photo-info {
+    padding: 1rem;
+}
+
+.admin-photo-info p {
+    font-size: 0.9rem;
+    margin: 0.5rem 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.badge {
+    background: #e36f04;
+    color: white;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .admin-form { grid-template-columns: 1fr; }
+    .add-btn { grid-column: span 1; }
+}

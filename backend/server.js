@@ -1,16 +1,20 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const db = require('./config/db');
+const db = require('./config/db'); // Database connection
 
 // Load environment variables
 dotenv.config();
 
+// Import Routes
+const eventRoutes = require('./routes/eventRoutes');
+const galleryRoutes = require('./routes/galleryRoutes'); // <--- Import Gallery Routes
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
-app.use(cors()); // Allow frontend to access backend
+// --- MIDDLEWARE ---
+app.use(cors()); // Allow frontend access
 app.use(express.json()); // Parse JSON bodies
 app.use('/uploads', express.static('uploads')); // Serve uploaded images publicly
 
@@ -19,16 +23,9 @@ app.get('/', (req, res) => {
   res.send('UBSA API is running...');
 });
 
-// --- ROUTES WILL GO HERE LATER ---
-// app.use('/api/events', require('./routes/eventRoutes'));
-// Add these lines to your existing server.js
-const eventRoutes = require('./routes/eventRoutes');
-
-// Make the uploads folder accessible to the browser
-app.use('/uploads', express.static('uploads'));
-
-// Use the routes
+// --- API ROUTES ---
 app.use('/api/events', eventRoutes);
+app.use('/api/gallery', galleryRoutes); // <--- Use Gallery Routes
 
 // Start Server
 app.listen(PORT, () => {

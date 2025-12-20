@@ -1,0 +1,131 @@
+/* --- SECTION LAYOUT --- */
+.home-gallery-section {
+    position: relative;
+    padding: 6rem 2rem;
+    width: 100%;
+    background: transparent; 
+    text-align: center;
+    overflow: hidden;
+    z-index: 1; 
+    margin-top: -2px; 
+}
+
+/* --- BACKGROUND: TIGER IMAGE (Fixed Name) --- */
+.home-gallery-section::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    
+    /* GRADIENT + CORRECT IMAGE FILE */
+    background: 
+        linear-gradient(to bottom, 
+            #001d1d 0%,              /* Matches Event Section Bottom */
+            rgba(0, 29, 29, 0.6) 20%, 
+            rgba(0, 0, 0, 0.8) 100%
+        ),
+        url('../assets/TigerGalleryPageBG.jpg'); /* <--- UPDATED FILENAME */
+        
+    background-size: cover;
+    background-position: center;
+    
+    /* BLUR EFFECT */
+    filter: blur(8px);
+    transform: scale(1.1); 
+    z-index: -1;
+}
+
+/* Title Style */
+.home-gallery-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #fff;
+    border-bottom: 4px solid #d32f2f;
+    padding-bottom: 1rem;
+    margin: 0 auto 5rem auto;
+    display: inline-block;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+    letter-spacing: 2px;
+}
+
+/* --- FLEX CONTAINER --- */
+.gallery-flex-container {
+    display: flex;
+    width: 100%;
+    max-width: 1400px;
+    height: 600px;
+    gap: 1.5rem;
+    margin: 0 auto;
+    padding: 0 1rem;
+    box-sizing: border-box;
+    position: relative; 
+    z-index: 2; 
+}
+
+/* --- GLASS COLUMNS --- */
+.gallery-glass-col {
+    flex: 1;
+    position: relative;
+    border-radius: 25px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    
+    background-image: var(--bg-img);
+    background-size: cover;
+    background-position: center;
+    
+    box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.6); 
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.gallery-glass-col:hover {
+    flex: 7;
+    box-shadow: inset 0 0 0 0 rgba(0, 0, 0, 0);
+    border-color: #d32f2f;
+    box-shadow: 
+        0 20px 50px rgba(0,0,0,0.8), 
+        0 0 25px rgba(211, 47, 47, 0.6); 
+}
+
+/* --- BUTTON --- */
+.gallery-btn-container {
+    margin-top: 5rem;
+    position: relative;
+    z-index: 2;
+}
+
+.view-gallery-btn {
+    display: inline-block;
+    padding: 1rem 3rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: none;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1); 
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 50px;
+    backdrop-filter: blur(6px);
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.view-gallery-btn:hover {
+    background: #d32f2f; 
+    border-color: #d32f2f;
+    box-shadow: 0 0 30px rgba(211, 47, 47, 0.6); 
+    transform: translateY(-3px) scale(1.05);
+}
+
+@media (max-width: 768px) {
+    .gallery-flex-container {
+        height: 400px;
+        flex-direction: row;
+        overflow-x: auto;
+    }
+    .gallery-glass-col { min-width: 80px; }
+    .gallery-glass-col:hover { flex: 3; }
+}
