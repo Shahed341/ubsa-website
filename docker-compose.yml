@@ -30,6 +30,8 @@ services:
     volumes:
       - ./backend:/app
       - /app/node_modules
+      # PERSIST UPLOADS: Maps local backend/uploads folder to container
+      - ./backend/uploads:/app/uploads 
     environment:
       # Docker Networking: Host is the service name 'db', not 'localhost'
       - DB_HOST=db
