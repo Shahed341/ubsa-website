@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import "../style/Events.css";
 
 export default function Events({ isHome = false }) {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedEvent, setSelectedEvent] = useState(null); // State for Modal
+  const [selectedEvent, setSelectedEvent] = useState(null);
 
   useEffect(() => {
     fetch('http://localhost:5000/api/events')
@@ -19,7 +20,6 @@ export default function Events({ isHome = false }) {
       });
   }, []);
 
-  // --- Filtering Logic ---
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
@@ -30,16 +30,7 @@ export default function Events({ isHome = false }) {
     })
     .sort((a, b) => new Date(a.date) - new Date(b.date));
 
-  const pastEvents = events
-    .filter(e => {
-      const d = new Date(e.date); d.setHours(0,0,0,0);
-      return d < today;
-    })
-    .sort((a, b) => new Date(b.date) - new Date(a.date));
-
-  // On Home page, maybe limit items? (Optional: currently showing ALL)
   const showUpcoming = isHome ? upcomingEvents.slice(0, 3) : upcomingEvents;
-  const showPast = isHome ? pastEvents.slice(0, 3) : pastEvents;
 
   const getImageUrl = (url) => {
     if (!url) return 'https://placehold.co/600x400';
@@ -55,16 +46,14 @@ export default function Events({ isHome = false }) {
     };
   };
 
-  // --- MODAL COMPONENT ---
+  /* --- MODAL --- */
   const EventModal = ({ event, onClose }) => {
     if (!event) return null;
     return (
       <div className="event-modal-overlay" onClick={onClose}>
         <div className="event-modal-glass" onClick={(e) => e.stopPropagation()}>
           <button className="modal-close-btn" onClick={onClose}>&times;</button>
-          
           <div className="modal-content-wrapper">
-            {/* LEFT: Details */}
             <div className="modal-details">
               <h2 className="modal-title">{event.title}</h2>
               <div className="modal-meta-row">
@@ -72,13 +61,8 @@ export default function Events({ isHome = false }) {
                 {event.time && <span className="meta-tag">⏰ {event.time}</span>}
               </div>
               {event.location && <p className="modal-location">📍 {event.location}</p>}
-              
-              <div className="modal-description-scroll">
-                <p>{event.description}</p>
-              </div>
+              <div className="modal-description-scroll"><p>{event.description}</p></div>
             </div>
-
-            {/* RIGHT: Photo */}
             <div className="modal-image-col">
               <img src={getImageUrl(event.image_url)} alt={event.title} />
             </div>
@@ -92,8 +76,6 @@ export default function Events({ isHome = false }) {
 
   return (
     <div className={`events-page ${isHome ? 'is-home' : ''}`}>
-      
-      {/* 1. Page Header (Hidden on Home) */}
       {!isHome && (
         <div className="events-header">
           <h1 className="page-title">Our <span className="text-highlight">Gatherings</span></h1>
@@ -101,13 +83,14 @@ export default function Events({ isHome = false }) {
         </div>
       )}
 
-      {/* 2. UPCOMING SECTION */}
-      {showUpcoming.length > 0 && (
-        <section className="events-section">
-          {/* Use specific styles for Home headers to match your theme */}
-          <h2 className={isHome ? "home-section-title" : "section-title"}>
-            {isHome ? "Upcoming Events" : "📅 Upcoming Events"}
-          </h2>
+      {/* SHOW UPCOMING EVENTS */}
+      <section className="events-section">
+        {/* BIG UPDATED TITLE */}
+        <h2 className={isHome ? "home-section-title centered" : "section-title"}>
+          {isHome ? "Upcoming UBSA Events" : "📅 Upcoming Events"}
+        </h2>
+        
+        {showUpcoming.length > 0 ? (
           <div className="events-grid">
             {showUpcoming.map((event) => {
               const { month, day } = formatDate(event.date);
@@ -131,34 +114,27 @@ export default function Events({ isHome = false }) {
               );
             })}
           </div>
-        </section>
-      )}
+        ) : (
+          <p style={{textAlign:'center', fontStyle:'italic', opacity:0.8}}>
+            No upcoming events at the moment.
+          </p>
+        )}
 
-      {/* 3. PAST SECTION (Now Visible on Home too!) */}
-      {showPast.length > 0 && (
-        <section className="events-section past-section">
-          <h2 className={isHome ? "home-section-title" : "section-title"}>
-            {isHome ? "Past Memories" : "🕰️ Past Memories"}
-          </h2>
-          <div className="events-grid">
-            {showPast.map((event) => (
-              <div key={event.id} className="event-card past" onClick={() => setSelectedEvent(event)}>
-                <div className="card-image">
-                  <img src={getImageUrl(event.image_url)} alt={event.title} />
-                </div>
-                <div className="card-content">
-                  <h3>{event.title}</h3>
-                  <div className="event-meta">
-                     <span>{formatDate(event.date).full}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
+        {/* RED BUTTON */}
+        {isHome && (
+          <div className="view-all-container">
+            <Link to="/events" className="view-all-btn">
+              See All Events →
+            </Link>
           </div>
-        </section>
+        )}
+      </section>
+
+      {/* PAST EVENTS HIDDEN ON HOME */}
+      {!isHome && (
+         <div /> 
       )}
 
-      {/* 4. MODAL POPUP */}
       {selectedEvent && <EventModal event={selectedEvent} onClose={() => setSelectedEvent(null)} />}
     </div>
   );

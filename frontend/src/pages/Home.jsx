@@ -8,12 +8,14 @@ export default function Home() {
     <>
       <TigerHero />
 
-      {/* Main Content */}
-      <div style={{ position: 'relative', zIndex: 10, background: '#001d1d' }}>
+      {/* Main Content Wrapper */}
+      {/* Changed background to '#ffffff' (White) */}
+      <div style={{ position: 'relative', zIndex: 10, background: '#ffffff' }}>
         
-        {/* Pass isHome={true} to fix the layout! */}
+        {/* Events Section (Will auto-adapt colors via CSS) */}
         <Events isHome={true} />
 
+        {/* Gallery Section */}
         <Gallery />
         
       </div>
