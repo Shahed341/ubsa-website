@@ -20,17 +20,17 @@ import Login from './pages/adminpages/Login';
 import Dashboard from './pages/adminpages/Dashboard';
 import AddEvent from './pages/adminpages/AddEvent';
 import ManageGallery from './pages/adminpages/ManageGallery';
+import MembersPage from './pages/adminpages/MembersPage';
+import SetupCommittee from './pages/adminpages/SetupCommittee'; // New Transition Page
 
 function App() {
   const location = useLocation();
 
-  // Logic: True if URL starts with "/admin", False otherwise
-  // This hides the main site Navbar and Footer from the Admin portal
+  // Logic: Hides main Navbar/Footer from the Admin portal
   const isAdminRoute = location.pathname.startsWith('/admin');
 
   return (
     <>
-      {/* 1. Show Global Navbar only on public pages */}
       {!isAdminRoute && <Navbar />}
 
       <Routes>
@@ -43,32 +43,29 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/join" element={<Join />} />
 
-        {/* --- ADMIN ROUTES --- */}
-        {/* Fix: Explicitly define the login path */}
+        {/* --- ADMIN AUTH ROUTES --- */}
         <Route path="/admin/login" element={<Login />} />
-        
-        {/* Redirect /admin to /admin/login for convenience */}
         <Route path="/admin" element={<Navigate to="/admin/login" replace />} />
 
-        {/* Wrap Protected Routes in the Auth Guard */}
+        {/* --- PROTECTED ADMIN ROUTES --- */}
         <Route element={<ProtectedAdminRoute />}>
           <Route path="/admin/dashboard" element={<Dashboard />} />
           <Route path="/admin/add-event" element={<AddEvent />} />
           <Route path="/admin/manage-gallery" element={<ManageGallery />} />
+          <Route path="/admin/members" element={<MembersPage />} />
+          <Route path="/admin/setup-committee" element={<SetupCommittee />} />
         </Route>
 
         {/* --- 404 CATCH-ALL --- */}
-        {/* Prevents blank screens for mistyped URLs */}
         <Route path="*" element={
-          <div style={{ textAlign: 'center', padding: '150px 20px', color: 'white' }}>
+          <div style={{ textAlign: 'center', padding: '150px 20px', color: 'white', background: '#000', minHeight: '100vh' }}>
             <h1>404 - Page Not Found</h1>
             <p>The page you are looking for does not exist.</p>
-            <a href="/" style={{ color: '#e36f04' }}>Return Home</a>
+            <a href="/" style={{ color: '#e36f04', fontWeight: 'bold' }}>Return Home</a>
           </div>
         } />
       </Routes>
 
-      {/* 2. Show Global Footer only on public pages */}
       {!isAdminRoute && <Footer />}
     </>
   );
