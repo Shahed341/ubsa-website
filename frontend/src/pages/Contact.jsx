@@ -9,22 +9,41 @@ export default function Contact() {
     subject: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Here you would typically send data to backend or EmailJS
-    console.log('Form Submitted:', formData);
-    alert('Thank you! We will get back to you soon.');
-    setFormData({ name: '', email: '', subject: '', message: '' });
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch('http://localhost:5000/api/contact-messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        alert('Thank you! Your message has been sent to the UBSA Admin Inbox.');
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        throw new Error('Failed to send message');
+      }
+    } catch (error) {
+      console.error('Submission Error:', error);
+      alert('Oops! Our system is currently offline. Please try emailing us directly at ubsa.usask@gmail.com');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <div className="contact-page">
-      
       {/* --- HERO SECTION --- */}
       <header className="contact-hero">
         <h1 className="page-title">Get in <span className="text-highlight">Touch</span></h1>
@@ -123,10 +142,15 @@ export default function Contact() {
               ></textarea>
             </div>
 
-            <button type="submit" className="btn-submit">Send Message</button>
+            <button 
+              type="submit" 
+              className="btn-submit" 
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Sending...' : 'Send Message'}
+            </button>
           </form>
         </div>
-
       </div>
     </div>
   );

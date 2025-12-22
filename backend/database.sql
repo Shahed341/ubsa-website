@@ -1,7 +1,7 @@
 CREATE DATABASE IF NOT EXISTS ubsa_db;
 USE ubsa_db;
 
--- 1. Events Table (Updated to include ticket price/limit)
+-- 1. Events Table
 CREATE TABLE IF NOT EXISTS events (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS gallery (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- 3. Public Sponsors Table
+-- 3. Public Sponsors Table (Approved partners shown on website)
 CREATE TABLE IF NOT EXISTS sponsors (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -38,19 +38,19 @@ CREATE TABLE IF NOT EXISTS sponsors (
     website_url VARCHAR(255)
 );
 
--- 4. Executives Table (Updated for Committee Reset feature)
+-- 4. Executives Table
 CREATE TABLE IF NOT EXISTS executives (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     role VARCHAR(100) NOT NULL,
     image_url VARCHAR(255),
     email VARCHAR(255),
-    is_active BOOLEAN DEFAULT TRUE, -- Used for Committee Reset
+    is_active BOOLEAN DEFAULT TRUE, 
     session_year VARCHAR(20) DEFAULT '2025-2026',
     display_order INT DEFAULT 0
 );
 
--- 5. Membership Table (Updated for Treasury and QR)
+-- 5. Membership Table
 CREATE TABLE IF NOT EXISTS members (
     id INT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(100) NOT NULL,
@@ -59,12 +59,12 @@ CREATE TABLE IF NOT EXISTS members (
     student_id VARCHAR(50) NOT NULL,
     department VARCHAR(150),
     status ENUM('Pending', 'Paid', 'Expired') DEFAULT 'Pending',
-    payment_date TIMESTAMP NULL,      -- Treasury Tracking
-    qr_code_token TEXT,               -- Security for Digital ID
+    payment_date TIMESTAMP NULL,
+    qr_code_token TEXT,
     applied_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- 6. Sponsor Applications Table
+-- 6. Sponsor Applications Table (Internal tracking for Dashboard)
 CREATE TABLE IF NOT EXISTS sponsor_applications (
     id INT AUTO_INCREMENT PRIMARY KEY,
     business_name VARCHAR(255) NOT NULL,
@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS sponsor_applications (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- 7. NEW: Event Registrations (Ticketing System)
+-- 7. Event Registrations (Ticketing System)
 CREATE TABLE IF NOT EXISTS event_tickets (
     id INT AUTO_INCREMENT PRIMARY KEY,
     event_id INT NOT NULL,
@@ -84,4 +84,15 @@ CREATE TABLE IF NOT EXISTS event_tickets (
     is_checked_in BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE,
     FOREIGN KEY (member_id) REFERENCES members(id) ON DELETE CASCADE
+);
+
+-- 8. NEW: Contact Messages (Inbox Feature)
+CREATE TABLE IF NOT EXISTS contact_messages (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    subject VARCHAR(255),
+    message TEXT NOT NULL,
+    status ENUM('unread', 'replied') DEFAULT 'unread',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

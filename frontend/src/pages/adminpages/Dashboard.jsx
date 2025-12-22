@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { 
   FaUsers, FaHandshake, FaMoneyBillWave, FaCalendarPlus, 
-  FaImages, FaCog, FaSignOutAlt, FaChartLine, FaHistory 
+  FaImages, FaCog, FaSignOutAlt, FaChartLine, FaHistory,
+  FaEnvelopeOpenText 
 } from 'react-icons/fa';
 import { MdDashboardCustomize, MdOutlineLibraryAdd } from 'react-icons/md';
 import '../../style/adminpages/Dashboard.css';
@@ -13,11 +14,11 @@ export default function Dashboard() {
   const [stats, setStats] = useState({
     members: 0,
     sponsors: 0,
-    events: 0
+    events: 0,
+    messages: 0 // New stat for unread messages
   });
 
   useEffect(() => {
-    // Auth Guard
     if (localStorage.getItem('adminToken') !== 'true') {
       navigate('/admin/login');
       return;
@@ -31,17 +32,19 @@ export default function Dashboard() {
       const urls = [
         'http://localhost:5000/api/members',
         'http://localhost:5000/api/sponsor-applications',
-        'http://localhost:5000/api/events'
+        'http://localhost:5000/api/events',
+        'http://localhost:5000/api/contact-messages' // New endpoint
       ];
 
-      const [members, sponsors, events] = await Promise.all(
+      const [members, sponsors, events, messages] = await Promise.all(
         urls.map(url => fetch(url).then(res => res.json()))
       );
 
       setStats({
         members: Array.isArray(members) ? members.length : 0,
         sponsors: Array.isArray(sponsors) ? sponsors.length : 0,
-        events: Array.isArray(events) ? events.length : 0
+        events: Array.isArray(events) ? events.length : 0,
+        messages: Array.isArray(messages) ? messages.filter(m => m.status === 'unread').length : 0
       });
     } catch (err) {
       console.error("Dashboard Load Error:", err);
@@ -59,7 +62,6 @@ export default function Dashboard() {
 
   return (
     <div className="dashboard-container">
-      {/* HEADER SECTION */}
       <div className="dashboard-header">
         <div className="header-text">
           <h1>
@@ -73,9 +75,7 @@ export default function Dashboard() {
         </button>
       </div>
 
-      {/* STATS STRIP */}
       <div className="stats-grid">
-        {/* Total Members - Functional Link to Directory */}
         <Link to="/admin/members" className="stat-card glass orange-glow" style={{ textDecoration: 'none' }}>
           <div className="stat-icon-wrapper"><FaUsers /></div>
           <div className="stat-info">
@@ -85,7 +85,6 @@ export default function Dashboard() {
           </div>
         </Link>
 
-        {/* Treasury - Based on Member count */}
         <div className="stat-card glass green-glow">
           <div className="stat-icon-wrapper"><FaMoneyBillWave /></div>
           <div className="stat-info">
@@ -95,7 +94,6 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Sponsors - Functional Link to Manage Sponsors */}
         <Link to="/admin/manage-sponsors" className="stat-card glass gold-glow" style={{ textDecoration: 'none' }}>
           <div className="stat-icon-wrapper"><FaHandshake /></div>
           <div className="stat-info">
@@ -106,9 +104,18 @@ export default function Dashboard() {
         </Link>
       </div>
 
-      {/* MANAGEMENT TOOLS */}
       <h2 className="section-title"><FaChartLine /> Management Tools</h2>
       <div className="actions-grid">
+        {/* NEW INBOX CARD */}
+        <Link to="/admin/inbox" className="action-card glass-hover inbox-card">
+          <div className="badge-container">
+            <FaEnvelopeOpenText className="action-icon-premium" />
+            {stats.messages > 0 && <span className="notification-badge">{stats.messages}</span>}
+          </div>
+          <h3>Member Inbox</h3>
+          <p>Read and reply to web inquiries.</p>
+        </Link>
+
         <Link to="/admin/add-event" className="action-card glass-hover">
           <MdOutlineLibraryAdd className="action-icon-premium" />
           <h3>New Event</h3>
@@ -126,12 +133,6 @@ export default function Dashboard() {
           <h3>Reset Committee</h3>
           <p>Archive and setup new executives.</p>
         </Link>
-
-        <div className="action-card glass-hover disabled">
-          <FaCog className="action-icon-premium" />
-          <h3>Settings</h3>
-          <p>Global site configuration.</p>
-        </div>
       </div>
     </div>
   );

@@ -1,0 +1,37 @@
+.inbox-wrapper { padding: 2rem; }
+
+.message-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    transition: 0.3s;
+}
+
+.message-card.replied { opacity: 0.6; border-left: 4px solid #4caf50; }
+.message-card.unread { border-left: 4px solid #e36f04; }
+
+.status-dot {
+    width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 10px;
+}
+.status-dot.unread { background: #e36f04; box-shadow: 0 0 10px #e36f04; }
+.status-dot.replied { background: #4caf50; }
+
+.msg-info h4 { margin: 0 0 5px 0; color: #e36f04; font-size: 1.2rem; }
+.msg-info p { font-size: 0.85rem; opacity: 0.7; margin-bottom: 1rem; }
+.msg-body { line-height: 1.6; color: #eee; }
+
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 3000;
+}
+
+.modal-content { padding: 2rem; width: 500px; text-align: left; }
+.modal-content textarea {
+    width: 100%; height: 200px; background: rgba(0,0,0,0.2); border: 1px solid #444;
+    border-radius: 10px; color: white; padding: 1rem; margin-top: 1rem; outline: none;
+}
+.modal-btns { display: flex; justify-content: flex-end; gap: 10px; margin-top: 1rem; }

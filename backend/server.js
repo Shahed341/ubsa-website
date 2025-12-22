@@ -4,14 +4,14 @@ const dotenv = require('dotenv');
 const path = require('path');
 const db = require('./config/db'); 
 
-// Load environment variables
 dotenv.config();
 
 // Import Routes
 const eventRoutes = require('./routes/eventRoutes');
 const galleryRoutes = require('./routes/galleryRoutes'); 
-const sponsorRoutes = require('./routes/sponsorRoutes'); // <--- New
-const memberRoutes = require('./routes/memberRoutes');   // <--- New (Optional but recommended)
+const sponsorRoutes = require('./routes/sponsorRoutes');
+const memberRoutes = require('./routes/memberRoutes'); 
+const contactRoutes = require('./routes/contactRoutes'); // <--- NEW: For Inbox
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -26,15 +26,19 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // --- API ROUTES ---
 app.use('/api/events', eventRoutes);
 app.use('/api/gallery', galleryRoutes); 
-app.use('/api/sponsor-applications', sponsorRoutes); // <--- Clean API call here
-app.use('/api/members', memberRoutes);               // <--- Clean API call here
+
+// FIX: Changed from '/api/sponsor-applications' to '/api/sponsors' 
+// to match frontend calls and resolve 404
+app.use('/api/sponsors', sponsorRoutes); 
+
+app.use('/api/members', memberRoutes); 
+app.use('/api/contact-messages', contactRoutes); // <--- NEW: For Inbox
 
 // Basic Test Route
 app.get('/', (req, res) => {
   res.send('UBSA API is running...');
 });
 
-// Start Server
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
