@@ -1,0 +1,150 @@
+/* src/style/adminpages/ManageSponsors.css */
+
+.dashboard-container {
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- HEADER SECTION --- */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+}
+
+.header-text h1 {
+    font-size: 2.2rem;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-icon-main {
+    color: #e36f04; /* UBSA Orange */
+    filter: drop-shadow(0 0 10px rgba(227, 111, 4, 0.4));
+}
+
+.header-text p {
+    color: #aaa;
+    margin-top: 5px;
+}
+
+/* --- TABLE WRAPPER --- */
+.table-wrapper {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 1.5rem;
+    overflow-x: auto; /* For mobile responsiveness */
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.admin-table th {
+    padding: 1.2rem;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    color: #e36f04;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.admin-table td {
+    padding: 1.2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    color: #eee;
+    vertical-align: middle;
+}
+
+.admin-table tr:hover {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+/* --- TAGS & BADGES --- */
+.dept-tag {
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/* Tier Specific Outlines */
+.tier-platinum { color: #e5e4e2; border: 1px solid #e5e4e2; }
+.tier-gold { color: #ffd700; border: 1px solid #ffd700; }
+.tier-silver { color: #c0c0c0; border: 1px solid #c0c0c0; }
+.tier-bronze { color: #cd7f32; border: 1px solid #cd7f32; }
+
+/* Status Badges */
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.status-badge.pending { background: rgba(255, 193, 7, 0.15); color: #ffc107; }
+.status-badge.approved { background: rgba(40, 167, 69, 0.15); color: #28a745; }
+.status-badge.rejected { background: rgba(220, 53, 69, 0.15); color: #dc3545; }
+
+/* --- ACTION BUTTONS --- */
+.action-btns {
+    display: flex;
+    gap: 10px;
+}
+
+.verify-btn, .delete-btn, .info-btn {
+    width: 35px;
+    height: 35px;
+    border-radius: 8px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: white;
+}
+
+.verify-btn { background: #28a745; }
+.verify-btn:hover { background: #218838; transform: scale(1.1); }
+
+.delete-btn { background: #dc3545; }
+.delete-btn:hover { background: #c82333; transform: scale(1.1); }
+
+.info-btn:hover {
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: #fff !important;
+}
+
+/* --- TOOLTIP TEXT (Description) --- */
+.location-cell {
+    display: flex;
+    align-items: center;
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: help;
+}
+
+/* --- RESPONSIVENESS --- */
+@media (max-width: 768px) {
+    .dashboard-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .admin-table th:nth-child(3), 
+    .admin-table td:nth-child(3) { display: none; } /* Hide Payment type on mobile */
+}

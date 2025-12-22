@@ -1,202 +1,131 @@
-/* --- MODAL OVERLAY --- */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.85); /* Deep dark overlay */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2000;
-  backdrop-filter: blur(8px); /* Blur the content behind the modal */
-}
+/* src/style/SponsorForm.css */
 
-/* --- GLASS CONTAINER --- */
 .sponsor-form-glass {
-  background: rgba(20, 20, 20, 0.95); /* Darker glass for better contrast */
+  background: rgba(15, 15, 15, 0.98);
   backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  padding: 2.5rem;
+  border-radius: 24px;
+  width: 95%;
+  max-width: 500px;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  padding: 3rem;
-  width: 90%;
-  max-width: 450px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
   position: relative;
-  color: white;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+  animation: modalPop 0.3s ease-out;
 }
 
-/* --- HEADER & INDICATORS --- */
-.sponsor-form-glass h2 {
-  color: #e36f04; /* UBSA Orange */
-  margin-bottom: 2rem;
-  text-align: center;
-  font-size: 1.8rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+@keyframes modalPop {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 .step-indicator {
-  font-size: 0.8rem;
-  color: #888;
-  text-align: center;
-  margin-top: -1.5rem;
-  margin-bottom: 2rem;
+  color: #90ee90;
+  font-weight: bold;
+  font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 1px;
+  margin-bottom: 1rem;
 }
 
-.payment-instruction {
-  margin-bottom: 1.5rem;
-  color: #ccc;
-  font-size: 0.9rem;
-  text-align: center;
-}
-
-/* --- FORM FIELDS --- */
+/* --- INPUT STYLING --- */
 .form-group-modal {
-  margin-bottom: 1.2rem;
+  margin-bottom: 1.5rem;
 }
 
 .form-group-modal label {
-  display: block;
-  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ccc;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+
+.form-group-modal label svg {
   color: #e36f04;
-  text-transform: uppercase;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
 }
 
-.form-steps input, 
-.form-steps select {
+.form-group-modal input,
+.form-group-modal select,
+.form-group-modal textarea {
   width: 100%;
-  padding: 1rem;
-  background: rgba(0, 0, 0, 0.3);
+  padding: 12px 15px;
+  background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
   color: white;
-  border-radius: 8px;
   font-size: 1rem;
-  transition: border-color 0.3s ease;
+  transition: border 0.3s;
 }
 
-.form-steps input:focus, 
-.form-steps select:focus {
+.form-group-modal input:focus,
+.form-group-modal textarea:focus {
   outline: none;
   border-color: #e36f04;
+  background: rgba(255, 255, 255, 0.08);
 }
 
 /* --- PAYMENT OPTIONS --- */
-.payment-steps {
-  display: flex;
-  flex-direction: column;
-}
-
 .pay-option {
   display: flex;
   align-items: center;
   gap: 1rem;
   padding: 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  margin-bottom: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  margin-bottom: 12px;
   border-radius: 12px;
   cursor: pointer;
-  border: 2px solid transparent;
-  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  transition: all 0.2s;
 }
 
 .pay-option:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .pay-option.selected {
-  border: 2px solid #e36f04;
-  background: rgba(227, 111, 4, 0.1);
-}
-
-.pay-icon {
-  color: #e36f04;
-  font-size: 1.5rem;
+  border-color: #e36f04;
+  background: rgba(227, 111, 4, 0.05);
 }
 
 .pay-text {
   display: flex;
   flex-direction: column;
-  flex: 1;
 }
 
 .pay-text span {
   font-weight: bold;
-  font-size: 1rem;
+  color: #fff;
 }
 
 .pay-text small {
-  font-size: 0.75rem;
   color: #888;
+  font-size: 0.75rem;
 }
 
 /* --- BUTTONS --- */
-.btn-next, 
-.btn-final {
+.btn-final, .btn-next {
   width: 100%;
-  padding: 1rem;
+  padding: 14px;
   background: #e36f04;
-  border: none;
-  border-radius: 50px;
   color: white;
-  font-weight: bold;
-  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  font-weight: 800;
   text-transform: uppercase;
   cursor: pointer;
-  transition: all 0.3s ease;
   margin-top: 1rem;
-}
-
-.btn-next:hover, 
-.btn-final:hover {
-  background: #ff7e07;
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(227, 111, 4, 0.3);
 }
 
 .btn-back {
+  width: 100%;
+  padding: 10px;
   background: transparent;
   color: #aaa;
   border: none;
-  margin-top: 1rem;
-  width: 100%;
+  margin-top: 10px;
   cursor: pointer;
-  font-size: 0.9rem;
   text-decoration: underline;
 }
 
-.btn-back:hover {
-  color: #fff;
-}
-
-.close-x {
-  position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
-  background: none;
-  border: none;
-  color: #888;
-  font-size: 1.5rem;
-  cursor: pointer;
-  transition: color 0.3s ease;
-  line-height: 1;
-}
-
-.close-x:hover {
-  color: #fff;
-}
-
-/* --- SCROLLBAR FOR MODAL (If content overflows) --- */
-.sponsor-form-glass::-webkit-scrollbar {
-  width: 5px;
-}
-.sponsor-form-glass::-webkit-scrollbar-thumb {
-  background: #e36f04;
-  border-radius: 10px;
-}
+.btn-back:hover { color: #fff; }

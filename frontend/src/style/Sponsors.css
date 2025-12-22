@@ -1,305 +1,70 @@
 /* src/style/Sponsors.css */
 
-/* --- PAGE CONTAINER --- */
-.sponsors-page {
-  position: relative;
-  min-height: 100vh;
-  padding: 140px 2rem 4rem;
-  color: #fff;
-  font-family: 'Inter', sans-serif;
-  z-index: 1;
-  overflow-x: hidden;
+/* --- TIER SPECIFIC BADGES --- */
+.tier-platinum {
+  background: linear-gradient(135deg, #e5e4e2, #b4b4b4) !important;
+  color: #000 !important;
+  box-shadow: 0 0 15px rgba(229, 228, 226, 0.4);
 }
 
-/* --- FIXED BLURRED BACKGROUND (Tiger BG) --- */
-.sponsors-page::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  
-  /* Background Image + Dark Overlay for readability */
-  background: 
-    linear-gradient(rgba(0, 10, 5, 0.8), rgba(0, 0, 0, 0.85)), 
-    url('../assets/TigerGalleryPageBG.jpg');
-    
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  
-  /* --- THE 5% BLUR FIX --- */
-  filter: blur(5px);
-  transform: scale(1.05); /* Slight zoom to hide blurred edges */
-  z-index: -1;
-  pointer-events: none;
+.tier-gold {
+  background: linear-gradient(135deg, #ffd700, #ffb700) !important;
+  color: #000 !important;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
 }
 
-/* --- HERO SECTION --- */
-.sponsors-hero {
-  text-align: center;
-  margin-bottom: 5rem;
+.tier-silver {
+  background: linear-gradient(135deg, #c0c0c0, #939393) !important;
+  color: #000 !important;
 }
 
-.page-title {
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  font-weight: 800;
-  margin-bottom: 1rem;
-  text-transform: uppercase;
+.tier-bronze {
+  background: linear-gradient(135deg, #cd7f32, #8b4513) !important;
+  color: #fff !important;
 }
 
-.text-highlight {
-  color: #e36f04; /* UBSA Orange */
-  text-shadow: 0 0 20px rgba(227, 111, 4, 0.4);
-}
-
-.page-subtitle {
-  font-size: 1.2rem;
-  color: #ccc;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-/* --- GRID LAYOUT --- */
-.sponsors-grid-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 2.5rem;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* --- GLASS CARD --- */
-.glass-sponsor-card {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.glass-sponsor-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
-  border-color: rgba(227, 111, 4, 0.3);
-}
-
-/* --- 1. CARD HEADER (Image) --- */
-.card-header {
-  position: relative;
-  height: 180px;
-  background: rgba(0, 0, 0, 0.2);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
-}
-
-.sponsor-logo-wrapper img {
-  max-height: 120px;
-  max-width: 80%;
-  object-fit: contain;
-  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));
-}
-
-.sponsor-tier-badge {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: linear-gradient(135deg, #ffd700, #ffb700); /* Gold Gradient Default */
-  color: #000;
-  padding: 0.3rem 0.8rem;
-  font-size: 0.75rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  border-radius: 30px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-}
-
-/* --- 2. CARD BODY --- */
-.card-body {
-  padding: 1.5rem;
-  flex: 1; /* Pushes footer down */
-}
-
-.sponsor-name {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #fff;
-  margin-bottom: 0.5rem;
-}
-
-.sponsor-contribution {
-  font-size: 0.9rem;
-  color: #e36f04; /* Orange text */
-  margin-bottom: 1rem;
-  font-weight: 600;
-}
-
-.sponsor-contribution .label {
-  color: #888;
-  font-weight: 400;
-  margin-right: 5px;
-}
-
-.sponsor-desc {
-  font-size: 0.95rem;
-  color: #bbb;
-  line-height: 1.5;
-}
-
-/* --- 3. EXCLUSIVE DISCOUNT SECTION --- */
-.card-footer-discount {
-  background: linear-gradient(135deg, rgba(211, 47, 47, 0.1), rgba(0, 0, 0, 0.4));
-  border-top: 1px solid rgba(211, 47, 47, 0.3); /* Red Accent Border */
-  padding: 1rem 1.5rem;
-}
-
-.discount-header {
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: #ff6b6b; /* Soft Red */
-  font-weight: bold;
+/* --- CARD ENHANCEMENTS --- */
+.sponsor-location {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.discount-details h3 {
-  font-size: 1.2rem;
-  color: #fff;
-  margin: 0;
-  font-weight: 800;
-}
-
-.discount-details p {
+  gap: 8px;
   font-size: 0.85rem;
   color: #aaa;
-  margin: 0.2rem 0 0 0;
+  margin-top: 5px;
 }
 
-/* --- CTA SECTION --- */
-.sponsor-cta {
-  text-align: center;
-  margin-top: 6rem;
-  padding: 3rem;
-  background: rgba(255,255,255,0.02);
-  border-radius: 20px;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.sponsor-cta h2 {
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
-}
-
-.btn-partner {
-  display: inline-block;
-  background: #e36f04;
-  color: white;
-  padding: 1rem 2.5rem;
-  border-radius: 50px;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 1.1rem;
-  transition: all 0.3s ease;
-}
-
-.btn-partner:hover {
-  background: #c25e00;
-  transform: scale(1.05);
-  box-shadow: 0 0 20px rgba(227, 111, 4, 0.4);
-}
-
-/* --- MODAL SPECIFIC STYLES --- */
-.clickable {
-  cursor: pointer;
-}
-
-.sponsor-tier-badge-modal {
-  display: inline-block;
-  background: #e36f04;
-  color: #000;
-  font-weight: bold;
-  padding: 0.3rem 0.8rem;
-  border-radius: 4px;
-  text-transform: uppercase;
-  margin-bottom: 0.5rem;
-  font-size: 0.8rem;
-}
-
-.sponsor-modal-discount {
-  background: rgba(211, 47, 47, 0.1); /* Red tint */
-  border-left: 4px solid #d32f2f;
-  padding: 1rem;
-  margin: 1.5rem 0;
-  border-radius: 0 8px 8px 0;
-}
-
-.sponsor-modal-discount h3 {
-  color: #ff6b6b;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  margin-bottom: 0.5rem;
-}
-
-.sponsor-modal-discount .discount-title {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #fff;
-  margin-bottom: 0.2rem;
-}
-
-.modal-website-link {
-  display: inline-block;
-  margin-top: 1rem;
+.sponsor-location svg {
   color: #e36f04;
-  text-decoration: none;
-  font-weight: bold;
-  border-bottom: 1px solid transparent;
-  transition: border 0.3s;
 }
 
-.modal-website-link:hover {
-  border-bottom: 1px solid #e36f04;
-}/* Update for Sponsors.css */
-.btn-become-sponsor {
-  margin-top: 1.5rem;
-  padding: 1rem 2.5rem;
-  background: transparent;
-  border: 2px solid #e36f04;
-  color: #fff;
-  border-radius: 50px;
-  font-weight: bold;
-  cursor: pointer;
-  text-transform: uppercase;
-  transition: all 0.3s ease;
-}
-.btn-become-sponsor:hover {
-  background: #e36f04;
-  box-shadow: 0 0 20px rgba(227, 111, 4, 0.5);
+/* --- MODAL UPDATES --- */
+.modal-meta-row {
+  display: flex;
+  gap: 1.5rem;
+  margin: 1rem 0;
+  flex-wrap: wrap;
 }
 
-/* SponsorForm.css */
-.modal-overlay {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0,0,0,0.85); display: flex; justify-content: center; align-items: center; z-index: 2000;
+.meta-tag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #eee;
 }
-.sponsor-form-glass {
-  background: rgba(20, 20, 20, 0.95); padding: 3rem; border-radius: 20px;
-  width: 90%; max-width: 450px; border: 1px solid rgba(255,255,255,0.1);
+
+.meta-tag svg {
+  color: #90ee90; /* Light green for icons */
 }
-.pay-option {
-  display: flex; align-items: center; gap: 1rem; padding: 1rem;
-  background: rgba(255,255,255,0.05); margin-bottom: 1rem; border-radius: 8px; cursor: pointer;
+
+.modal-description-scroll h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #e36f04;
 }
-.pay-icon { color: #e36f04; font-size: 1.5rem; }

@@ -30,10 +30,11 @@ CREATE TABLE IF NOT EXISTS sponsors (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     tier ENUM('Platinum', 'Gold', 'Silver', 'Bronze') NOT NULL,
+    location VARCHAR(255), -- ADDED THIS
     image_url VARCHAR(255),
-    contribution_type VARCHAR(255) COMMENT 'e.g., Monetary, Food, Vouchers',
+    contribution_type VARCHAR(255),
     description TEXT,
-    discount_title VARCHAR(255) COMMENT 'e.g., 10% Member Discount',
+    discount_title VARCHAR(255),
     discount_desc TEXT,
     website_url VARCHAR(255),
     is_active BOOLEAN DEFAULT TRUE
@@ -72,13 +73,15 @@ CREATE TABLE IF NOT EXISTS sponsor_applications (
     contact_person VARCHAR(255),
     email VARCHAR(255) NOT NULL,
     phone VARCHAR(50),
-    tier ENUM('Silver', 'Gold', 'Platinum') NOT NULL,
-    payment_type ENUM('E-Transfer', 'Cheque') NOT NULL,
-    message TEXT,
+    location VARCHAR(255), -- ADDED THIS
+    tier ENUM('Silver', 'Gold', 'Platinum', 'Bronze') NOT NULL,
+    payment_type ENUM('E-Transfer', 'Cheque', 'In-Kind') NOT NULL,
+    description TEXT, -- ADDED THIS (from Step 1 of form)
+    message TEXT,     -- (Keep for general comments)
+    discount_title VARCHAR(255), -- ADDED THIS
     status ENUM('Pending', 'Reviewed', 'Approved', 'Rejected') DEFAULT 'Pending',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
 -- 7. EVENT TICKETS: Link between Members and Events
 CREATE TABLE IF NOT EXISTS event_tickets (
     id INT AUTO_INCREMENT PRIMARY KEY,
