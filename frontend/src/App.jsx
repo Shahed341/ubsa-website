@@ -23,6 +23,8 @@ import ManageGallery from './pages/adminpages/ManageGallery';
 import MembersPage from './pages/adminpages/MembersPage';
 import SetupCommittee from './pages/adminpages/SetupCommittee'; // New Transition Page
 import Inbox from './pages/adminpages/Inbox';
+import ManageSponsors from './pages/adminpages/ManageSponsors';
+
 
 function App() {
   const location = useLocation();
@@ -56,6 +58,7 @@ function App() {
           <Route path="/admin/members" element={<MembersPage />} />
           <Route path="/admin/setup-committee" element={<SetupCommittee />} />
           <Route path="/admin/inbox" element={<Inbox />} />
+          <Route path="/admin/manage-sponsors" element={<ManageSponsors />} />
         </Route>
 
         {/* --- 404 CATCH-ALL --- */}
