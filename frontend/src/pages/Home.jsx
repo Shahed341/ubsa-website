@@ -3,7 +3,7 @@ import TigerHero from '../components/TigerHero';
 import HomeGallery from '../components/HomeGallery'; 
 import HomeSponsors from '../components/HomeSponsors';
 import HomeContact from '../components/HomeContact';
-import Events from './Events';
+import HomeEvents from '../components/HomeEvernts';
 
 export default function Home() {
   return (
@@ -13,7 +13,7 @@ export default function Home() {
       <div style={{ position: 'relative', zIndex: 10, background: '#000' }}>
         
         {/* 1. Events */}
-        <Events isHome={true} />
+        <HomeEvents />
         
         {/* 2. Gallery */}
         <HomeGallery />

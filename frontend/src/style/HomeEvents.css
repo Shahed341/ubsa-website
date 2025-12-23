@@ -1,0 +1,186 @@
+/* ==============================
+   HOME EVENTS (SAFE FOR HOMEPAGE)
+   ============================== */
+
+.home-events {
+  position: relative;
+  padding: 6rem 2rem;
+  overflow: hidden;
+  color: #fff;
+}
+
+/* ---------- BACKGROUND ---------- */
+.home-events::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgba(0, 20, 10, 0.75), rgba(0, 10, 5, 0.85)),
+    url("../assets/Event_page.webp");
+  background-size: cover;
+  background-position: center;
+  filter: blur(8px);
+  transform: scale(1.08);
+  z-index: 0;
+}
+
+/* ---------- TITLE ---------- */
+.home-events-title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  margin: 0 auto 3rem;
+  text-transform: uppercase;
+  display: block; /* center block */
+  padding-bottom: 0.6rem;
+  position: relative;
+  text-align: center;
+  color: #559e66; /* default green */
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.7); /* subtle shadow */
+}
+
+/* Make "UBSA" red inside title */
+.home-events-title .ubsa {
+  color: #d32f2f;
+}
+
+/* Animated neon underline */
+.home-events-title::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    #0d9314,
+    #0d9314,
+    #ff0000,
+    #0d9314
+  );
+  background-size: 200% 100%;
+  border-radius: 2px;
+  animation: neon-slide 5s linear infinite;
+}
+
+@keyframes neon-slide {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ---------- GRID ---------- */
+.home-events-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(260px, 1fr));
+  gap: 2rem;
+  justify-content: center;
+}
+
+.home-events-grid.centered {
+  grid-template-columns: repeat(auto-fit, minmax(260px, 320px));
+  justify-content: center;
+}
+
+/* ---------- CARD ---------- */
+.home-event-card {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 16px;
+  overflow: hidden;
+  backdrop-filter: blur(14px);
+  transition: all 0.35s ease;
+  cursor: pointer;
+}
+
+.home-event-card:hover {
+  transform: translateY(-8px);
+  border-color: #d32f2f;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.6);
+}
+
+/* ---------- IMAGE ---------- */
+.home-event-image {
+  height: 0;
+  padding-top: 75%; /* 4:3 ratio */
+  overflow: hidden;
+  position: relative;
+}
+
+.home-event-image img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---------- CONTENT ---------- */
+.home-event-content {
+  padding: 1.2rem;
+  text-align: left;
+}
+
+.home-event-content h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.6rem;
+  color: #fff;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.7); /* subtle text shadow */
+}
+
+.home-event-meta {
+  font-size: 0.85rem;
+  color: #ddd;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+/* ---------- REGISTER BUTTON ---------- */
+.home-register-btn {
+  margin-top: 0.8rem;
+  padding: 0.6rem 1.4rem;
+  border-radius: 30px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  background-color: #559e66; /* solid green */
+  color: #fff;
+  text-shadow: 0 0 2px #00aa00;
+  transition: all 0.3s ease;
+}
+
+.home-register-btn:hover {
+  background-color: #40b95c; /* keep green base */
+  transform: translateY(-2px);
+  box-shadow: 0 0 10px #c82e2e, 0 0 20px #c82e2e; /* red glow on hover */
+  text-shadow: 0 0 5px #ff0000;
+}
+
+
+
+/* ---------- EXPLORE EVENTS BUTTON ---------- */
+.home-events-cta button {
+  margin-top: 4rem;
+  padding: 0.9rem 2.8rem;
+  border-radius: 40px;
+  border: 1px solid #d32f2f;
+  font-weight: 700;
+  color: #fff;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.home-events-cta button:hover {
+  background: #d32f2f;
+  box-shadow: 0 0 25px rgba(211,47,47,0.6);
+  transform: translateY(-2px);
+}
+
+/* ---------- MOBILE ---------- */
+@media (max-width: 900px) {
+  .home-events-grid {
+    grid-template-columns: 1fr;
+  }
+}
