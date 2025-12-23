@@ -70,14 +70,12 @@ CREATE TABLE IF NOT EXISTS members (
 CREATE TABLE IF NOT EXISTS sponsor_applications (
     id INT AUTO_INCREMENT PRIMARY KEY,
     business_name VARCHAR(255) NOT NULL,
-    contact_person VARCHAR(255),
     email VARCHAR(255) NOT NULL,
     phone VARCHAR(50),
     location VARCHAR(255), -- ADDED THIS
     tier ENUM('Silver', 'Gold', 'Platinum', 'Bronze') NOT NULL,
     payment_type ENUM('E-Transfer', 'Cheque', 'In-Kind') NOT NULL,
     description TEXT, -- ADDED THIS (from Step 1 of form)
-    message TEXT,     -- (Keep for general comments)
     discount_title VARCHAR(255), -- ADDED THIS
     status ENUM('Pending', 'Reviewed', 'Approved', 'Rejected') DEFAULT 'Pending',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

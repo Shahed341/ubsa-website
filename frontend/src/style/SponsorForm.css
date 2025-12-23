@@ -1,131 +1,240 @@
-/* src/style/SponsorForm.css */
-
-.sponsor-form-glass {
-  background: rgba(15, 15, 15, 0.98);
-  backdrop-filter: blur(20px);
-  padding: 2.5rem;
-  border-radius: 24px;
-  width: 95%;
-  max-width: 500px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
-  position: relative;
-  animation: modalPop 0.3s ease-out;
+/* ================================
+   MODAL OVERLAY
+================================ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
 }
 
-@keyframes modalPop {
-  from { opacity: 0; transform: scale(0.9); }
-  to { opacity: 1; transform: scale(1); }
+/* ================================
+   MODAL CONTAINER
+================================ */
+.sponsor-form-glass {
+  position: relative;
+  width: 95%;
+  max-width: 520px;
+  padding: 2.5rem;
+  border-radius: 26px;
+  background: rgba(15, 15, 15, 0.97);
+  backdrop-filter: blur(22px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.85);
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+/* Entrance animation */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ================================
+   CLOSE BUTTON
+================================ */
+.close-x {
+  position: absolute;
+  top: 20px;
+  right: 22px;
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.2s, transform 0.2s;
+}
+
+.close-x:hover {
+  color: #fff;
+  transform: scale(1.1);
+}
+
+/* ================================
+   HEADER
+================================ */
+.sponsor-form-glass h2 {
+  font-size: 1.8rem;
+  font-weight: 900;
+  margin-bottom: 0.3rem;
 }
 
 .step-indicator {
-  color: #90ee90;
-  font-weight: bold;
-  font-size: 0.85rem;
-  text-transform: uppercase;
+  font-size: 0.75rem;
+  font-weight: 800;
   letter-spacing: 1px;
-  margin-bottom: 1rem;
+  text-transform: uppercase;
+  color: #90ee90;
+  margin-bottom: 1.6rem;
 }
 
-/* --- INPUT STYLING --- */
+/* ================================
+   FORM GROUPS
+================================ */
 .form-group-modal {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.4rem;
 }
 
 .form-group-modal label {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #ccc;
-  font-size: 0.9rem;
   margin-bottom: 8px;
+  font-size: 0.85rem;
+  color: #ccc;
 }
 
 .form-group-modal label svg {
   color: #e36f04;
 }
 
+/* Inputs */
 .form-group-modal input,
-.form-group-modal select,
-.form-group-modal textarea {
+.form-group-modal textarea,
+.form-group-modal select {
   width: 100%;
-  padding: 12px 15px;
+  padding: 13px 16px;
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  color: white;
-  font-size: 1rem;
-  transition: border 0.3s;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  color: #fff;
+  font-size: 0.95rem;
+  transition: border 0.2s, background 0.2s;
+}
+
+.form-group-modal textarea {
+  resize: vertical;
+}
+
+.form-group-modal input::placeholder,
+.form-group-modal textarea::placeholder {
+  color: #777;
 }
 
 .form-group-modal input:focus,
-.form-group-modal textarea:focus {
+.form-group-modal textarea:focus,
+.form-group-modal select:focus {
   outline: none;
   border-color: #e36f04;
   background: rgba(255, 255, 255, 0.08);
 }
 
-/* --- PAYMENT OPTIONS --- */
+/* ================================
+   PAYMENT SECTION
+================================ */
+.payment-instruction {
+  margin: 1.2rem 0 0.6rem;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: #aaa;
+  letter-spacing: 0.8px;
+}
+
 .pay-option {
   display: flex;
   align-items: center;
   gap: 1rem;
   padding: 1rem;
-  background: rgba(255, 255, 255, 0.03);
-  margin-bottom: 12px;
-  border-radius: 12px;
-  cursor: pointer;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
   border: 1px solid transparent;
-  transition: all 0.2s;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 12px;
+}
+
+.pay-option svg {
+  font-size: 1.4rem;
+  color: #e36f04;
 }
 
 .pay-option:hover {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .pay-option.selected {
   border-color: #e36f04;
-  background: rgba(227, 111, 4, 0.05);
+  background: rgba(227, 111, 4, 0.08);
 }
 
-.pay-text {
-  display: flex;
-  flex-direction: column;
-}
-
+/* Payment text */
 .pay-text span {
-  font-weight: bold;
+  font-weight: 800;
   color: #fff;
 }
 
 .pay-text small {
-  color: #888;
   font-size: 0.75rem;
+  color: #888;
 }
 
-/* --- BUTTONS --- */
-.btn-final, .btn-next {
+/* ================================
+   BUTTONS
+================================ */
+.btn-next,
+.btn-final {
   width: 100%;
+  margin-top: 1.2rem;
   padding: 14px;
-  background: #e36f04;
-  color: white;
+  border-radius: 12px;
   border: none;
-  border-radius: 10px;
-  font-weight: 800;
+  background: #e36f04;
+  color: #fff;
+  font-weight: 900;
+  letter-spacing: 0.8px;
   text-transform: uppercase;
   cursor: pointer;
-  margin-top: 1rem;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
+.btn-next:hover,
+.btn-final:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 35px rgba(227, 111, 4, 0.4);
+}
+
+.btn-final:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Back button */
 .btn-back {
   width: 100%;
-  padding: 10px;
-  background: transparent;
-  color: #aaa;
-  border: none;
   margin-top: 10px;
+  background: transparent;
+  border: none;
+  color: #aaa;
+  font-size: 0.85rem;
   cursor: pointer;
   text-decoration: underline;
+  transition: color 0.2s;
 }
 
-.btn-back:hover { color: #fff; }
+.btn-back:hover {
+  color: #fff;
+}
+
+/* ================================
+   MOBILE OPTIMIZATION
+================================ */
+@media (max-width: 480px) {
+  .sponsor-form-glass {
+    padding: 2rem 1.6rem;
+    border-radius: 20px;
+  }
+
+  .sponsor-form-glass h2 {
+    font-size: 1.5rem;
+  }
+}

@@ -1,70 +1,264 @@
-/* src/style/Sponsors.css */
+/* ================================
+   SPONSORS PAGE BASE
+================================ */
+.sponsors-page {
+  position: relative;
+  min-height: 100vh;
+  padding: 160px 6% 6rem;
+  color: #fff;
+  z-index: 1;
+}
 
-/* --- TIER SPECIFIC BADGES --- */
+.sponsors-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at top, #1a1a1a, #050505);
+  filter: brightness(0.7);
+  z-index: -1;
+}
+
+/* ================================
+   HERO SECTION
+================================ */
+.sponsors-hero {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.page-title {
+  font-size: 3rem;
+  font-weight: 900;
+  letter-spacing: -1px;
+}
+
+.text-highlight {
+  color: #e36f04;
+}
+
+.page-subtitle {
+  color: #aaa;
+  max-width: 620px;
+  margin: 1rem auto 2rem;
+  line-height: 1.6;
+}
+
+.btn-become-sponsor {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border-radius: 999px;
+  background: #e36f04;
+  color: #fff;
+  font-weight: 800;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-become-sponsor:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 35px rgba(227, 111, 4, 0.4);
+}
+
+/* ================================
+   GRID
+================================ */
+.sponsors-grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #777;
+  margin-top: 3rem;
+}
+
+/* ================================
+   SPONSOR CARD
+================================ */
+.glass-sponsor-card {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(18px);
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.glass-sponsor-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+}
+
+/* ================================
+   CARD HEADER
+================================ */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 1.4rem 0;
+}
+
+.sponsor-logo-wrapper {
+  width: 70px;
+  height: 70px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sponsor-logo-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ================================
+   TIER BADGES
+================================ */
+.sponsor-tier-badge,
+.sponsor-tier-badge-modal {
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+/* Tier colors */
 .tier-platinum {
-  background: linear-gradient(135deg, #e5e4e2, #b4b4b4) !important;
-  color: #000 !important;
-  box-shadow: 0 0 15px rgba(229, 228, 226, 0.4);
+  background: linear-gradient(135deg, #e5e4e2, #b4b4b4);
+  color: #000;
+  box-shadow: 0 0 18px rgba(229, 228, 226, 0.45);
 }
 
 .tier-gold {
-  background: linear-gradient(135deg, #ffd700, #ffb700) !important;
-  color: #000 !important;
-  box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+  background: linear-gradient(135deg, #ffd700, #ffb700);
+  color: #000;
+  box-shadow: 0 0 18px rgba(255, 215, 0, 0.4);
 }
 
 .tier-silver {
-  background: linear-gradient(135deg, #c0c0c0, #939393) !important;
-  color: #000 !important;
+  background: linear-gradient(135deg, #c0c0c0, #8f8f8f);
+  color: #000;
 }
 
 .tier-bronze {
-  background: linear-gradient(135deg, #cd7f32, #8b4513) !important;
-  color: #fff !important;
+  background: linear-gradient(135deg, #cd7f32, #8b4513);
+  color: #fff;
 }
 
-/* --- CARD ENHANCEMENTS --- */
+/* ================================
+   CARD BODY
+================================ */
+.card-body {
+  padding: 1.4rem;
+}
+
+.sponsor-name {
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
 .sponsor-location {
   display: flex;
   align-items: center;
   gap: 8px;
   font-size: 0.85rem;
+  margin-top: 6px;
   color: #aaa;
-  margin-top: 5px;
 }
 
 .sponsor-location svg {
   color: #e36f04;
 }
 
-/* --- MODAL UPDATES --- */
+/* ================================
+   CARD FOOTER (DISCOUNT)
+================================ */
+.card-footer-discount {
+  padding: 1.1rem 1.4rem 1.4rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.discount-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: #90ee90;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.card-footer-discount h3 {
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+/* ================================
+   MODAL META
+================================ */
 .modal-meta-row {
   display: flex;
-  gap: 1.5rem;
-  margin: 1rem 0;
   flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1.2rem 0;
 }
 
 .meta-tag {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: rgba(255, 255, 255, 0.05);
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  color: #eee;
+  padding: 6px 14px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  font-size: 0.85rem;
 }
 
 .meta-tag svg {
-  color: #90ee90; /* Light green for icons */
+  color: #90ee90;
 }
 
-.modal-description-scroll h3 {
+/* ================================
+   MODAL DISCOUNT
+================================ */
+.sponsor-modal-discount {
+  margin: 1.5rem 0;
+  padding: 1.2rem;
+  border-radius: 14px;
+  background: rgba(144, 238, 144, 0.08);
+  border: 1px solid rgba(144, 238, 144, 0.25);
+}
+
+.discount-title {
   font-size: 1.1rem;
-  margin-bottom: 0.8rem;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: #e36f04;
+  font-weight: 900;
+  margin: 8px 0;
+}
+
+.discount-desc {
+  font-size: 0.85rem;
+  color: #ccc;
+}
+
+/* ================================
+   LOADING
+================================ */
+.loading-text {
+  padding-top: 200px;
+  text-align: center;
+  font-size: 1.2rem;
+  color: #aaa;
 }
