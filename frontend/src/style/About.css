@@ -1,306 +1,176 @@
-/* src/style/About.css */
-
-/* --- BACKGROUND SETUP --- */
-.about-container {
-  min-height: 100vh;
+/* --- GLOBAL WRAPPER --- */
+.about-page-wrapper {
   position: relative;
-  /* Dark overlay color to blend with the image */
-  background-color: #050505; 
-  color: white;
-  padding-bottom: 4rem;
+  min-height: 100vh;
+  /* Top padding ensures content starts below a fixed navbar */
+  padding: 160px 5% 100px; 
+  color: #fff;
+  font-family: 'Inter', sans-serif;
   overflow-x: hidden;
 }
 
-/* Pseudo-element for the BLURRED FIXED BACKGROUND */
-.about-container::before {
+.about-page-wrapper::before {
   content: "";
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: url('../assets/Team/about_page_bg.png') no-repeat center center/cover;
+  filter: brightness(0.25);
+  z-index: -1;
+}
+
+.about-content {
   width: 100%;
-  height: 100%;
-  /* Pointing to the background image in assets/Team */
-  background: url('../assets/Team/about_page_bg.png') no-repeat center center;
-  background-size: cover;
-  /* The Blur Effect */
-  filter: blur(5px) brightness(0.6); 
-  z-index: 0;
-  pointer-events: none;
-}
-
-/* Ensure content sits above the background */
-section {
-  position: relative;
-  z-index: 1;
-}
-
-/* --- HERO --- */
-.about-hero {
-  text-align: center;
-  padding: 8rem 1rem 4rem;
-  display: flex;
-  justify-content: center;
-}
-
-.hero-card {
-  display: inline-block;
-  padding: 2rem 4rem;
-  border: 1px solid rgba(211, 47, 47, 0.4); /* Red tint border */
-}
-
-.about-hero h1 {
-  font-size: 4rem;
-  color: #d32f2f; /* RED */
-  margin-bottom: 1rem;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  text-shadow: 0 4px 15px rgba(0,0,0,0.5);
-}
-
-.about-hero p {
-  font-size: 1.2rem;
-  color: #eee;
-}
-
-/* --- GLASS CARD SHARED STYLE --- */
-.glass-card {
-  background: rgba(0, 0, 0, 0.4); /* Darker glass for better contrast */
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 16px;
-  padding: 1.5rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-}
-
-.glass-card:hover {
-  transform: translateY(-5px);
-  border-color: rgba(144, 238, 144, 0.5); /* Light Green on hover */
-  box-shadow: 0 10px 40px rgba(144, 238, 144, 0.1);
-}
-
-/* --- MISSION SECTION --- */
-.mission-section {
-  display: flex;
-  justify-content: center;
-  padding: 0 1rem 4rem;
-}
-
-.mission-card {
-  max-width: 800px;
-  text-align: center;
-  padding: 3rem;
-  border-left: 4px solid #90ee90; /* Light Green Accent */
-}
-
-.mission-card h2 {
-  color: #90ee90; /* Light Green */
-  margin-bottom: 1rem;
-  text-transform: uppercase;
-}
-
-/* --- TEAM SECTION --- */
-.team-section {
-  max-width: 1200px;
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 0 1rem;
-}
-
-.section-title {
-  text-align: center;
-  font-size: 2.5rem;
-  margin-bottom: 3rem;
-  color: white;
-  border-bottom: 3px solid #d32f2f; /* RED underline */
-  display: inline-block;
-  padding-bottom: 0.5rem;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-/* --- PRESIDENT CARD (BIGGER) --- */
-.president-wrapper {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 4rem;
-}
-
-.president-card {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 3rem;
-  max-width: 500px;
-  width: 100%;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(211, 47, 47, 0.5); /* Red Border */
+  gap: 6rem;
 }
 
-.president-card .img-container {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  overflow: hidden;
-  margin-bottom: 1.5rem;
-  border: 4px solid #d32f2f; /* Red Ring */
-  box-shadow: 0 0 25px rgba(211, 47, 47, 0.4);
+/* --- THE GLASS TOOLKIT --- */
+.glass-screen {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
 }
 
-.president-card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  /* Optional: grayscale until hover for style? */
-  /* filter: grayscale(100%); transition: 0.3s; */
-}
-/* .president-card:hover img { filter: grayscale(0%); } */
-
-.president-card h3 {
-  font-size: 2rem;
-  margin: 0.5rem 0;
-  color: white;
-}
-
-.president-card .role {
-  color: #d32f2f; /* RED Text */
-  font-weight: bold;
-  font-size: 1.3rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.president-card .bio {
-  margin-top: 1rem;
-  color: #ccc;
-  font-style: italic;
-}
-
-/* --- TEAM GRID --- */
-.team-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-}
-
-.team-card {
-  text-align: center;
+/* --- STATS SECTION (No-Wrap Fix) --- */
+.stats-container-row {
   display: flex;
-  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 2.5rem;
   align-items: center;
-}
-
-.team-card .img-container {
-  width: 130px;
-  height: 130px;
-  border-radius: 50%;
-  overflow: hidden;
-  margin: 0 auto 1rem;
-  border: 3px solid rgba(144, 238, 144, 0.6); /* Light Green Border */
-  transition: transform 0.3s ease;
-}
-
-.team-card:hover .img-container {
-  transform: scale(1.05);
-}
-
-.team-card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.team-card h3 {
-  font-size: 1.3rem;
-  margin-bottom: 0.2rem;
-}
-
-.team-card .role {
-  color: #90ee90; /* Light Green */
-  font-size: 1rem;
-  font-weight: bold;
-  text-transform: uppercase;
-}
-
-/* --- STATS SECTION --- */
-.stats-section {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  margin-top: 5rem;
-  flex-wrap: wrap;
-  padding: 0 1rem;
+  flex-wrap: nowrap; /* Prevents sponsors falling under members */
 }
 
 .stat-item {
-  text-align: center;
-  min-width: 150px;
-}
-
-.stat-item h3 {
-  font-size: 3rem;
-  color: #d32f2f; /* RED */
-  margin: 0;
-}
-
-.stat-item p {
-  color: #90ee90; /* Light Green */
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-/* --- PAST COMMITTEE SECTION --- */
-.past-committee-section {
-  margin-top: 6rem;
   display: flex;
-  justify-content: center;
-  padding: 0 1rem;
+  align-items: center;
+  gap: 1.2rem;
+  min-width: fit-content;
 }
 
-.past-card {
-  width: 100%;
-  max-width: 600px;
+.stat-icon { font-size: 2.2rem; color: #e36f04; }
+.stat-text-group h2 { font-size: 2.8rem; margin: 0; color: #e36f04; font-weight: 800; line-height: 1; }
+.stat-text-group p { margin: 0; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; opacity: 0.7; }
+.stat-divider { width: 1px; height: 50px; background: rgba(255, 255, 255, 0.1); }
+
+/* --- MOTIVE SECTION (BIGGER & BANGLADESH COLORS) --- */
+.mission-card.motive-themed {
+  padding: 6rem 4rem;
   text-align: center;
-  padding: 3rem;
-  border-top: 4px solid #d32f2f; /* Red Top Border */
+  background: linear-gradient(135deg, rgba(0, 106, 78, 0.15) 0%, rgba(244, 42, 65, 0.1) 100%);
+  border: 1px solid rgba(0, 106, 78, 0.3);
 }
 
-.past-card h2 {
-  color: #fff;
-  margin-bottom: 0.5rem;
+.mission-card.motive-themed p {
+  font-size: 1.7rem;
+  line-height: 1.8;
+  font-weight: 300;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
-.past-card p {
-  color: #aaa;
-  margin-bottom: 2rem;
+.text-highlight { color: #f42a41; font-size: 2.8rem; margin-bottom: 2rem; }
+.text-highlight-red { color: #f42a41; }
+
+/* --- PRESIDENT SPACING --- */
+.president-featured-row {
+  margin-top: 2rem;
+  margin-bottom: 10rem; /* Space between President and rest of the team */
 }
 
-.past-btn {
+.pres-layout { display: flex; gap: 4rem; padding: 3rem; align-items: center; }
+.pres-img { width: 320px; height: 450px; object-fit: cover; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); }
+.pres-info { flex: 1; text-align: left; }
+.pres-info h3 { font-size: 3.2rem; margin: 0.5rem 0; }
+.role-tag-gold { color: #e36f04; text-transform: uppercase; font-weight: 700; letter-spacing: 2px; font-size: 0.85rem; }
+.punchline { font-style: italic; color: #e36f04; font-size: 1.2rem; margin-bottom: 1rem; }
+
+/* --- TEAM GRID & COMPACT EXPANSION --- */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 3rem;
+}
+
+.team-card { padding: 2rem; cursor: pointer; transition: 0.3s; }
+.team-card:hover { border-color: rgba(227, 111, 4, 0.4); }
+
+.card-header-simple { display: flex; flex-direction: column; gap: 1.5rem; width: 100%; }
+.mini-img { width: 100%; height: 350px; object-fit: cover; border-radius: 15px; }
+
+.team-card.expanded {
+  grid-column: span 2;
+  cursor: default;
+  padding: 3.5rem;
+}
+
+.team-card.expanded .card-header-simple {
+  flex-direction: row; /* Horizontal on Expand */
+  align-items: flex-start;
+  gap: 3.5rem;
+}
+
+.team-card.expanded .mini-img { width: 300px; height: 420px; }
+.team-card.expanded .mini-meta h4 { font-size: 3.2rem; }
+
+.detail-divider { border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 1.5rem 0; }
+.punchline-small { font-style: italic; color: #e36f04; margin: 1rem 0; font-size: 1.1rem; }
+
+/* --- LEGACY CARD (REDESIGNED) --- */
+.legacy-card {
+  padding: 6rem 4rem;
+  text-align: center;
+  /* Deep Emerald Forest Green Gradient */
+  background: linear-gradient(135deg, rgba(24, 47, 35, 0.5) 0%, rgba(1, 17, 9, 0.8) 100%);
+  border: 1px solid rgba(40, 167, 69, 0.3);
+  margin-top: 4rem;
+}
+
+.legacy-icon { font-size: 5rem; color: #20c847; margin-bottom: 2rem; }
+.legacy-card h2 { font-size: 3rem; margin-bottom: 1.5rem; letter-spacing: 2px; }
+.legacy-card p { font-size: 1.0rem; opacity: 0.5; margin-bottom: 3rem; }
+
+.btn-send-home {
+  padding: 1.2rem 3.5rem;
   background: transparent;
-  border: 2px solid #90ee90; /* Green Border */
-  color: #90ee90;
-  padding: 0.8rem 2rem;
-  font-size: 1rem;
-  border-radius: 30px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  border: 2px solid #39ca5a;
+  color: #fff;
+  border-radius: 50px;
+  font-weight: 700;
   text-transform: uppercase;
-  font-weight: bold;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.past-btn:hover {
-  background: #90ee90;
-  color: #000; /* Black text on green hover */
-  box-shadow: 0 0 15px rgba(144, 238, 144, 0.4);
+.btn-send-home:hover {
+  background: #39ca5a;
+  box-shadow: 0 0 30px rgba(57, 202, 90, 0.4);
+  transform: translateY(-3px);
 }
 
-/* Mobile Adjustments */
-@media (max-width: 768px) {
-  .about-hero h1 { font-size: 2.5rem; }
-  .president-card { padding: 2rem; }
-  .president-card .img-container { width: 150px; height: 150px; }
-  .stats-section { gap: 1rem; }
+/* --- MOBILE RESPONSIVE --- */
+@media (max-width: 992px) {
+  .about-page-wrapper { padding-top: 120px; } /* Adjust for smaller screens */
+  .stats-container-row { flex-wrap: wrap; justify-content: center; gap: 2.5rem; }
+  .stat-divider { display: none; }
+  .team-grid { grid-template-columns: 1fr; }
+  .team-card.expanded { grid-column: span 1; }
+  
+  .pres-layout, .team-card.expanded .card-header-simple { 
+    flex-direction: column; 
+    text-align: center; 
+    align-items: center; 
+  }
+  .pres-img, .team-card.expanded .mini-img { width: 100%; max-width: 350px; height: auto; }
+  .pres-info, .mini-meta { text-align: center; }
+  .mission-card.motive-themed p { font-size: 1.3rem; }
 }

@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
+  FaUsers, FaHandshake, FaCalendarAlt, 
+  FaGraduationCap, FaQuoteLeft, FaHistory, FaArrowRight 
+} from 'react-icons/fa';
 import '../style/About.css';
 
-// Importing Images
+// --- IMAGE IMPORTS ---
 import PresidentImg from '../assets/Team/Rubana_Sayeda.png';
 import VPImg from '../assets/Team/Nusrat_Ahona.png';
 import FinanceImg from '../assets/Team/Mohammed_Khan.png';
@@ -10,125 +15,174 @@ import EventCoordImg from '../assets/Team/Ishrat_Maya.png';
 import OutreachImg from '../assets/Team/Rab_Ahmed_Rwna.png';
 import SocialImg from '../assets/Team/Abir_Khan.png';
 
-const teamMembers = [
-  {
-    name: "Nusrat Ahona",
-    role: "Vice President",
-    image: VPImg
-  },
-  {
-    name: "Mohammed Khan",
-    role: "Finance Director",
-    image: FinanceImg
-  },
-  {
-    name: "Rodoshy Prithibi",
-    role: "Event Director",
-    image: EventDirImg
-  },
-  {
-    name: "Ishrat_Maya", // Fixed spelling from filename if needed, or keep human name
-    role: "Event Coordinator",
-    image: EventCoordImg
-  },
-  {
-    name: "Rab Ahmed Rwna",
-    role: "Outreach Director",
-    image: OutreachImg
-  },
-  {
-    name: "Abir Khan",
-    role: "Social Director",
-    image: SocialImg
-  }
-];
-
 export default function About() {
+  const [expandedIndex, setExpandedIndex] = useState(null);
+  const [stats, setStats] = useState({ members: 0, sponsors: 0 });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        // Replace these URLs with your actual backend endpoints
+        const [memRes, sponRes] = await Promise.all([
+          fetch('http://localhost:5000/api/members'),
+          fetch('http://localhost:5000/api/sponsors')
+        ]);
+
+        const memData = await memRes.json();
+        const sponData = await sponRes.json();
+
+        setStats({
+          // Assumes your API returns an array of objects
+          members: Array.isArray(memData) ? memData.length : 0,
+          sponsors: Array.isArray(sponData) ? sponData.length : 0
+        });
+      } catch (err) {
+        console.error("Error fetching DB stats:", err);
+        // Fallback values if DB is offline
+        setStats({ members: 500, sponsors: 15 });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStats();
+  }, []);
+
+  const toggleExpand = (index) => {
+    setExpandedIndex(expandedIndex === index ? null : index);
+  };
+
+  const president = TEAM_DATA[0];
+  const otherTeam = TEAM_DATA.slice(1);
+
   return (
-    <div className="about-container">
-      {/* Background Pseudo-element handled in CSS */}
-      
-      {/* --- HERO SECTION --- */}
-      <section className="about-hero">
-        <div className="glass-card hero-card">
-          <h1>Who We Are</h1>
-          <p>The heartbeat of Bangladeshi culture at the University of Saskatchewan.</p>
-        </div>
-      </section>
-
-      {/* --- MISSION SECTION --- */}
-      <section className="mission-section">
-        <div className="glass-card mission-card">
-          <h2>Our Mission</h2>
-          <p>
-            Established in 2024, the UBSA is dedicated to fostering a home away from home. 
-            We bridge cultures, support academic success, and create unforgettable memories 
-            through festivals, socials, and community outreach.
-          </p>
-        </div>
-      </section>
-
-      {/* --- TEAM SECTION --- */}
-      <section className="team-section">
-        <h2 className="section-title">Meet the Executive Team</h2>
+    <div className="about-page-wrapper">
+      <div className="about-content">
         
-        {/* PRESIDENT (Featured Large) */}
-        <div className="president-wrapper">
-          <div className="glass-card president-card">
-            <div className="img-container">
-              <img src={PresidentImg} alt="Rubana Sayeda" />
+        {/* SECTION 1: STATS HERO */}
+        <section className="about-stats-hero">
+          <div className="stats-container-row glass-screen">
+            <div className="stat-item">
+              <FaUsers className="stat-icon" />
+              <div className="stat-text-group">
+                {/* Show a dash while loading, then the real number */}
+                <h2>{loading ? "--" : stats.members}+</h2>
+                <p>Members</p>
+              </div>
             </div>
-            <div className="info">
-              <h3>Rubana Sayeda</h3>
-              <span className="role">President</span>
-              <p className="bio">Leading with vision and passion to unite our community.</p>
+            <div className="stat-divider"></div>
+            <div className="stat-item">
+              <FaHandshake className="stat-icon" />
+              <div className="stat-text-group">
+                <h2>{loading ? "--" : stats.sponsors}+</h2>
+                <p>Sponsors</p>
+              </div>
+            </div>
+            <div className="stat-divider"></div>
+            <div className="stat-item">
+              <FaCalendarAlt className="stat-icon" />
+              <div className="stat-text-group">
+                <h2>2024</h2>
+                <p>Founded</p>
+              </div>
             </div>
           </div>
-        </div>
+        </section>
 
-        {/* REST OF TEAM (Grid) */}
-        <div className="team-grid">
-          {teamMembers.map((member, index) => (
-            <div key={index} className="glass-card team-card">
-              <div className="img-container">
-                <img src={member.image} alt={member.name} />
+        {/* SECTION 2: MOTIVE */}
+        <section className="mission-section">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }} 
+            whileInView={{ opacity: 1, y: 0 }} 
+            className="glass-screen mission-card motive-themed"
+          >
+             <h2 className="text-highlight"><FaQuoteLeft /> Our Motive</h2>
+             <p>
+               UBSA is more than just a student union; it is a cultural sanctuary. Our motive is to bridge the 
+               gap between tradition and the USask experience, fostering a supportive environment where 
+               Bangladeshi students can thrive academically and socially while celebrating our rich heritage.
+             </p>
+          </motion.div>
+        </section>
+
+        {/* SECTION 3: EXECUTIVES */}
+        <section className="team-section">
+          <h2 className="section-title">Meet the <span className="text-highlight-red">Executive Team</span></h2>
+          
+          <div className="president-featured-row">
+            <motion.div className="glass-screen president-big-card" whileHover={{ scale: 1.01 }}>
+              <div className="pres-layout">
+                <img src={president.image} alt={president.name} className="pres-img" />
+                <div className="pres-info">
+                  <span className="role-tag-gold">President & Founder</span>
+                  <h3>{president.name}</h3>
+                  <p className="dept-text"><FaGraduationCap /> {president.dept}</p>
+                  <p className="punchline">"{president.punchline}"</p>
+                  <p className="pres-bio">{president.bio}</p>
+                </div>
               </div>
-              <div className="info">
-                <h3>{member.name}</h3>
-                <span className="role">{member.role}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+            </motion.div>
+          </div>
 
-      {/* --- STATS SECTION --- */}
-      <section className="stats-section">
-        <div className="stat-item glass-card">
-          <h3>2024</h3>
-          <p>Founded</p>
-        </div>
-        <div className="stat-item glass-card">
-          <h3>500+</h3>
-          <p>Members</p>
-        </div>
-        <div className="stat-item glass-card">
-          <h3>New</h3>
-          <p>Committee</p>
-        </div>
-      </section>
+          <div className="team-grid">
+            {otherTeam.map((member, index) => (
+              <motion.div 
+                key={index}
+                layout
+                onClick={() => toggleExpand(index)}
+                className={`glass-screen team-card ${expandedIndex === index ? 'expanded' : ''}`}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              >
+                <div className="card-header-simple">
+                  <img src={member.image} alt={member.name} className="mini-img" />
+                  <div className="mini-meta">
+                    <span className="mini-role">{member.role}</span>
+                    <h4>{member.name}</h4>
+                    
+                    <AnimatePresence>
+                      {expandedIndex === index && (
+                        <motion.div 
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                          className="expand-details"
+                        >
+                          <hr className="detail-divider" />
+                          <p className="dept-text"><FaGraduationCap /> {member.dept}</p>
+                          <p className="punchline-small">"{member.punchline}"</p>
+                          <p className="bio-text">{member.bio}</p>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
 
-      {/* --- PAST COMMITTEE SECTION --- */}
-      <section className="past-committee-section">
-        <div className="glass-card past-card">
-          <h2>Our Legacy</h2>
-          <p>Honoring the leaders who paved the way before us.</p>
-          <button className="past-btn" onClick={() => alert("Past Committee Page Coming Soon!")}>
-            View Past Committees
-          </button>
-        </div>
-      </section>
-
+        {/* SECTION 4: LEGACY */}
+        <section className="legacy-section">
+          <div className="glass-screen legacy-card">
+            <FaHistory className="legacy-icon" />
+            <h2>Our Legacy</h2>
+            <button className="btn-send-home">
+              View Past Committees <FaArrowRight />
+            </button>
+          </div>
+        </section>
+      </div>
     </div>
   );
 }
+
+const TEAM_DATA = [
+  { name: "Rubana Sayeda", role: "President", dept: "Economics", punchline: "Leading with vision, uniting with passion.", bio: "As the founding President, Rubana oversees the overall direction of UBSA.", image: PresidentImg },
+  { name: "Nusrat Ahona", role: "Vice President", dept: "Computer Science", punchline: "Debugging the blueprint for club success.", bio: "Nusrat handles internal operations and technical integrations.", image: VPImg },
+  { name: "Mohammed Khan", role: "Finance Director", dept: "Business", punchline: "Making every contribution count.", bio: "Mohammed manages the treasury and sponsorship funds.", image: FinanceImg },
+  { name: "Rodoshy Prithibi", role: "Event Director", dept: "Psychology", punchline: "Turning cultural ideas into reality.", bio: "Rodoshy is the lead designer of our major cultural festivals.", image: EventDirImg },
+  { name: "Ishrat Maya", role: "Event Coordinator", dept: "Engineering", punchline: "Coordinating the art of perfect events.", bio: "Ishrat focuses on logistics and detailed planning.", image: EventCoordImg },
+  { name: "Rab Ahmed Rwna", role: "Outreach Director", dept: "Political Science", punchline: "Building bridges beyond the campus.", bio: "Rab leads our community engagement.", image: OutreachImg },
+  { name: "Abir Khan", role: "Social Director", dept: "Arts & Science", punchline: "Creating social vibes that stick.", bio: "Abir manages our social presence and member interactions.", image: SocialImg }
+];
