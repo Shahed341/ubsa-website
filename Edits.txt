@@ -1,0 +1,5 @@
+About.jsx: make the committee card smaller so it fits 3 in a row. Correct the color of the cards. Make the legacy button smaller.
+Events.jsx: put he title in the middle. fix colors in the card. visit gallery button for past events.
+Gallery: Sort the photos by events an add a search bar. Improve the gallery layout.
+contact: fix the socials icon style. fix button color. add bg.
+Sponsor: Make sections for category wise sponsors. make the logo bigger. Add image upload option to the form. Seperate the sponsors with discount offer and others with just donation. link with their number or website.

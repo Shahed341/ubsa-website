@@ -1,258 +1,338 @@
-/* --- 1. CORE LAYOUT & BACKGROUND --- */
-.dashboard-container {
-    position: relative;
-    min-height: 100vh;
-    padding: 140px 2rem 4rem;
-    color: #fdfaf5; /* Cream White */
-    max-width: 1400px;
-    margin: 0 auto;
-    z-index: 1;
+/* --- Color Palette & Variables --- */
+:root {
+  --page-bg: #ffffff;
+  --card-ash: #1a1a1a;          /* Component BG */
+  --sidebar-ash: #121212;       /* Sidebar BG */
+  --cream-white: #f5f5f3;       /* Main Text */
+  --tiger-orange: #2ecc71;      /* Home & Active Dash */
+  --member-red: #ff4d4d;
+  --event-green: #2ecc71;
+  --sponsor-orange: #f39c12;
+  --student-blue: #3498db;
+  --text-dim: #999999;
+  --deep-shadow: 0 15px 45px rgba(0, 0, 0, 0.5), 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-.dashboard-container::before {
-    content: "";
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    /* Darker, more neutral background to make colors pop */
-    background: 
-        linear-gradient(rgba(10, 15, 12, 0.96), rgba(5, 5, 5, 0.98)),
-        url('../../assets/TigerGalleryPageBG.jpg');
-    background-size: cover;
-    background-position: center;
-    filter: blur(10px);
-    z-index: -1;
+/* --- Global Layout --- */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden; /* Fix to one page */
+  /* 5% Slight Dark Ash Gradient from top */
+  background: linear-gradient(to bottom, #2a2a2a 0%, var(--page-bg) 5%);
+  font-family: 'Inter', sans-serif;
 }
 
-/* --- 2. ADMIN LOGIN OVERRIDES --- */
-.admin-login-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    width: 100vw;
-    position: fixed;
-    top: 0; left: 0;
-    z-index: 2000;
-    background: linear-gradient(rgba(10, 15, 12, 0.96), rgba(5, 5, 5, 0.98)),
-                url('../../assets/TigerGalleryPageBG.jpg');
-    background-size: cover;
+.admin-viewport {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
 }
 
-.login-card {
-    padding: 3.5rem 2.5rem;
-    width: 100%;
-    max-width: 400px;
-    text-align: center;
-    background: rgba(253, 250, 245, 0.05); /* Cream Glass */
-    backdrop-filter: blur(20px);
-    border-radius: 24px;
-    border: 1px solid rgba(253, 250, 245, 0.15);
+/* --- Sidebar Panel --- */
+.admin-sidebar {
+  width: 260px;
+  background-color: var(--sidebar-ash);
+  display: flex;
+  flex-direction: column;
+  padding: 30px 0; /* Vertical padding only for full-width items */
+  box-sizing: border-box;
+  flex-shrink: 0;
 }
 
-/* --- 3. DASHBOARD HEADER --- */
-.dashboard-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-bottom: 3.5rem;
-    border-bottom: 1px solid rgba(144, 238, 144, 0.2); /* Light Green Border */
-    padding-bottom: 2rem;
+.sidebar-top-section {
+  padding: 0 0px; /* Container for elements inside sidebar */
 }
 
-.header-text h1 {
-    font-size: 2.8rem;
-    font-weight: 900;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    color: #fdfaf5; /* Cream */
+/* Go UBSA Home: Tiger Orange */
+.go-ubsa-home {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--tiger-orange);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 12px 20px;
+  border: 1px solid var(--tiger-orange);
+  border-radius: 8px;
+  background: rgba(172, 134, 134, 0.05);
+  margin: 0 20px 30px 20px;
+  transition: 0.3s;
 }
 
-.text-highlight { color: #e36f04; } /* Orange */
-
-.header-icon-main { color: #90ee90; } /* Light Green */
-
-.logout-pill {
-    background: rgba(244, 67, 54, 0.1); /* Red Transparent */
-    border: 1px solid rgba(244, 67, 54, 0.5);
-    color: #ff5252;
-    padding: 10px 24px;
-    border-radius: 50px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 700;
-    transition: 0.3s;
+.go-ubsa-home:hover {
+  background: var(--tiger-orange);
+  color: white;
+  box-shadow: 0 0 15px rgba(135, 123, 123, 0.4);
 }
 
-.logout-pill:hover { 
-    background: #f44336; /* Red Solid */
-    color: #fdfaf5; 
-    box-shadow: 0 0 15px rgba(244, 67, 54, 0.4);
+.sidebar-brand {
+  padding: 0 20px;
+  font-size: 1rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: var(--member-red);
+  margin-bottom: 30px;
 }
 
-/* --- 4. STATS GRID (Command Cards) --- */
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    margin-bottom: 5rem;
+/* Dashboard Nav Item: Full Width Fill */
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 25px;
+  color: var(--text-dim);
+  text-decoration: none;
+  width: 100%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: 0.3s;
+  box-sizing: border-box;
+  font-size: 0.9rem;
 }
 
-.stat-card {
-    display: flex;
-    align-items: center;
-    padding: 2.5rem 2rem;
-    gap: 1.5rem;
-    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    position: relative;
-    overflow: hidden;
+.nav-item:hover {
+  color: var(--cream-white);
+  background: rgba(255, 255, 255, 0.05);
 }
 
-.stat-icon-wrapper {
-    font-size: 2.5rem;
-    background: rgba(253, 250, 245, 0.08); /* Cream Tint */
-    width: 80px; height: 80px;
-    display: flex; justify-content: center; align-items: center;
-    border-radius: 20px;
-    color: #fdfaf5;
+.nav-item.active {
+  background: var(--card-ash);
+  color: var(--cream-white);
+  border-left: 5px solid var(--tiger-orange);
+  width: 100%;
 }
 
-/* Stat-Card Glows & Hover States */
-.orange-glow:hover { 
-    border-color: #e36f04; 
-    box-shadow: 0 10px 30px rgba(227, 111, 4, 0.2); 
-    transform: translateY(-5px); 
-}
-.green-glow:hover { 
-    border-color: #90ee90; 
-    box-shadow: 0 10px 30px rgba(144, 238, 144, 0.2); 
-    transform: translateY(-5px); 
-}
-.gold-glow:hover { 
-    border-color: #ffd700; 
-    box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2); 
-    transform: translateY(-5px); 
+/* Isolated Logout Button */
+.sidebar-logout {
+  margin: auto 20px 0 20px;
+  background: #1e1e1e; /* Distinct from sidebar */
+  border: 1px solid var(--member-red);
+  color: var(--member-red);
+  padding: 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
 }
 
-.stat-number { 
-    font-size: 3.2rem; 
-    font-weight: 800; 
-    font-family: 'Courier New', monospace; 
-    color: #fdfaf5;
-    line-height: 1;
+.sidebar-logout:hover {
+  background: var(--member-red);
+  color: white;
 }
 
-.click-hint {
-    font-size: 0.75rem;
-    color: #90ee90; /* Light Green */
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin-top: 10px;
-    opacity: 0.7;
-    transition: 0.3s;
+/* --- Main Content Area --- */
+.admin-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0 40px;
+  overflow: hidden;
 }
 
-/* --- 5. MANAGEMENT TOOLS (Actions Grid) --- */
-.section-title {
-    font-size: 1.8rem;
-    margin-bottom: 2.5rem;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    color: #90ee90; /* Light Green */
-    text-transform: uppercase;
-    letter-spacing: 2px;
+.admin-topbar {
+  height: 90px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.actions-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
+/* Top Actions: Inbox at Rightmost */
+.top-right-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-direction: row-reverse; /* Reverses order for Inbox positioning */
 }
 
-.action-card {
-    display: flex;
-    flex-direction: column;
-    padding: 3rem 2rem;
-    text-align: center;
-    align-items: center;
-    text-decoration: none;
-    color: #fdfaf5;
-    border: 1px solid rgba(253, 250, 245, 0.1);
-    transition: 0.3s ease;
+.inbox-btn {
+  background: var(--card-ash);
+  color: var(--cream-white);
+  padding: 12px;
+  border-radius: 50%;
+  position: relative;
+  box-shadow: var(--deep-shadow);
 }
 
-.action-icon-premium { 
-    font-size: 3.5rem; 
-    color: #90ee90; /* Green icons for growth/tools */
-    margin-bottom: 1.5rem; 
-    transition: 0.4s; 
+.inbox-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: var(--member-red);
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  font-size: 0.6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid var(--card-ash);
 }
 
-.action-card:hover {
-    background: rgba(144, 238, 144, 0.05); /* Soft Green Background */
-    border-color: #90ee90;
-    transform: translateY(-8px);
+.add-btn.event-green {
+  background: var(--event-green);
+  color: white;
+  padding: 12px 22px;
+  border-radius: 8px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 10px 20px rgba(46, 204, 113, 0.2);
 }
 
-.action-card h3 { color: #fdfaf5; }
-
-/* Dashboard Specific Overrides */
-.danger-btn:hover {
-    border-color: #f44336 !important; /* Red */
-    background: rgba(244, 67, 54, 0.08) !important;
-}
-.danger-btn:hover .action-icon-premium { color: #f44336; }
-
-.inbox-card:hover .action-icon-premium { color: #2196f3; } /* Blue for messages */
-
-/* --- 6. UTILITIES & NOTIFICATIONS --- */
-.glass {
-    background: rgba(253, 250, 245, 0.03);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    border-radius: 24px;
-    border: 1px solid rgba(253, 250, 245, 0.1);
+/* --- Stats Row with Left Bars --- */
+.dashboard-stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+  margin-bottom: 30px;
 }
 
-.notification-badge {
-    position: absolute;
-    top: -5px; right: -10px;
-    background: #e36f04; /* Orange */
-    color: white;
-    font-size: 0.8rem;
-    padding: 4px 10px;
-    border-radius: 50px;
-    border: 2px solid #0a0f0c;
-    box-shadow: 0 0 15px rgba(227, 111, 4, 0.6);
-    animation: pulse 2s infinite;
+.mini-stat {
+  background: var(--card-ash);
+  color: var(--cream-white);
+  padding: 20px;
+  border-radius: 12px;
+  text-decoration: none;
+  box-shadow: var(--deep-shadow);
+  border-left: 6px solid transparent;
+  transition: transform 0.3s;
 }
 
-@keyframes pulse {
-    0% { transform: scale(1); box-shadow: 0 0 0px rgba(227, 111, 4, 0.7); }
-    50% { transform: scale(1.1); box-shadow: 0 0 20px rgba(227, 111, 4, 0); }
-    100% { transform: scale(1); box-shadow: 0 0 0px rgba(227, 111, 4, 0); }
+.mini-stat:hover { transform: translateY(-5px); }
+
+/* Individual Bar Colors */
+.mini-stat.event-green { border-left-color: var(--event-green); }
+.mini-stat.member-red { border-left-color: var(--member-red); }
+.mini-stat.sponsor-orange { border-left-color: var(--sponsor-orange); }
+.mini-stat.student-blue { border-left-color: var(--student-blue); }
+
+.mini-stat .value {
+  display: block;
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-top: 5px;
 }
 
-.disabled {
-    opacity: 0.2;
-    filter: grayscale(1);
-    cursor: not-allowed !important;
+/* --- Middle Grid: Graphs & Overview --- */
+.dashboard-middle-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 0.8fr;
+  gap: 30px;
+  flex: 1;
+  min-height: 0;
+  padding-bottom: 30px;
 }
 
-/* --- 7. RESPONSIVENESS --- */
-@media (max-width: 900px) {
-    .dashboard-header { 
-        flex-direction: column; 
-        align-items: center; 
-        text-align: center; 
-        gap: 2rem; 
-    }
-    .header-text h1 { font-size: 2.2rem; }
-    .stat-number { font-size: 2.5rem; }
+.chart-card {
+  background: var(--card-ash);
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: var(--deep-shadow);
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- System Overview Container --- */
+.system-utility {
+  display: flex;
+  flex-direction: column;
+  /* Add padding to the whole card so content never hits the edge */
+  padding: 30px 85px 90px 30px !important; 
+  box-sizing: border-box;
+}
+
+.system-utility .utility-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 10px;
+  width: 100%;
+}
+
+/* --- The Utility Item Row --- */
+.util-item {
+  display: flex;
+  justify-content: space-between; /* Pushes Label to left, Status to right */
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #333;
+  font-size: 0.85rem;
+  color: var(--cream-white);
+  width: 100%; /* Respect card width */
+  box-sizing: border-box;
+}
+
+/* --- Status Labels (Online, Connected) --- */
+.status-dot {
+  font-weight: bold;
+  font-size: 0.75rem;
+  text-align: right;
+  /* This ensures the text stays 'inset' from the right edge */
+  padding-right: 15px; 
+  flex-shrink: 0; /* Prevents text from squishing or wrapping */
+  color: var(--event-green);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Count Tag (Matches the same inset) */
+.count-tag {
+  background: var(--member-red);
+  padding: 2px 10px;
+  border-radius: 4px;
+  margin-right: 15px; /* Keeps it aligned with Status labels */
+  font-size: 0.7rem;
+}
+
+/* --- General Fix for all Chart Cards --- */
+.chart-card {
+  overflow: hidden; /* Prevents children from bleeding out */
+}
+
+/* --- Bottom Quick Actions Footer --- */
+.dashboard-quick-actions {
+  background: var(--card-ash);
+  height: 90px;
+  margin-bottom: 30px;
+  border-radius: 15px;
+  box-shadow: var(--deep-shadow);
+  display: flex;
+  align-items: center;
+  padding: 0 30px;
+  gap: 20px;
+  flex-shrink: 0;
+}
+
+.quick-btn {
+  background: #252525;
+  color: var(--cream-white);
+  padding: 12px 20px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: 0.3s;
+}
+
+.quick-btn:hover {
+  background: #333;
+  transform: translateY(-2px);
+}
+
+.quick-btn.event-green {
+  border: 1px solid var(--event-green);
+  color: var(--event-green);
+}
+
+.quick-btn.event-green:hover {
+  background: var(--event-green);
+  color: white;
 }
