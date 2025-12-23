@@ -209,17 +209,6 @@
   border-color: rgba(255,255,255,0.2);
 }
 
-.event-card.past .register-btn {
-  border-color: #777;
-  color: #aaa;
-  cursor: not-allowed;
-}
-
-.event-card.past .register-btn:hover {
-  background: transparent;
-  box-shadow: none;
-}
-
 /* ==================================================
    --- MODAL / GLASS POPUP ---
    ================================================== */
@@ -232,7 +221,6 @@
   justify-content: center;
   align-items: center;
   z-index: 9999;
-  animation: fadeIn 0.3s ease;
 }
 
 .event-modal-glass {
@@ -241,13 +229,12 @@
   border-radius: 16px;
   max-width: 900px;
   width: 90%;
-  max-height: 85vh;
-  overflow-y: auto;
+  max-height: 90vh;
+  overflow: hidden; /* No internal scroll */
   display: flex;
   gap: 1rem;
   padding: 1.5rem;
   position: relative;
-  animation: slideUp 0.3s ease;
 }
 
 .modal-close-btn {
@@ -266,6 +253,8 @@
   flex-direction: row;
   gap: 1.5rem;
   flex-wrap: wrap;
+  width: 100%;
+  overflow: hidden;
 }
 
 .modal-image-col img {
@@ -279,6 +268,7 @@
 .modal-details {
   flex: 1;
   color: #fff;
+  overflow: hidden; /* Prevent scrolling */
 }
 
 .modal-title {
@@ -305,24 +295,9 @@
 }
 
 .modal-description-scroll {
-  max-height: 300px;
-  overflow-y: auto;
+  overflow: hidden; /* No scroll */
   margin-bottom: 1rem;
   line-height: 1.5;
-}
-
-/* ==================================================
-   --- ANIMATIONS ---
-   ================================================== */
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes slideUp {
-  from { transform: translateY(50px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
 }
 
 /* ==================================================

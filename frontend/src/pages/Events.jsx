@@ -15,6 +15,7 @@ export default function Events() {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const navigate = useNavigate();
 
+  // Fetch events
   useEffect(() => {
     fetch("http://localhost:5000/api/events")
       .then(res => res.json())
@@ -24,6 +25,19 @@ export default function Events() {
       })
       .catch(() => setLoading(false));
   }, []);
+
+  // Lock background scroll when modal is open
+  useEffect(() => {
+    if (selectedEvent) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [selectedEvent]);
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -48,6 +62,7 @@ export default function Events() {
     };
   };
 
+  // Modal Component
   const EventModal = ({ event, onClose }) => (
     <div className="event-modal-overlay" onClick={onClose}>
       <div className="event-modal-glass" onClick={e => e.stopPropagation()}>
@@ -96,9 +111,8 @@ export default function Events() {
               <div
                 key={event.id}
                 className="event-card upcoming"
-                onClick={() => setSelectedEvent(event)}
               >
-                <div className="card-image">
+                <div className="card-image" onClick={() => setSelectedEvent(event)}>
                   <img src={getImageUrl(event.image_url)} alt={event.title} />
                   <div className="date-badge">
                     <span className="month">{month}</span>
@@ -112,6 +126,15 @@ export default function Events() {
                     <span><FaClock /> {event.time || "All Day"}</span>
                     <span><FaMapMarkerAlt /> {event.location || "TBA"}</span>
                   </div>
+
+                  {/* Register Button */}
+                  <Link
+                    to={`/events/${event.id}`}
+                    className="register-btn"
+                    onClick={e => e.stopPropagation()} // Prevent modal open when clicking button
+                  >
+                    <FaTicketAlt /> Register
+                  </Link>
                 </div>
               </div>
             );

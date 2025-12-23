@@ -3,11 +3,12 @@
   background-color: #001313; /* Dark background */
   border-top: 1px solid #004f26;
   color: #eacda3; /* Muted Text */
-  padding: 4rem 2rem 1rem;
+  padding: 4rem 2rem 2rem;
   margin-top: auto;
   font-family: 'Inter', sans-serif;
   position: relative;
-  z-index: 100; /* Forces footer above fixed backgrounds */
+  z-index: 100; /* Above background but below modals */
+  overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 .footer-content {
@@ -55,7 +56,8 @@
   flex-wrap: wrap;
 }
 
-.footer-links h3, .footer-contact h3 {
+.footer-links h3,
+.footer-contact h3 {
   color: #ffeac8;
   font-size: 1.1rem;
   margin-bottom: 1.5rem;
@@ -121,15 +123,17 @@
   filter: brightness(1.2);
 }
 
-/* Official Brand Colors */
+/* --- SOCIAL COLORS --- */
 .fb { color: #1877F2; }
+
 .insta {
   background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  color: #E1306C;
+  color: #E1306C; /* fallback */
 }
+
 .wp { color: #25D366; }
 
 /* --- BOTTOM BAR --- */
@@ -142,12 +146,15 @@
   font-size: 0.85rem;
   max-width: 1200px;
   margin: 1rem auto 0;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .footer-bottom-left {
   opacity: 0.6;
 }
 
+/* --- ADMIN BUTTON --- */
 .admin-login-btn {
   display: flex;
   align-items: center;
@@ -161,10 +168,12 @@
   transition: all 0.3s ease;
 }
 
-.admin-login-btn:hover {
+.admin-login-btn:hover,
+.admin-login-btn:focus {
   background: rgba(227, 111, 4, 0.1);
   border-color: #e36f04;
   color: #e36f04;
+  outline: none;
 }
 
 /* --- RESPONSIVENESS --- */
@@ -178,7 +187,7 @@
     justify-content: center;
     gap: 2rem;
   }
-  
+
   .social-icons {
     justify-content: center;
   }
