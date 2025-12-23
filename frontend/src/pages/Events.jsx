@@ -17,8 +17,8 @@ export default function Events() {
 
   useEffect(() => {
     fetch("http://localhost:5000/api/events")
-      .then((res) => res.json())
-      .then((data) => {
+      .then(res => res.json())
+      .then(data => {
         setEvents(data);
         setLoading(false);
       })
@@ -31,10 +31,10 @@ export default function Events() {
   const upcomingEvents = events.filter(e => new Date(e.date) >= today);
   const pastEvents = events.filter(e => new Date(e.date) < today);
 
-  const getImageUrl = (url) =>
+  const getImageUrl = url =>
     url ? (url.startsWith("http") ? url : `http://localhost:5000${url}`) : "https://placehold.co/600x400";
 
-  const formatDate = (dateStr) => {
+  const formatDate = dateStr => {
     const d = new Date(dateStr);
     return {
       month: d.toLocaleString("default", { month: "short" }),
@@ -48,44 +48,30 @@ export default function Events() {
     };
   };
 
-  /* ---------- MODAL ---------- */
-  const EventModal = ({ event }) => (
-    <div className="event-modal-overlay" onClick={() => setSelectedEvent(null)}>
-      <div className="event-modal-glass" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close-btn" onClick={() => setSelectedEvent(null)}>&times;</button>
+  const EventModal = ({ event, onClose }) => (
+    <div className="event-modal-overlay" onClick={onClose}>
+      <div className="event-modal-glass" onClick={e => e.stopPropagation()}>
+        <button className="modal-close-btn" onClick={onClose}>&times;</button>
 
         <div className="modal-content-wrapper">
+          <div className="modal-image-col">
+            <img src={getImageUrl(event.image_url)} alt={event.title} />
+          </div>
+
           <div className="modal-details">
             <h2 className="modal-title">{event.title}</h2>
 
             <div className="modal-meta-row">
-              <span className="meta-tag">
-                <FaCalendarAlt /> {formatDate(event.date).full}
-              </span>
-              {event.time && (
-                <span className="meta-tag">
-                  <FaClock /> {event.time}
-                </span>
-              )}
+              <span className="meta-tag"><FaCalendarAlt /> {formatDate(event.date).full}</span>
+              {event.time && <span className="meta-tag"><FaClock /> {event.time}</span>}
+              {event.location && <span className="meta-tag"><FaMapMarkerAlt /> {event.location}</span>}
             </div>
 
-            {event.location && (
-              <p className="modal-location">
-                <FaMapMarkerAlt /> {event.location}
-              </p>
-            )}
-
-            <div className="modal-description-scroll">
-              {event.description}
-            </div>
+            <div className="modal-description-scroll">{event.description}</div>
 
             <Link to={`/events/${event.id}`} className="register-btn red">
               <FaTicketAlt /> Register Now
             </Link>
-          </div>
-
-          <div className="modal-image-col">
-            <img src={getImageUrl(event.image_url)} alt={event.title} />
           </div>
         </div>
       </div>
@@ -102,15 +88,16 @@ export default function Events() {
 
       {/* UPCOMING */}
       <section className="events-section">
-        <h2 className="section-title">
-          <FaCalendarAlt /> Upcoming Events
-        </h2>
-
+        <h2 className="section-title"><FaCalendarAlt /> Upcoming Events</h2>
         <div className="events-grid">
           {upcomingEvents.map(event => {
             const { month, day } = formatDate(event.date);
             return (
-              <div key={event.id} className="event-card upcoming" onClick={() => setSelectedEvent(event)}>
+              <div
+                key={event.id}
+                className="event-card upcoming"
+                onClick={() => setSelectedEvent(event)}
+              >
                 <div className="card-image">
                   <img src={getImageUrl(event.image_url)} alt={event.title} />
                   <div className="date-badge">
@@ -134,10 +121,7 @@ export default function Events() {
 
       {/* PAST */}
       <section className="events-section">
-        <h2 className="section-title">
-          <FaHistory /> Past Events
-        </h2>
-
+        <h2 className="section-title"><FaHistory /> Past Events</h2>
         <div className="events-grid">
           {pastEvents.map(event => {
             const { month, day } = formatDate(event.date);
@@ -154,7 +138,6 @@ export default function Events() {
                     <span className="day">{day}</span>
                   </div>
                 </div>
-
                 <div className="card-content">
                   <h3>{event.title}</h3>
                 </div>
@@ -164,7 +147,12 @@ export default function Events() {
         </div>
       </section>
 
-      {selectedEvent && <EventModal event={selectedEvent} />}
+      {selectedEvent && (
+        <EventModal
+          event={selectedEvent}
+          onClose={() => setSelectedEvent(null)}
+        />
+      )}
     </div>
   );
 }
