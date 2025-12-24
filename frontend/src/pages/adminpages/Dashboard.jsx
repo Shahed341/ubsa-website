@@ -18,6 +18,8 @@ import Inbox from './Inbox';
 import ManageSponsors from './ManageSponsors';
 import AddEvent from './AddEvent';
 import ManageGallery from './ManageGallery';
+import CommitteeReform from './CommitteeReform'; // Newly Linked
+import SystemSettings from './SystemSettings';   // Newly Linked
 
 import '../../style/adminpages/Dashboard.css';
 
@@ -152,8 +154,10 @@ export default function Dashboard() {
             <Route path="sponsors" element={<ManageSponsors />} />
             <Route path="add-event" element={<AddEvent />} />
             <Route path="gallery" element={<ManageGallery />} />
-            <Route path="committee" element={<div className="placeholder-view">Committee Reform Module</div>} />
-            <Route path="settings" element={<div className="placeholder-view">System Settings Module</div>} />
+            
+            {/* FULLY LINKED MODULES */}
+            <Route path="committee" element={<CommitteeReform />} />
+            <Route path="settings" element={<SystemSettings />} />
           </Routes>
         </div>
       </main>
@@ -161,6 +165,10 @@ export default function Dashboard() {
   );
 }
 
+/**
+ * OverviewGrid Component
+ * Renders the main dashboard statistics and charts
+ */
 function OverviewGrid({ stats }) {
   const memberGrowthData = [
     { month: 'Oct', count: 45 }, { month: 'Nov', count: 120 }, { month: 'Dec', count: 210 }, { month: 'Jan', count: 350 }

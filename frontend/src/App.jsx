@@ -19,21 +19,21 @@ import Join from './pages/Join';
 import Login from './pages/adminpages/Login';
 import Dashboard from './pages/adminpages/Dashboard';
 
+// Sub-components are now handled inside Dashboard via <Outlet />
 import MembersPage from './pages/adminpages/MembersPage';
 import Inbox from './pages/adminpages/Inbox';
 import ManageSponsors from './pages/adminpages/ManageSponsors';
 import AddEvent from './pages/adminpages/AddEvent';
 import ManageGallery from './pages/adminpages/ManageGallery';
+import CommitteeReform from './pages/adminpages/CommitteeReform';
+import SystemSettings from './pages/adminpages/SystemSettings';
 
 function App() {
   const location = useLocation();
-  
-  // Logic: Hides main Navbar/Footer from the Admin portal entirely
   const isAdminRoute = location.pathname.startsWith('/admin');
 
   return (
     <>
-      {/* Show Navbar only on public site */}
       {!isAdminRoute && <Navbar />}
       
       <Routes>
@@ -48,34 +48,37 @@ function App() {
         
         {/* --- ADMIN AUTH --- */}
         <Route path="/admin/login" element={<Login />} />
+        
+        {/* Redirect base /admin to dashboard */}
         <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
 
         {/* --- PROTECTED ADMIN SHELL --- */}
         <Route element={<ProtectedAdminRoute />}>
+          {/* IMPORTANT: We use "/*" here if the Dashboard has internal Routes, 
+              OR we nest them here and use <Outlet /> in Dashboard.jsx.
+              We will use the Nested approach for cleaner code.
+          */}
           <Route path="/admin/dashboard" element={<Dashboard />}>
-            {/* NESTED ROUTES: 
-               These render inside the <Outlet /> of Dashboard.jsx 
-            */}
-            <Route index element={<Navigate to="overview" replace />} />
+            {/* These paths are relative to /admin/dashboard */}
             <Route path="members" element={<MembersPage />} />
             <Route path="inbox" element={<Inbox />} />
             <Route path="sponsors" element={<ManageSponsors />} />
             <Route path="add-event" element={<AddEvent />} />
             <Route path="gallery" element={<ManageGallery />} />
+            <Route path="committee" element={<CommitteeReform />} />
+            <Route path="settings" element={<SystemSettings />} />
           </Route>
         </Route>
 
-        {/* --- 404 CATCH-ALL --- */}
+        {/* --- 404 --- */}
         <Route path="*" element={
           <div style={{ textAlign: 'center', padding: '150px 20px', color: 'white', background: '#000', minHeight: '100vh' }}>
             <h1>404 - Page Not Found</h1>
-            <p>The page you are looking for does not exist.</p>
             <a href="/" style={{ color: '#FF8C00', fontWeight: 'bold' }}>Return Home</a>
           </div>
         } />
       </Routes>
 
-      {/* Show Footer only on public site */}
       {!isAdminRoute && <Footer />}
     </>
   );

@@ -1,0 +1,119 @@
+.committee-integrated-view {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    height: 100%;
+    animation: fadeIn 0.5s ease;
+}
+
+.committee-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 15px;
+}
+
+.add-exec-btn {
+    background: var(--event-green);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.committee-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    overflow-y: auto;
+    padding-bottom: 20px;
+}
+
+.exec-card {
+    background: #1A1A1A;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: 0.3s;
+}
+
+.exec-card:hover {
+    border-color: var(--tiger-orange);
+    transform: translateY(-5px);
+}
+
+.exec-avatar {
+    width: 60px;
+    height: 60px;
+    background: #000;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--tiger-orange);
+    font-size: 1.5rem;
+    border: 1px solid #333;
+}
+
+.exec-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.exec-info h4 {
+    margin: 0;
+    color: #fff;
+    font-size: 1.1rem;
+}
+
+.role-input {
+    background: transparent;
+    border: none;
+    border-bottom: 1.5px solid #333;
+    color: var(--tiger-orange);
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 2px 0;
+    width: 100%;
+}
+
+.role-input:focus {
+    outline: none;
+    border-color: var(--tiger-orange);
+}
+
+.exec-email {
+    font-size: 0.75rem;
+    color: #666;
+}
+
+.exec-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.save-exec-btn, .remove-exec-btn {
+    background: #121212;
+    border: 1px solid #333;
+    color: #fff;
+    width: 35px;
+    height: 35px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.save-exec-btn:hover { color: var(--event-green); border-color: var(--event-green); }
+.remove-exec-btn:hover { color: var(--member-red); border-color: var(--member-red); }
