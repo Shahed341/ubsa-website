@@ -1,19 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { 
-  FaHandshake, FaArrowLeft, FaCheck, FaTrash, 
+  FaHandshake, FaCheck, FaTrash, 
   FaInfoCircle, FaMapMarkerAlt, FaSearch, FaTimes, FaEnvelope 
 } from 'react-icons/fa';
-import '../../style/adminpages/Dashboard.css';
 import '../../style/adminpages/ManageSponsors.css';
 
 export default function ManageSponsors() {
-  const navigate = useNavigate();
   const [apps, setApps] = useState([]);
   const [filteredApps, setFilteredApps] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
-  const [selectedApp, setSelectedApp] = useState(null); // For Detail Modal
+  const [selectedApp, setSelectedApp] = useState(null);
 
   useEffect(() => { fetchApps(); }, []);
 
@@ -29,7 +26,7 @@ export default function ManageSponsors() {
     try {
       const res = await fetch('http://localhost:5000/api/sponsors/applications');
       const data = await res.json();
-      setApps(data);
+      setApps(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error("Fetch Error:", err);
     } finally {
@@ -45,9 +42,6 @@ export default function ManageSponsors() {
         alert("Sponsor approved successfully!");
         setSelectedApp(null);
         fetchApps();
-      } else {
-        const error = await res.json();
-        alert("Error: " + error.message);
       }
     } catch (err) { alert("Server connection error."); }
   };
@@ -63,72 +57,37 @@ export default function ManageSponsors() {
     } catch (err) { alert("Delete failed"); }
   };
 
-  // --- DETAIL MODAL COMPONENT ---
-  const DetailModal = ({ app, onClose }) => (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="glass detail-card-modal" onClick={e => e.stopPropagation()}>
-        <button className="close-btn" onClick={onClose}><FaTimes /></button>
-        <div className="modal-header">
-          <span className={`dept-tag tier-${app.tier?.toLowerCase()}`}>{app.tier} Tier</span>
-          <h2>{app.business_name}</h2>
-          <p><FaMapMarkerAlt /> {app.location}</p>
-        </div>
-        <hr className="divider" />
-        <div className="modal-body">
-          <div className="info-section">
-            <h4><FaInfoCircle /> Business Description</h4>
-            <p>{app.description || "No description provided."}</p>
-          </div>
-          <div className="info-grid">
-            <div>
-              <label>Contact Email</label>
-              <p><FaEnvelope /> {app.email}</p>
-            </div>
-            <div>
-              <label>Payment Method</label>
-              <p>{app.payment_type}</p>
-            </div>
-          </div>
-        </div>
-        <div className="modal-footer">
-          {app.status !== 'Approved' && (
-            <button className="verify-btn-large" onClick={() => handleApprove(app.id)}>
-              <FaCheck /> Approve & Publish
-            </button>
-          )}
-          <button className="delete-btn-text" onClick={() => handleDelete(app.id)}>
-            <FaTrash /> Delete Application
-          </button>
-        </div>
-      </div>
-    </div>
-  );
+  if (loading) return <div className="admin-loading">Loading Sponsor Data...</div>;
 
   return (
-    <div className="dashboard-container">
+    <div className="sponsors-integrated-view">
+      {/* HEADER SECTION */}
       <div className="dashboard-header">
         <div className="header-text">
           <h1><FaHandshake className="header-icon-main" /> Sponsor <span className="text-highlight">Portal</span></h1>
           <p>Review partnership inquiries and manage active sponsors.</p>
         </div>
-        <button className="logout-pill" onClick={() => navigate('/admin/dashboard')}>
-          <FaArrowLeft /> Dashboard
-        </button>
       </div>
 
-      <div className="action-bar">
-        <div className="search-box">
-          <FaSearch />
-          <input 
-            type="text" 
-            placeholder="Search business name or email..." 
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+      {/* TOP ACTION BAR */}
+      <div className="sponsors-top-grid">
+        <div className="glass-card search-filter-card">
+          <h3><FaSearch /> Filter Applications</h3>
+          <div className="search-wrapper">
+            <FaSearch className="search-icon" />
+            <input 
+              type="text" 
+              placeholder="Search business name or email..." 
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+          <p className="search-hint">Tip: Use the info button to view business descriptions and payment methods.</p>
         </div>
       </div>
 
-      <div className="glass table-wrapper">
+      {/* TABLE SECTION */}
+      <div className="table-wrapper">
         <table className="admin-table">
           <thead>
             <tr>
@@ -136,7 +95,7 @@ export default function ManageSponsors() {
               <th>Location</th>
               <th>Tier</th>
               <th>Status</th>
-              <th style={{textAlign: 'center'}}>Actions</th>
+              <th style={{ textAlign: 'center' }}>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -176,15 +135,48 @@ export default function ManageSponsors() {
             ))}
           </tbody>
         </table>
-        
-        {!loading && filteredApps.length === 0 && (
-          <div className="empty-state">
-            <p>No applications found.</p>
-          </div>
-        )}
+        {filteredApps.length === 0 && <div className="empty-state">No applications found.</div>}
       </div>
 
-      {selectedApp && <DetailModal app={selectedApp} onClose={() => setSelectedApp(null)} />}
+      {/* MODAL SYSTEM */}
+      {selectedApp && (
+        <div className="modal-overlay" onClick={() => setSelectedApp(null)}>
+          <div className="detail-card-modal glass-card" onClick={e => e.stopPropagation()}>
+            <button className="close-btn" onClick={() => setSelectedApp(null)}><FaTimes /></button>
+            <div className="modal-header">
+              <span className={`dept-tag tier-${selectedApp.tier?.toLowerCase()}`}>{selectedApp.tier} Tier</span>
+              <h2>{selectedApp.business_name}</h2>
+              <p><FaMapMarkerAlt /> {selectedApp.location}</p>
+            </div>
+            <div className="modal-body">
+              <div className="info-section">
+                <h4><FaInfoCircle /> Description</h4>
+                <p>{selectedApp.description || "No description provided."}</p>
+              </div>
+              <div className="info-grid">
+                <div className="info-item">
+                  <label>Contact</label>
+                  <p><FaEnvelope /> {selectedApp.email}</p>
+                </div>
+                <div className="info-item">
+                  <label>Method</label>
+                  <p>{selectedApp.payment_type}</p>
+                </div>
+              </div>
+            </div>
+            <div className="modal-footer">
+              {selectedApp.status !== 'Approved' && (
+                <button className="broadcast-action-btn" onClick={() => handleApprove(selectedApp.id)}>
+                  <FaCheck /> Approve & Publish
+                </button>
+              )}
+              <button className="delete-row-btn" onClick={() => handleDelete(selectedApp.id)}>
+                <FaTrash /> Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

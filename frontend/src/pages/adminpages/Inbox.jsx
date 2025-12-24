@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { FaReply, FaTrash, FaEnvelopeOpenText, FaArrowLeft, FaPaperPlane } from 'react-icons/fa';
-import '../../style/adminpages/Dashboard.css';
+import { FaReply, FaTrash, FaEnvelopeOpenText, FaPaperPlane, FaTimes, FaUser } from 'react-icons/fa';
 import '../../style/adminpages/Inbox.css';
 
 export default function Inbox() {
-  const navigate = useNavigate();
   const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [replyModal, setReplyModal] = useState({ open: false, msg: null, text: '' });
 
   useEffect(() => {
@@ -14,9 +12,15 @@ export default function Inbox() {
   }, []);
 
   const fetchMessages = async () => {
-    const res = await fetch('http://localhost:5000/api/contact-messages');
-    const data = await res.json();
-    setMessages(data);
+    try {
+      const res = await fetch('http://localhost:5000/api/contact-messages');
+      const data = await res.json();
+      setMessages(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error("Fetch Error:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleReply = async () => {
@@ -44,55 +48,98 @@ export default function Inbox() {
     }
   };
 
+  const handleDelete = async (id) => {
+    if (!window.confirm("Permanently delete this message?")) return;
+    try {
+      const res = await fetch(`http://localhost:5000/api/contact-messages/${id}`, { method: 'DELETE' });
+      if (res.ok) fetchMessages();
+    } catch (err) {
+      alert("Delete failed");
+    }
+  };
+
+  if (loading) return <div className="admin-loading">Accessing Secure Inbox...</div>;
+
   return (
-    <div className="dashboard-container">
-      <div className="dashboard-header">
+    <div className="inbox-integrated-view">
+      {/* HEADER SECTION */}
+      <div className="inbox-page-header">
         <div className="header-text">
-          <h1><FaEnvelopeOpenText className="header-icon-main" /> Member <span className="text-highlight">Inbox</span></h1>
+          <h2><FaEnvelopeOpenText /> Member Inbox</h2>
           <p>Read and respond to inquiries from the website contact form.</p>
         </div>
-        <button className="logout-pill" style={{background: 'rgba(255,255,255,0.1)', color: 'white'}} onClick={() => navigate('/admin/dashboard')}>
-          <FaArrowLeft /> Dashboard
-        </button>
       </div>
 
-      <div className="glass inbox-wrapper">
+      {/* MESSAGE VIEWPORT (Internal Scroll) */}
+      <div className="inbox-table-viewport">
         <div className="message-list">
           {messages.map((msg) => (
             <div key={msg.id} className={`message-card ${msg.status}`}>
-              <div className="msg-info">
-                <span className={`status-dot ${msg.status}`}></span>
-                <h4>{msg.subject || "No Subject"}</h4>
-                <p>From: <strong>{msg.name}</strong> ({msg.email})</p>
-                <div className="msg-body">{msg.message}</div>
+              <div className="msg-main-content">
+                <div className="msg-header-row">
+                   <div className="user-info">
+                      <div className="avatar-circle"><FaUser /></div>
+                      <div>
+                         <h4>{msg.subject || "General Inquiry"}</h4>
+                         <span className="sender-meta">From: <strong>{msg.name}</strong> • {msg.email}</span>
+                      </div>
+                   </div>
+                   <span className={`status-pill ${msg.status}`}>{msg.status}</span>
+                </div>
+                
+                <div className="msg-body-container">
+                  {msg.message}
+                </div>
               </div>
-              <div className="msg-actions">
-                {msg.status === 'unread' && (
-                  <button className="reply-btn" onClick={() => setReplyModal({ open: true, msg, text: '' })}>
-                    <FaReply /> Reply
+
+              <div className="msg-actions-sidebar">
+                {msg.status !== 'replied' && (
+                  <button className="reply-btn-action" onClick={() => setReplyModal({ open: true, msg, text: '' })}>
+                    <FaReply />
                   </button>
                 )}
-                <button className="delete-btn-icon"><FaTrash /></button>
+                <button className="delete-btn-action" onClick={() => handleDelete(msg.id)}>
+                  <FaTrash />
+                </button>
               </div>
             </div>
           ))}
-          {messages.length === 0 && <p className="empty-msg">No messages found.</p>}
+
+          {messages.length === 0 && (
+            <div className="empty-inbox">
+              <FaEnvelopeOpenText className="empty-icon" />
+              <p>Your inbox is clear.</p>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* REPLY MODAL */}
+      {/* REPLY MODAL SYSTEM */}
       {replyModal.open && (
-        <div className="modal-overlay">
-          <div className="glass modal-content">
-            <h3>Reply to {replyModal.msg.name}</h3>
+        <div className="modal-overlay" onClick={() => setReplyModal({ open: false, msg: null, text: '' })}>
+          <div className="inbox-modal-card" onClick={e => e.stopPropagation()}>
+            <button className="modal-close-icon" onClick={() => setReplyModal({ open: false, msg: null, text: '' })}>
+              <FaTimes />
+            </button>
+            
+            <div className="modal-top">
+               <span className="reply-label">Replying to inquiry</span>
+               <h3>{replyModal.msg.subject}</h3>
+               <p className="target-email">To: {replyModal.msg.email}</p>
+            </div>
+
             <textarea 
-              placeholder="Type your response here..."
+              className="reply-textarea"
+              placeholder="Write your professional response..."
               value={replyModal.text}
               onChange={(e) => setReplyModal({...replyModal, text: e.target.value})}
             />
-            <div className="modal-btns">
-              <button onClick={() => setReplyModal({ open: false, msg: null, text: '' })}>Cancel</button>
-              <button className="send-btn" onClick={handleReply}><FaPaperPlane /> Send Email</button>
+
+            <div className="modal-footer-actions">
+              <button className="cancel-btn" onClick={() => setReplyModal({ open: false, msg: null, text: '' })}>Discard</button>
+              <button className="send-reply-btn" onClick={handleReply}>
+                <FaPaperPlane /> Send Reply
+              </button>
             </div>
           </div>
         </div>

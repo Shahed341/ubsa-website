@@ -1,37 +1,141 @@
-.inbox-wrapper { padding: 2rem; }
+/* --- 1. COMPONENT INTEGRATION --- */
+.inbox-integrated-view {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 20px;
+    animation: fadeIn 0.4s ease-out;
+}
 
-.message-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 15px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
+/* --- 2. HEADER --- */
+.inbox-page-header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    flex-shrink: 0;
+}
+
+.inbox-page-header h2 {
+    color: #FF8C00; /* Tiger Orange */
+    margin: 0;
+    font-size: 1.6rem;
+    font-weight: 900;
+}
+
+/* --- 3. MESSAGE LIST (INTERNAL SCROLL) --- */
+.inbox-table-viewport {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+    padding-right: 10px;
+}
+
+.message-card {
+    background: #1A1A1A; /* Dark Ash */
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    margin-bottom: 15px;
+    display: flex;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.message-card.unread {
+    border-left: 5px solid #FF8C00;
+}
+
+/* --- 4. THE DARK MESSAGE BOX --- */
+.msg-body-dark {
+    background: #000000; /* True Black for contrast */
+    color: #F5F5F3;      /* Cream White text */
+    padding: 15px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    border: 1px solid #222;
+    margin-top: 15px;
+}
+
+.sender-meta {
+    font-size: 0.8rem;
+    color: #999;
+}
+
+.status-pill {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    font-weight: 900;
+    padding: 4px 10px;
+    border-radius: 50px;
+}
+
+.status-pill.unread { background: rgba(255, 140, 0, 0.15); color: #FF8C00; }
+.status-pill.replied { background: rgba(46, 204, 113, 0.15); color: #2ECC71; }
+
+/* --- 5. THE DARK REPLY TEXTAREA --- */
+.inbox-modal-card {
+    width: 90%;
+    max-width: 550px;
+    padding: 35px;
+    background: #1A1A1A; /* Dark Ash */
+    border: 1px solid #FF8C00;
+    border-radius: 20px;
+    position: relative;
+    box-shadow: 0 0 50px rgba(0,0,0,0.8);
+}
+
+.reply-textarea {
+    width: 100%;
+    height: 220px;
+    background: #000000; /* True Black background */
+    color: #F5F5F3;      /* Cream White text */
+    border: 2px solid #333;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+    resize: none;
+    font-family: inherit;
+    font-size: 1rem;
+    box-sizing: border-box;
     transition: 0.3s;
 }
 
-.message-card.replied { opacity: 0.6; border-left: 4px solid #4caf50; }
-.message-card.unread { border-left: 4px solid #e36f04; }
-
-.status-dot {
-    width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 10px;
-}
-.status-dot.unread { background: #e36f04; box-shadow: 0 0 10px #e36f04; }
-.status-dot.replied { background: #4caf50; }
-
-.msg-info h4 { margin: 0 0 5px 0; color: #e36f04; font-size: 1.2rem; }
-.msg-info p { font-size: 0.85rem; opacity: 0.7; margin-bottom: 1rem; }
-.msg-body { line-height: 1.6; color: #eee; }
-
-.modal-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 3000;
+/* Focused state for Reply Box */
+.reply-textarea:focus {
+    border-color: #FF8C00; /* Tiger Orange glow */
+    outline: none;
+    box-shadow: 0 0 15px rgba(255, 140, 0, 0.2);
 }
 
-.modal-content { padding: 2rem; width: 500px; text-align: left; }
-.modal-content textarea {
-    width: 100%; height: 200px; background: rgba(0,0,0,0.2); border: 1px solid #444;
-    border-radius: 10px; color: white; padding: 1rem; margin-top: 1rem; outline: none;
+/* --- 6. BUTTONS --- */
+.modal-footer-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
 }
-.modal-btns { display: flex; justify-content: flex-end; gap: 10px; margin-top: 1rem; }
+
+.send-reply-btn {
+    background: #000;
+    color: #FF8C00;
+    border: 2px solid #FF8C00;
+    padding: 12px 25px;
+    border-radius: 12px;
+    font-weight: 900;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.send-reply-btn:hover {
+    background: #FF8C00;
+    color: #000;
+}
+
+.cancel-btn {
+    background: transparent;
+    color: #777;
+    border: none;
+    font-weight: 700;
+    cursor: pointer;
+}
