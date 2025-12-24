@@ -38,7 +38,7 @@ export default function MembersPage() {
     }
   };
 
-  // FIX: Memoize Department Data to ensure PieChart renders correctly
+  // Memoize Department Data for performance and Recharts stability
   const deptData = useMemo(() => {
     if (!members.length) return [];
     const counts = {};
@@ -64,7 +64,7 @@ export default function MembersPage() {
 
   const handleBroadcast = () => {
     if (selectedEmails.length === 0) return alert("Please select at least one member.");
-    if (window.confirm(`Launch broadcast sequence to ${selectedEmails.length} members?`)) {
+    if (window.confirm(`Launch broadcast to ${selectedEmails.length} members?`)) {
       alert(`Broadcast successful for: ${selectedEmails.length} recipients.`);
       setSelectedEmails([]);
     }
@@ -74,12 +74,14 @@ export default function MembersPage() {
 
   return (
     <div className="members-integrated-view">
-      {/* 1. HEADER SECTION */}
+      {/* 1. HEADER SECTION - Compact and Split */}
       <div className="members-page-header">
         <div className="header-text">
           <h2><FaUsers /> Member Directory</h2>
           <p>UBSA Database Session 2025-2026</p>
         </div>
+        
+        {/* COMPACT TOP-RIGHT BUTTON */}
         <button className="broadcast-action-btn" onClick={handleBroadcast}>
           <FaEnvelope /> Broadcast ({selectedEmails.length})
         </button>
@@ -87,7 +89,6 @@ export default function MembersPage() {
 
       {/* 2. TOP GRID: STATS & SEARCH */}
       <div className="members-top-grid">
-        {/* Department Chart Card */}
         <div className="glass-card chart-container-card">
           <h3 className="chart-title"><FaChartPie /> Department Distribution</h3>
           <div className="integrated-pie-container" style={{ height: '220px' }}>
@@ -97,7 +98,7 @@ export default function MembersPage() {
                   <Pie
                     data={deptData}
                     innerRadius={60}
-                    outerRadius={85}
+                    outerRadius={80}
                     paddingAngle={5}
                     dataKey="value"
                     stroke="none"
@@ -108,9 +109,9 @@ export default function MembersPage() {
                   </Pie>
                   <Tooltip 
                     contentStyle={{ background: '#121212', border: '1px solid #FF8C00', borderRadius: '10px' }}
-                    itemStyle={{ color: '#fff', fontSize: '12px' }}
+                    itemStyle={{ color: '#fff', fontSize: '11px' }}
                   />
-                  <Legend verticalAlign="bottom" iconType="circle" />
+                  <Legend verticalAlign="bottom" iconType="circle" wrapperStyle={{ fontSize: '11px' }} />
                 </PieChart>
               </ResponsiveContainer>
             ) : (
@@ -119,7 +120,6 @@ export default function MembersPage() {
           </div>
         </div>
 
-        {/* Quick Search Card */}
         <div className="glass-card search-filter-card">
           <h3><FaSearch /> Search Filters</h3>
           <div className="search-wrapper">
@@ -132,35 +132,33 @@ export default function MembersPage() {
             />
           </div>
           <div className="search-hint">
-             Total Members Found: <strong>{filteredMembers.length}</strong>
+             Found: <strong>{filteredMembers.length} Members</strong>
           </div>
         </div>
       </div>
 
-      {/* 3. TABLE SECTION: INTERNAL SCROLL ONLY */}
+      {/* 3. TABLE SECTION - Internal Scroll */}
       <div className="members-table-viewport">
         <table className="admin-table">
           <thead>
             <tr>
-              <th style={{ width: '60px' }}>Select</th>
+              <th style={{ width: '50px' }}>Select</th>
               <th>Full Name</th>
               <th>Student ID</th>
               <th>Department</th>
-              <th style={{ textAlign: 'center' }}>Management</th>
+              <th style={{ textAlign: 'center' }}>Action</th>
             </tr>
           </thead>
           <tbody>
             {filteredMembers.map(m => (
               <tr key={m.id} className={selectedEmails.includes(m.email) ? 'selected-row' : ''}>
                 <td>
-                  <div className="checkbox-wrapper">
-                    <input
-                      type="checkbox"
-                      className="member-checkbox"
-                      checked={selectedEmails.includes(m.email)}
-                      onChange={() => toggleSelect(m.email)}
-                    />
-                  </div>
+                  <input
+                    type="checkbox"
+                    className="member-checkbox"
+                    checked={selectedEmails.includes(m.email)}
+                    onChange={() => toggleSelect(m.email)}
+                  />
                 </td>
                 <td className="member-name-cell">{m.first_name} {m.last_name}</td>
                 <td><code className="id-code">{m.student_id}</code></td>

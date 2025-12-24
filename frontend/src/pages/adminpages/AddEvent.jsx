@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaPlusCircle, FaCamera, FaTrash, FaCheckCircle } from 'react-icons/fa';
 import '../../style/adminpages/AddEvent.css'; 
 
@@ -15,21 +15,26 @@ export default function AddEvent() {
   const [previewUrl, setPreviewUrl] = useState(null);
   const [message, setMessage] = useState('');
 
-  // Handle Text and Select Inputs
+  // Memory Cleanup for Image Previews
+  useEffect(() => {
+    return () => {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+    };
+  }, [previewUrl]);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Handle File Selection and Generate Preview
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      if (previewUrl) URL.revokeObjectURL(previewUrl); 
       setImageFile(file);
       setPreviewUrl(URL.createObjectURL(file));
     }
   };
 
-  // Clear Selected Image
   const removeImage = () => {
     setImageFile(null);
     setPreviewUrl(null);
@@ -37,7 +42,6 @@ export default function AddEvent() {
     if (input) input.value = '';
   };
 
-  // Form Submission Logic
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage('Processing...');
@@ -67,23 +71,21 @@ export default function AddEvent() {
 
   return (
     <div className="add-event-integrated-view">
-      {/* 1. COMPACT DASHBOARD HEADER */}
+      {/* COMPACT HEADER */}
       <div className="event-page-header">
         <h2><FaPlusCircle /> Create New Event</h2>
       </div>
 
-      {/* 2. FEEDBACK MESSAGE */}
       {message && (
         <div className="status-msg-mini">
           <FaCheckCircle /> {message}
         </div>
       )}
 
-      {/* 3. MAIN FORM CARD */}
       <div className="event-form-card">
         <form onSubmit={handleSubmit} className="event-form">
           
-          {/* FULL WIDTH TITLE */}
+          {/* TITLE INPUT */}
           <div className="input-group">
             <label>Event Title *</label>
             <input 
@@ -97,6 +99,7 @@ export default function AddEvent() {
           </div>
 
           {/* DYNAMIC TRI-COLUMN ROW: Date, Time, and Type */}
+          
           <div className="form-row-triple">
             <div className="field-block">
               <label>Date *</label>
@@ -115,52 +118,52 @@ export default function AddEvent() {
             </div>
           </div>
 
-          {/* FULL WIDTH LOCATION */}
+          {/* LOCATION INPUT */}
           <div className="input-group">
             <label>Location / Venue</label>
             <input 
               type="text" 
               name="location" 
-              placeholder="e.g. Grand Ballroom or Zoom Link" 
+              placeholder="Venue or Link" 
               value={formData.location} 
               onChange={handleChange} 
             />
           </div>
 
-          {/* COMPRESSED DESCRIPTION */}
+          {/* DESCRIPTION (TALL FIELD) */}
           <div className="input-group">
-            <label>Short Description</label>
+            <label>Description</label>
             <textarea 
               name="description" 
-              placeholder="Briefly describe the event purpose..."
+              placeholder="Brief details..."
               value={formData.description} 
               onChange={handleChange}
             ></textarea>
           </div>
 
-          {/* GALLERY-STYLE UPLOAD COMPONENT */}
+          {/* GALLERY-STYLE DASHED UPLOAD */}
           <div className="file-upload-container">
-            <label className="input-label-mini">Event Poster / Banner</label>
+            <label className="input-label-mini">Event Banner</label>
             <input type="file" id="event-photo" accept="image/*" onChange={handleFileChange} hidden />
             
             {!previewUrl ? (
               <label htmlFor="event-photo" className="file-drop-area-mini">
                 <FaCamera /> 
-                <span>Select from Media Gallery</span>
+                <span>Select Event Image</span>
               </label>
             ) : (
               <div className="image-preview-wrapper-mini">
                 <img src={previewUrl} alt="Preview" />
                 <button type="button" className="remove-img-btn-mini" onClick={removeImage}>
-                  <FaTrash /> Remove Photo
+                  <FaTrash /> Remove
                 </button>
               </div>
             )}
           </div>
 
-          {/* FIXED BOTTOM ACTION BUTTON */}
+          {/* COMPACT DEPLOY BUTTON */}
           <button type="submit" className="btn-submit-event-compact">
-            Deploy Event to Live Site
+            Publish Event
           </button>
         </form>
       </div>

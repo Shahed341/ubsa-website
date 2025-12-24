@@ -5,6 +5,7 @@
     height: 100%; 
     gap: 20px;
     animation: fadeIn 0.4s ease-out;
+    overflow: hidden; /* Prevents outer scroll */
 }
 
 @keyframes fadeIn {
@@ -12,11 +13,11 @@
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* --- 2. HEADER SECTION (PINNED TO TOP RIGHT) --- */
+/* --- 2. HEADER SECTION (PINNED SPLIT) --- */
 .members-page-header {
     display: flex;
-    justify-content: space-between; /* Pushes Text Left, Button Right */
-    align-items: center;            /* Vertical center alignment */
+    justify-content: space-between; /* Pushes text left, button right */
+    align-items: center;            /* Centers button vertically with title */
     padding-bottom: 15px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     flex-shrink: 0;
@@ -28,89 +29,121 @@
     font-size: 1.6rem;
     font-weight: 900;
     text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
 .header-text p {
-    margin: 5px 0 0 0;
+    margin: 4px 0 0 0;
     color: var(--text-muted);
     font-size: 0.85rem;
 }
 
-/* --- SMALLER TOP-RIGHT BROADCAST BUTTON --- */
+/* --- 3. COMPACT BROADCAST BUTTON --- */
 .broadcast-action-btn {
-    background: #000000;         /* Contrast Black */
-    color: #FF8C00;              /* Tiger Orange */
-    border: 2px solid #FF8C00;
-    padding: 8px 18px;           /* Reduced padding to make it smaller */
-    border-radius: 10px;         /* Standard rounded corners */
-    font-size: 0.75rem;          /* Smaller font size */
+    /* Dynamics */
+    display: inline-flex;      /* Only takes up content width */
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    
+    /* Small Size */
+    padding: 6px 16px;         /* Tight vertical/horizontal padding */
+    height: 36px;              /* Compact fixed height */
+    min-width: 120px;
+    
+    /* Styling */
+    background: #000000;
+    color: var(--tiger-orange);
+    border: 1.5px solid var(--tiger-orange);
+    border-radius: 8px;
+    
+    /* Typography */
+    font-size: 0.75rem;
     font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;       /* Prevents text from breaking into 2 lines */
+    
     cursor: pointer;
     transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
 }
 
 .broadcast-action-btn:hover {
-    background: #FF8C00; 
+    background: var(--tiger-orange);
     color: #000000;
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(255, 140, 0, 0.3);
 }
 
-.broadcast-action-btn svg {
-    font-size: 0.9rem;
-}
-
-/* --- 3. TOP GRID (Chart & Search) --- */
+/* --- 4. TOP GRID (Chart & Search) --- */
 .members-top-grid {
     display: grid;
     grid-template-columns: 1.2fr 0.8fr;
-    gap: 25px;
+    gap: 20px;
     flex-shrink: 0;
 }
 
 .glass-card {
-    background: #1A1A1A; 
+    background: #1A1A1A; /* Dark Ash */
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 20px;
-    padding: 25px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    padding: 20px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
     display: flex;
     flex-direction: column;
 }
 
-/* --- 4. SEARCH SECTION --- */
+.chart-title {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* --- 5. SEARCH ENGINE (HIGH CONTRAST) --- */
 .search-filter-card h3 {
-    color: #FF8C00; 
+    color: var(--tiger-orange);
     font-size: 1.1rem;
     font-weight: 800;
-    margin: 0 0 15px 0;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    margin-bottom: 12px;
 }
 
 .search-wrapper {
     position: relative;
     width: 100%;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
 }
 
 .search-wrapper input {
     width: 100%;
-    padding: 15px 15px 15px 50px;
-    background: #121212; 
+    height: 48px;
+    padding: 0 15px 0 45px;
+    background: #121212;
     border: 2px solid #333333;
     border-radius: 12px;
-    color: #F5F5F3; 
-    font-size: 1rem;
+    color: #F5F5F3;
+    font-size: 0.95rem;
     transition: 0.4s;
 }
 
-/* Focus State: Input turns White with Black Text */
+.search-wrapper .search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--tiger-orange);
+    font-size: 1rem;
+    z-index: 2;
+}
+
+/* High Contrast Focus State */
 .search-wrapper input:focus {
     background: #FFFFFF; 
     color: #000000;      
@@ -118,40 +151,36 @@
     outline: none;
 }
 
-.search-wrapper .search-icon {
-    position: absolute;
-    left: 18px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #FF8C00; 
-    font-size: 1.2rem;
-    z-index: 2;
-}
-
 .search-wrapper input:focus + .search-icon {
     color: #000000; 
 }
 
-/* TIP TEXT VISIBILITY */
 .search-hint {
-    font-size: 0.85rem;
-    color: #FFFFFF; 
-    font-weight: 600;
-    background: rgba(255, 140, 0, 0.15); 
+    font-size: 0.75rem;
+    color: #FFFFFF;
+    font-weight: 700;
+    background: rgba(255, 140, 0, 0.15);
     padding: 8px 12px;
     border-radius: 8px;
-    border-left: 3px solid #FF8C00;
+    border-left: 3px solid var(--tiger-orange);
 }
 
-/* --- 5. DIRECTORY TABLE (INTERNAL SCROLL) --- */
+/* --- 6. DIRECTORY TABLE (FIXED SCROLL) --- */
 .members-table-viewport {
-    flex: 1; 
+    flex: 1; /* Fills remaining space */
     background: #1A1A1A; 
     border-radius: 20px;
     border: 1px solid rgba(255, 255, 255, 0.05);
-    overflow-y: auto;
+    overflow-y: auto; /* Internal scroll only */
     min-height: 0;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Dashboard Scrollbar */
+.members-table-viewport::-webkit-scrollbar { width: 6px; }
+.members-table-viewport::-webkit-scrollbar-thumb { 
+    background: #333; 
+    border-radius: 10px; 
 }
 
 .admin-table {
@@ -163,81 +192,64 @@
     position: sticky;
     top: 0;
     background: #121212; 
-    padding: 18px 25px;
+    padding: 15px 20px;
     text-align: left;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     text-transform: uppercase;
-    color: #999999;
-    letter-spacing: 2px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
     z-index: 10;
+    border-bottom: 1px solid var(--border-subtle);
 }
 
 .admin-table td {
-    padding: 16px 25px;
+    padding: 12px 20px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-    color: #F5F5F3; 
+    font-size: 0.9rem;
+}
+
+.admin-table tr:hover {
+    background: rgba(255, 140, 0, 0.03); 
+}
+
+.selected-row {
+    background: rgba(255, 140, 0, 0.08) !important;
+}
+
+/* --- 7. DATA TAGS --- */
+.dept-tag {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    color: var(--sponsor-orange);
+    border: 1px solid rgba(243, 156, 18, 0.2);
 }
 
 .id-code {
-    color: #FF8C00; 
+    color: var(--tiger-orange); 
     font-family: 'JetBrains Mono', monospace;
     font-weight: 700;
 }
 
-.dept-tag {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 5px 12px;
-    border-radius: 8px;
-    font-size: 0.8rem;
-    color: #F39C12; 
-    border: 1px solid rgba(243, 156, 18, 0.2);
-}/* --- COMPACT TOP-RIGHT BROADCAST BUTTON --- */
-.broadcast-action-btn {
-    /* Layout */
-    display: inline-flex;      /* Only takes up width of content */
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    
-    /* Dimensions */
-    padding: 6px 14px;         /* Very tight padding */
-    min-width: 100px;          /* Prevents it from being too tiny */
-    height: 34px;              /* Fixed compact height */
-    
-    /* Style */
-    background: #000000;
-    color: #FF8C00;
-    border: 1.5px solid #FF8C00; /* Thinner border for small size */
-    border-radius: 6px;        /* Slightly sharper for small UI */
-    
-    /* Typography */
-    font-size: 0.7rem;         /* Small, readable font */
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    
-    /* Interaction */
+.delete-row-btn {
+    background: transparent;
+    border: none;
+    color: var(--member-red);
     cursor: pointer;
-    transition: 0.2s ease-in-out;
-    white-space: nowrap;       /* Prevents text from wrapping */
+    transition: 0.2s;
+    font-size: 1rem;
 }
 
-.broadcast-action-btn:hover {
-    background: #FF8C00; 
-    color: #000000;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 10px rgba(255, 140, 0, 0.2);
+.delete-row-btn:hover {
+    transform: scale(1.2);
+    filter: brightness(1.5);
 }
 
-.broadcast-action-btn svg {
-    font-size: 0.8rem;         /* Scale icon with text */
-}
-
-/* Ensure the header container doesn't force the button to stretch */
-.members-page-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;       /* Center vertically with the title */
-    padding-bottom: 12px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+/* Checkbox Style */
+.member-checkbox {
+    cursor: pointer;
+    accent-color: var(--tiger-orange);
+    width: 16px;
+    height: 16px;
 }
