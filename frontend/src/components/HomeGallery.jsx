@@ -5,16 +5,15 @@ import '../style/HomeGallery.css';
 export default function HomeGallery() {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
+  // We'll fix the middle item (index 2) as the "expanded" one for a premium look
+  const expandedIndex = 2; 
 
   useEffect(() => {
-    // 1. Fetch real photos from your backend
     fetch('http://localhost:5000/api/gallery')
       .then(res => res.json())
       .then(data => {
-        // 2. Only show the newest 5 photos on the homepage
-        // The backend sorts by date DESC, so taking the first 5 gives us the newest.
-        const recentPhotos = data.slice(0, 5);
-        setImages(recentPhotos);
+        // We need at least 5 images for this to look right
+        setImages(data);
         setLoading(false);
       })
       .catch(err => {
@@ -23,10 +22,27 @@ export default function HomeGallery() {
       });
   }, []);
 
-  // Optional: Simple Loading State
+  // 1-Second Sliding Logic
+  useEffect(() => {
+    if (images.length > 5) {
+      const interval = setInterval(() => {
+        setImages((prevImages) => {
+          // Take the first image and move it to the end
+          const [first, ...rest] = prevImages;
+          return [...rest, first];
+        });
+      }, 2000); // 2 seconds feels better for a slide + expand animation
+
+      return () => clearInterval(interval);
+    }
+  }, [images]);
+
+  const getFullImgPath = (src) => {
+    return src.startsWith('http') ? src : `http://localhost:5000${src}`;
+  };
+
   if (loading) return null;
 
-  // 3. Handle Empty State (No uploads yet)
   if (images.length === 0) {
     return (
       <section className="home-gallery-section">
@@ -34,45 +50,38 @@ export default function HomeGallery() {
         <div style={{ padding: '3rem', color: '#ccc', fontStyle: 'italic' }}>
           <p>No photos uploaded yet. Check back soon!</p>
         </div>
-        {/* Still show the button so users can go to the full gallery page */}
         <div className="gallery-btn-container">
-            <Link to="/gallery" className="view-gallery-btn">
-              See All Photos →
-            </Link>
+          <Link to="/gallery" className="view-gallery-btn">See All Photos →</Link>
         </div>
       </section>
     );
   }
 
+  // Only render the first 5 images of the current rotated array
+  const visibleImages = images.slice(0, 5);
+
   return (
     <section className="home-gallery-section">
-      
-      {/* Title */}
       <h2 className="home-gallery-title">Photo Gallery Highlights</h2>
 
-      {/* Dynamic Glass Columns */}
       <div className="gallery-flex-container">
-        {images.map((img) => (
+        {visibleImages.map((img, index) => (
           <div 
             key={img.id} 
-            className="gallery-glass-col" 
-            style={{ '--bg-img': `url(${img.src})` }}
+            // The middle image (index 2) is always the expanded one
+            className={`gallery-glass-col ${index === expandedIndex ? 'active' : ''}`} 
+            style={{ '--bg-img': `url(${getFullImgPath(img.src)})` }}
           >
-            {/* Optional: Content inside the column (e.g. caption on hover) */}
-            <div className="col-content">
-               {/* <p>{img.caption}</p> */} 
-            </div>
+            <div className="col-content"></div>
           </div>
         ))}
       </div>
 
-      {/* "See All" Red Glass Button */}
       <div className="gallery-btn-container">
         <Link to="/gallery" className="view-gallery-btn">
           See All Photos →
         </Link>
       </div>
-
     </section>
   );
 }

@@ -1,264 +1,262 @@
-/* ================================
-   SPONSORS PAGE BASE
-================================ */
+/* ============================================================
+   --- 1. MAIN PAGE CONTAINER & BLURRED BACKGROUND ---
+   ============================================================ */
 .sponsors-page {
   position: relative;
   min-height: 100vh;
+  width: 100%;
   padding: 160px 6% 6rem;
   color: #fff;
   z-index: 1;
+  max-width: 1600px;
+  margin: 0 auto;
+  overflow-x: hidden;
 }
 
+.btn-become-sponsor-ubsa {
+  color: #d32f2f; /* Red Text */
+  border: 2px solid #2e7d32; /* Green Border */
+}
+/* THE 5% BLURRED LAYER */
 .sponsors-page::before {
   content: "";
   position: fixed;
   inset: 0;
-  background: radial-gradient(circle at top, #1a1a1a, #050505);
-  filter: brightness(0.7);
   z-index: -1;
+  
+  /* Uses the --sponsor-bg variable passed from JSX inline style */
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.9)),
+    var(--sponsor-bg);
+  
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  /* 5% Blur effect (standardized to 5px) */
+  filter: blur(5px);
+  
+  /* Scale 1.05 prevents white bleed on edges caused by blur */
+  transform: scale(1.05); 
 }
 
-/* ================================
-   HERO SECTION
-================================ */
+/* ============================================================
+   --- 2. HERO SECTION & TITLE ---
+   ============================================================ */
 .sponsors-hero {
   text-align: center;
-  margin-bottom: 4rem;
+  margin-bottom: 5rem;
+}
+
+/* Glass Container for Title (Similar to Events Page) */
+.title-glass-container {
+  display: inline-flex; 
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto; 
+  padding: 1rem 3.5rem;
+  background: rgba(255, 255, 255, 0.05); 
+  backdrop-filter: blur(5px); 
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 }
 
 .page-title {
-  font-size: 3rem;
-  font-weight: 900;
-  letter-spacing: -1px;
-}
-
-.text-highlight {
-  color: #e36f04;
-}
-
-.page-subtitle {
-  color: #aaa;
-  max-width: 620px;
-  margin: 1rem auto 2rem;
-  line-height: 1.6;
-}
-
-.btn-become-sponsor {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 14px 28px;
-  border-radius: 999px;
-  background: #e36f04;
-  color: #fff;
-  font-weight: 800;
-  border: none;
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.btn-become-sponsor:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 15px 35px rgba(227, 111, 4, 0.4);
-}
-
-/* ================================
-   GRID
-================================ */
-.sponsors-grid-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 2rem;
-}
-
-.empty-state {
-  grid-column: 1 / -1;
-  text-align: center;
-  color: #777;
-  margin-top: 3rem;
-}
-
-/* ================================
-   SPONSOR CARD
-================================ */
-.glass-sponsor-card {
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(18px);
-  border-radius: 22px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.glass-sponsor-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
-}
-
-/* ================================
-   CARD HEADER
-================================ */
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.2rem 1.4rem 0;
-}
-
-.sponsor-logo-wrapper {
-  width: 70px;
-  height: 70px;
-  border-radius: 14px;
-  overflow: hidden;
-  background: rgba(255, 255, 255, 0.08);
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.sponsor-logo-wrapper img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* ================================
-   TIER BADGES
-================================ */
-.sponsor-tier-badge,
-.sponsor-tier-badge-modal {
-  padding: 6px 14px;
-  border-radius: 999px;
-  font-size: 0.75rem;
+  gap: 15px; /* Perfect spacing between Our and Partners */
+  font-size: clamp(2.5rem, 6vw, 4rem);
   font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: 0.6px;
+  margin: 0 !important; 
+  padding: 0;
+  line-height: 1;
+  white-space: nowrap;
 }
 
-/* Tier colors */
-.tier-platinum {
-  background: linear-gradient(135deg, #e5e4e2, #b4b4b4);
-  color: #000;
-  box-shadow: 0 0 18px rgba(229, 228, 226, 0.45);
+/* Hardcoded Title Colors */
+.text-white {
+  color: #fff9f0; /* Cream White */
+  margin: 0 !important;
 }
 
-.tier-gold {
-  background: linear-gradient(135deg, #ffd700, #ffb700);
-  color: #000;
-  box-shadow: 0 0 18px rgba(255, 215, 0, 0.4);
+.text-orange {
+  color: #e36f04; /* UBSA Orange */
+  margin: 0 !important;
 }
 
-.tier-silver {
-  background: linear-gradient(135deg, #c0c0c0, #8f8f8f);
-  color: #000;
+.page-subtitle {
+  color: #ccc;
+  max-width: 650px;
+  margin: 1.5rem auto 2.5rem;
+  font-size: 1.1rem;
+  line-height: 1.6;
 }
 
-.tier-bronze {
-  background: linear-gradient(135deg, #cd7f32, #8b4513);
-  color: #fff;
-}
-
-/* ================================
-   CARD BODY
-================================ */
-.card-body {
-  padding: 1.4rem;
-}
-
-.sponsor-name {
-  font-size: 1.2rem;
+/* ============================================================
+   --- 3. BUTTONS (UBSA THEME: RED TEXT, GREEN BORDER) ---
+   ============================================================ */
+.btn-become-sponsor-ubsa {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 30px;
+  border-radius: 100px;
+  background: transparent;
+  color: #d32f2f; /* Red Text */
+  border: 2px solid #2e7d32; /* Green Border */
   font-weight: 800;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.sponsor-location {
+.btn-become-sponsor-ubsa:hover {
+  background: #2e7d32; /* Green Fill */
+  color: #ffffff; /* White Text */
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(46, 125, 50, 0.3);
+}
+
+/* ============================================================
+   --- 4. CATEGORY SECTIONS (PLATINUM, GOLD, ETC) ---
+   ============================================================ */
+.categorized-sponsors-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6rem;
+}
+
+.tier-header {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 0.85rem;
-  margin-top: 6px;
-  color: #aaa;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
 }
 
-.sponsor-location svg {
+.tier-icon {
+  font-size: 2.2rem;
   color: #e36f04;
 }
 
-/* ================================
-   CARD FOOTER (DISCOUNT)
-================================ */
-.card-footer-discount {
-  padding: 1.1rem 1.4rem 1.4rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+.tier-header h2 {
+  font-size: 2.2rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #ffeac8;
 }
 
-.discount-header {
+.tier-line {
+  height: 2px;
+  flex-grow: 1;
+  background: linear-gradient(90deg, rgba(227, 111, 4, 0.6), transparent);
+}
+
+/* ============================================================
+   --- 5. SPONSOR CARDS ---
+   ============================================================ */
+.sponsors-grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 3rem;
+}
+
+.glass-sponsor-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.glass-sponsor-card:hover {
+  transform: translateY(-12px);
+  border-color: rgba(227, 111, 4, 0.5);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+}
+
+.sponsor-logo-wrapper.bigger-logo {
+  width: 100%;
+  height: 220px;
+  background: rgba(255, 255, 255, 0.02);
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 0.75rem;
-  color: #90ee90;
-  text-transform: uppercase;
-  margin-bottom: 4px;
+  justify-content: center;
+  padding: 2.5rem;
 }
 
-.card-footer-discount h3 {
-  font-size: 1rem;
-  font-weight: 800;
+.sponsor-logo-wrapper.bigger-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.5s ease;
 }
 
-/* ================================
-   MODAL META
-================================ */
-.modal-meta-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin: 1.2rem 0;
+.glass-sponsor-card:hover .bigger-logo img {
+  transform: scale(1.1);
 }
 
-.meta-tag {
-  display: flex;
+/* ============================================================
+   --- 6. BADGES & MODAL ---
+   ============================================================ */
+.badge-perk, .badge-donation {
+  display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 14px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.06);
-  font-size: 0.85rem;
+  padding: 7px 16px;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-top: 12px;
 }
 
-.meta-tag svg {
+.badge-perk {
+  background: rgba(227, 111, 4, 0.15);
+  color: #e36f04;
+  border: 1px solid rgba(227, 111, 4, 0.4);
+}
+
+.badge-donation {
+  background: rgba(144, 238, 144, 0.1);
   color: #90ee90;
+  border: 1px solid rgba(144, 238, 144, 0.3);
 }
 
-/* ================================
-   MODAL DISCOUNT
-================================ */
-.sponsor-modal-discount {
-  margin: 1.5rem 0;
-  padding: 1.2rem;
-  border-radius: 14px;
-  background: rgba(144, 238, 144, 0.08);
-  border: 1px solid rgba(144, 238, 144, 0.25);
+.sponsor-modal-wide {
+  max-width: 1050px !important;
 }
 
-.discount-title {
-  font-size: 1.1rem;
-  font-weight: 900;
-  margin: 8px 0;
+.centered-logo-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 4rem;
 }
 
-.discount-desc {
-  font-size: 0.85rem;
-  color: #ccc;
+.modal-logo-large {
+  width: 100%;
+  max-width: 350px;
+  object-fit: contain;
+  filter: drop-shadow(0 15px 30px rgba(0,0,0,0.5));
 }
 
-/* ================================
-   LOADING
-================================ */
-.loading-text {
-  padding-top: 200px;
-  text-align: center;
-  font-size: 1.2rem;
-  color: #aaa;
+.card-footer-discount-mini {
+  padding: 1.2rem 1.4rem;
+  background: rgba(227, 111, 4, 0.1);
+  border-top: 1px solid rgba(227, 111, 4, 0.2);
+}
+
+.card-footer-discount-mini p {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #ffb700;
+  margin: 0;
 }

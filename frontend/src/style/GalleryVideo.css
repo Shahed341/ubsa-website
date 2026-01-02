@@ -1,0 +1,234 @@
+/* =========================================
+   1. MAIN SECTION LAYOUT
+   ========================================= */
+.video-gallery-section {
+  position: relative;
+  width: 100%;
+  padding: 4rem 0; /* Reduced top padding as it's now a section, not a page */
+  z-index: 2;
+  /* Background is now handled by the parent Gallery.jsx */
+}
+
+.video-content-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* =========================================
+   2. HEADER STYLES
+   ========================================= */
+.video-header { 
+  text-align: center; 
+  margin-bottom: 4rem; 
+}
+
+.video-title { 
+  font-size: clamp(2.5rem, 5vw, 4rem); 
+  font-weight: 900; 
+  color: #ffeac8; 
+  text-transform: uppercase; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  gap: 20px; 
+}
+
+.title-icon { 
+  color: #d32f2f; 
+  filter: drop-shadow(0 0 10px rgba(211,47,47,0.5)); 
+}
+
+.text-highlight { 
+  color: #d32f2f; 
+}
+
+.video-subtitle { 
+  color: rgba(255,255,255,0.6); 
+  letter-spacing: 2px; 
+  text-transform: uppercase; 
+  font-size: 0.9rem; 
+  margin-top: 0.5rem;
+}
+
+/* =========================================
+   3. FEATURED PLAYER & NEON SNAKE
+   ========================================= */
+.featured-video-glow-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto 5rem;
+  padding: 3px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
+}
+
+.featured-video-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border-radius: 28px;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.featured-video-container iframe { 
+  width: 100%; 
+  height: 100%; 
+}
+
+.video-info-overlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 40px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.9));
+  color: #ffeac8;
+  pointer-events: none;
+}
+
+/* THE NEON SNAKE LIGHTS */
+.snake-light {
+  position: absolute;
+  width: clamp(100px, 15vw, 200px); 
+  height: 40px; /* Base height for desktop */
+  z-index: 1;
+  will-change: offset-distance;
+  offset-path: rect(0% 100% 100% 0% round 30px);
+  animation: snakeMove 6s linear infinite;
+  offset-anchor: 100% 50%;
+}
+
+.red-snake { 
+  background: radial-gradient(circle at 95% 50%, #ff1111 0%, #d32f2f 15%, transparent 70%); 
+  filter: drop-shadow(0 0 12px #ff1111); 
+}
+
+.green-snake { 
+  background: radial-gradient(circle at 95% 50%, #00ff44 0%, #2e7d32 15%, transparent 70%); 
+  filter: drop-shadow(0 0 12px #00ff44); 
+  animation-delay: -3s; 
+}
+
+@keyframes snakeMove { 
+  from { offset-distance: 0%; } 
+  to { offset-distance: 100%; } 
+}
+
+/* =========================================
+   4. VIDEO PLAYLIST GRID
+   ========================================= */
+.grid-label {
+  margin-bottom: 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 10px;
+}
+
+.grid-label span {
+  color: #2e7d32;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 0.9rem;
+}
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.video-card {
+  background: rgba(255,255,255,0.05);
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+}
+
+.video-card:hover, .video-card.active {
+  transform: translateY(-10px);
+  background: rgba(255,255,255,0.1);
+  border-color: #2e7d32;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+}
+
+.thumb-wrapper { 
+  position: relative; 
+  width: 100%; 
+  aspect-ratio: 16/9; 
+  overflow: hidden; 
+}
+
+.thumb-wrapper img { 
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
+  transition: 0.5s; 
+}
+
+.video-card:hover img { 
+  transform: scale(1.1); 
+}
+
+.play-hint {
+  position: absolute;
+  inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(211, 47, 47, 0.3);
+  opacity: 0;
+  transition: 0.3s;
+  color: white; font-size: 2.5rem;
+}
+
+.video-card:hover .play-hint { 
+  opacity: 1; 
+}
+
+.vid-card-body { 
+  padding: 20px; 
+}
+
+.vid-card-body h4 { 
+  color: #ffeac8; 
+  margin-bottom: 8px; 
+  font-size: 1.1rem; 
+}
+
+.vid-tag { 
+  color: #2e7d32; 
+  font-weight: 800; 
+  text-transform: uppercase; 
+  font-size: 0.75rem; 
+  letter-spacing: 1px; 
+}
+
+/* =========================================
+   5. RESPONSIVE UTILITIES
+   ========================================= */
+@media (max-width: 768px) {
+  .video-title { font-size: 2.2rem; }
+  .video-content-wrapper { padding: 0 20px; }
+  
+  /* FIXED SNAKE: Thin line on mobile */
+  .snake-light { 
+    height: 12px; 
+    width: 100px; 
+    offset-path: rect(0% 100% 100% 0% round 30px);
+  }
+  
+  .red-snake { background: radial-gradient(circle at 100% 50%, #ff1111 0%, #d32f2f 40%, transparent 100%); }
+  .green-snake { background: radial-gradient(circle at 100% 50%, #00ff44 0%, #2e7d32 40%, transparent 100%); }
+
+  .video-info-overlay {
+    padding: 20px;
+  }
+  
+  .video-info-overlay h3 { font-size: 1.2rem; }
+  .video-info-overlay p { font-size: 0.8rem; }
+}

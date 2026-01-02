@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS events (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- 2. GALLERY: Media assets for the community page
+-- 2. GALLERY: Media assets for the community page (Photos)
 CREATE TABLE IF NOT EXISTS gallery (
     id INT AUTO_INCREMENT PRIMARY KEY,
     src TEXT NOT NULL, 
@@ -25,22 +25,22 @@ CREATE TABLE IF NOT EXISTS gallery (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- 3. SPONSORS: Approved partners displayed on the public website
+-- 3. SPONSORS: Approved partners
 CREATE TABLE IF NOT EXISTS sponsors (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     tier ENUM('Platinum', 'Gold', 'Silver', 'Bronze') NOT NULL,
-    location VARCHAR(255), -- ADDED THIS
+    phone VARCHAR(50),
+    location VARCHAR(255),
     image_url VARCHAR(255),
-    contribution_type VARCHAR(255),
     description TEXT,
     discount_title VARCHAR(255),
-    discount_desc TEXT,
     website_url VARCHAR(255),
-    is_active BOOLEAN DEFAULT TRUE
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- 4. EXECUTIVES: The leadership team for specific sessions
+-- 4. EXECUTIVES: Leadership team
 CREATE TABLE IF NOT EXISTS executives (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS executives (
     display_order INT DEFAULT 0
 );
 
--- 5. MEMBERS: User data with unique ID and QR tracking
+-- 5. MEMBERS: Student details and tracking
 CREATE TABLE IF NOT EXISTS members (
     id INT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(100) NOT NULL,
@@ -66,21 +66,24 @@ CREATE TABLE IF NOT EXISTS members (
     applied_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- 6. SPONSOR APPLICATIONS: Inbox for new partnership leads
+-- 6. SPONSOR APPLICATIONS: Intake for new partners
 CREATE TABLE IF NOT EXISTS sponsor_applications (
     id INT AUTO_INCREMENT PRIMARY KEY,
     business_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     phone VARCHAR(50),
-    location VARCHAR(255), -- ADDED THIS
-    tier ENUM('Silver', 'Gold', 'Platinum', 'Bronze') NOT NULL,
+    location VARCHAR(255),
+    tier ENUM('Bronze', 'Silver', 'Gold', 'Platinum') NOT NULL,
     payment_type ENUM('E-Transfer', 'Cheque', 'In-Kind') NOT NULL,
-    description TEXT, -- ADDED THIS (from Step 1 of form)
-    discount_title VARCHAR(255), -- ADDED THIS
+    description TEXT,
+    image_url VARCHAR(255), 
+    discount_title VARCHAR(255),
+    website_url VARCHAR(255),
     status ENUM('Pending', 'Reviewed', 'Approved', 'Rejected') DEFAULT 'Pending',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
--- 7. EVENT TICKETS: Link between Members and Events
+
+-- 7. EVENT TICKETS: Linking Members to Events
 CREATE TABLE IF NOT EXISTS event_tickets (
     id INT AUTO_INCREMENT PRIMARY KEY,
     event_id INT NOT NULL,
@@ -92,7 +95,7 @@ CREATE TABLE IF NOT EXISTS event_tickets (
     CONSTRAINT fk_member FOREIGN KEY (member_id) REFERENCES members(id) ON DELETE CASCADE
 );
 
--- 8. CONTACT MESSAGES: General inquiries from the public
+-- 8. CONTACT MESSAGES
 CREATE TABLE IF NOT EXISTS contact_messages (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -100,5 +103,18 @@ CREATE TABLE IF NOT EXISTS contact_messages (
     subject VARCHAR(255),
     message TEXT NOT NULL,
     status ENUM('unread', 'replied', 'archived') DEFAULT 'unread',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 9. VIDEOS: Dedicated table for the Video Gallery
+CREATE TABLE IF NOT EXISTS videos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    url VARCHAR(500) NOT NULL, -- Stores YouTube/Vimeo/Direct link
+    thumbnail VARCHAR(500),    -- Stores the preview image path
+    description TEXT,
+    category VARCHAR(50) DEFAULT 'Event', -- e.g., 'Highlights', 'Interview'
+    display_order INT DEFAULT 0,
+    is_active BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

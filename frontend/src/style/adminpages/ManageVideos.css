@@ -1,0 +1,261 @@
+/* =========================================
+   1. PAGE WRAPPER & HEADER
+   ========================================= */
+.manage-videos-container {
+    padding: 20px;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.admin-page-header {
+    margin-bottom: 30px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 20px;
+}
+
+.admin-page-header h2 {
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.admin-page-header h2 svg {
+    color: #d32f2f; /* UBSA Red accent */
+}
+
+.admin-page-header p {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+/* =========================================
+   2. MANAGEMENT GRID LAYOUT
+   ========================================= */
+.video-management-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 30px;
+    align-items: start;
+}
+
+.video-form-card, .video-list-card {
+    background: #141414;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.video-form-card h3, .video-list-card h3 {
+    color: #ffeac8;
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* =========================================
+   3. ADMIN FORM STYLES
+   ========================================= */
+.admin-form .form-group {
+    margin-bottom: 20px;
+}
+
+.admin-form label {
+    display: block;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.admin-form input, 
+.admin-form select, 
+.admin-form textarea {
+    width: 100%;
+    background: #0a0a0a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 12px 15px;
+    color: #fff;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.admin-form input:focus {
+    border-color: #d32f2f;
+    outline: none;
+    box-shadow: 0 0 10px rgba(211, 47, 47, 0.2);
+}
+
+.admin-form textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Custom File Input */
+.file-input-wrapper {
+    position: relative;
+    background: #0a0a0a;
+    border: 2px dashed rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.file-input-wrapper:hover {
+    border-color: #2e7d32;
+    background: rgba(46, 125, 50, 0.05);
+}
+
+.file-input-wrapper input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.file-input-wrapper svg {
+    font-size: 2rem;
+    color: #555;
+}
+
+.admin-submit-btn {
+    width: 100%;
+    background: #d32f2f;
+    color: #fff;
+    border: none;
+    padding: 15px;
+    border-radius: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.admin-submit-btn:hover {
+    background: #b71c1c;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(211, 47, 47, 0.4);
+}
+
+/* =========================================
+   4. VIDEO LIST & ITEMS
+   ========================================= */
+.admin-video-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-height: 600px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+/* Custom Scrollbar */
+.admin-video-list::-webkit-scrollbar { width: 6px; }
+.admin-video-list::-webkit-scrollbar-track { background: transparent; }
+.admin-video-list::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+
+.admin-video-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #0a0a0a;
+    padding: 12px;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: 0.3s;
+}
+
+.admin-video-item:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.vid-preview-thumb {
+    width: 100px;
+    height: 60px;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.vid-preview-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.vid-details {
+    flex-grow: 1;
+}
+
+.vid-details h4 {
+    color: #fff;
+    font-size: 0.95rem;
+    margin-bottom: 4px;
+}
+
+.vid-tag {
+    font-size: 0.7rem;
+    background: rgba(46, 125, 50, 0.2);
+    color: #2e7d32;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.vid-delete-btn {
+    background: rgba(211, 47, 47, 0.1);
+    color: #d32f2f;
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.vid-delete-btn:hover {
+    background: #d32f2f;
+    color: #fff;
+}
+
+.form-message {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+.form-message.success { background: rgba(46, 125, 50, 0.2); color: #2e7d32; }
+.form-message.error { background: rgba(211, 47, 47, 0.2); color: #d32f2f; }
+
+/* =========================================
+   5. RESPONSIVE
+   ========================================= */
+@media (max-width: 1100px) {
+    .video-management-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

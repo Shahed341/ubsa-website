@@ -4,7 +4,7 @@ import {
   FaUsers, FaHandshake, FaSignOutAlt, 
   FaHome, FaEnvelopeOpenText, 
   FaPlusCircle, FaUserFriends, FaTicketAlt, FaExternalLinkAlt,
-  FaCameraRetro, FaBriefcase, FaSitemap, FaTools
+  FaCameraRetro, FaBriefcase, FaSitemap, FaTools, FaVideo // Added FaVideo
 } from 'react-icons/fa';
 import { MdDashboardCustomize, MdCollections } from 'react-icons/md';
 import { 
@@ -18,8 +18,9 @@ import Inbox from './Inbox';
 import ManageSponsors from './ManageSponsors';
 import AddEvent from './AddEvent';
 import ManageGallery from './ManageGallery';
-import CommitteeReform from './CommitteeReform'; // Newly Linked
-import SystemSettings from './SystemSettings';   // Newly Linked
+import ManageVideos from './ManageVideos'; // New Import
+import CommitteeReform from './CommitteeReform'; 
+import SystemSettings from './SystemSettings';   
 
 import '../../style/adminpages/Dashboard.css';
 
@@ -114,6 +115,10 @@ export default function Dashboard() {
           <Link to="/admin/dashboard/gallery" className={`nav-item ${location.pathname.includes('gallery') ? 'active' : ''}`}>
             <MdCollections /> <span>Manage Gallery</span>
           </Link>
+          {/* NEW VIDEO LINK */}
+          <Link to="/admin/dashboard/videos" className={`nav-item ${location.pathname.includes('videos') ? 'active' : ''}`}>
+            <FaVideo /> <span>Manage Videos</span>
+          </Link>
 
           <div className="nav-group-label">Organization</div>
           <Link to="/admin/dashboard/committee" className={`nav-item ${location.pathname.includes('committee') ? 'active' : ''}`}>
@@ -154,8 +159,8 @@ export default function Dashboard() {
             <Route path="sponsors" element={<ManageSponsors />} />
             <Route path="add-event" element={<AddEvent />} />
             <Route path="gallery" element={<ManageGallery />} />
-            
-            {/* FULLY LINKED MODULES */}
+            {/* NEW VIDEO ROUTE */}
+            <Route path="videos" element={<ManageVideos />} />
             <Route path="committee" element={<CommitteeReform />} />
             <Route path="settings" element={<SystemSettings />} />
           </Routes>
@@ -167,7 +172,6 @@ export default function Dashboard() {
 
 /**
  * OverviewGrid Component
- * Renders the main dashboard statistics and charts
  */
 function OverviewGrid({ stats }) {
   const memberGrowthData = [
@@ -242,6 +246,7 @@ function OverviewGrid({ stats }) {
 
       <footer className="dashboard-quick-actions">
           <Link to="/admin/dashboard/gallery" className="quick-btn"><FaCameraRetro /> Gallery</Link>
+          <Link to="/admin/dashboard/videos" className="quick-btn"><FaVideo /> Videos</Link> {/* NEW QUICK ACTION */}
           <Link to="/admin/dashboard/sponsors" className="quick-btn"><FaBriefcase /> Sponsors</Link>
           <Link to="/admin/dashboard/add-event" className="quick-btn"><FaPlusCircle /> Add Event</Link>
       </footer>

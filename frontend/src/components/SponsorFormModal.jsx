@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   FaTimes,
   FaMoneyBillWave,
@@ -7,13 +7,16 @@ import {
   FaStore,
   FaTag,
   FaEnvelope,
-  FaInfoCircle
+  FaInfoCircle,
+  FaImage 
 } from 'react-icons/fa';
 import '../style/SponsorForm.css';
 
 export default function SponsorFormModal({ onClose }) {
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [imageFile, setImageFile] = useState(null); 
+  const [previewUrl, setPreviewUrl] = useState(null); 
 
   const [formData, setFormData] = useState({
     business_name: '',
@@ -26,6 +29,13 @@ export default function SponsorFormModal({ onClose }) {
     contact_person: 'Web Submission'
   });
 
+  // Cleanup the memory used by the preview URL when component closes
+  useEffect(() => {
+    return () => {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+    };
+  }, [previewUrl]);
+
   const handleChange = (e) => {
     setFormData(prev => ({
       ...prev,
@@ -33,8 +43,24 @@ export default function SponsorFormModal({ onClose }) {
     }));
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // If there was a previous preview, revoke it
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+      
+      setImageFile(file);
+      setPreviewUrl(URL.createObjectURL(file));
+    }
+  };
+
   const nextStep = (e) => {
     e.preventDefault();
+    // Simple validation: ensure image is selected before moving to step 2
+    if (!imageFile) {
+      alert("Please upload a business logo first.");
+      return;
+    }
     setStep(2);
   };
 
@@ -42,17 +68,35 @@ export default function SponsorFormModal({ onClose }) {
     e.preventDefault();
     setLoading(true);
 
+    // Using FormData to allow file upload
+    const data = new FormData();
+    
+    // 1. Append the file
+    if (imageFile) {
+        data.append('image', imageFile); 
+    }
+
+    // 2. Append all other form fields
+    data.append('business_name', formData.business_name);
+    data.append('email', formData.email);
+    data.append('location', formData.location);
+    data.append('description', formData.description);
+    data.append('discount_title', formData.discount_title);
+    data.append('tier', formData.tier);
+    data.append('payment_type', formData.payment_type);
+    data.append('contact_person', formData.contact_person);
+
     try {
       const res = await fetch('http://localhost:5000/api/sponsors', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        // Important: Do NOT set Content-Type header when sending FormData
+        body: data 
       });
 
-      const data = await res.json();
+      const result = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error || 'Submission failed');
+        throw new Error(result.error || 'Submission failed');
       }
 
       alert('Application submitted successfully!');
@@ -87,6 +131,23 @@ export default function SponsorFormModal({ onClose }) {
                   value={formData.business_name}
                   onChange={handleChange}
                 />
+              </div>
+
+              <div className="form-group-modal">
+                <label><FaImage /> Business Logo / Image *</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  required
+                  className="file-input-custom"
+                />
+                {previewUrl && (
+                  <div className="image-preview-container">
+                    {/* CSS for .form-image-preview should have a fixed max-height to avoid jumping */}
+                    <img src={previewUrl} alt="Preview" className="form-image-preview" />
+                  </div>
+                )}
               </div>
 
               <div className="form-group-modal">

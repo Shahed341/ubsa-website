@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaCameraRetro, FaTrash, FaCloudUploadAlt, FaChartPie } from 'react-icons/fa';
+import { FaCameraRetro, FaTrash, FaCloudUploadAlt } from 'react-icons/fa';
 import '../../style/adminpages/ManageGallery.css'; 
 
 export default function ManageGallery() {
@@ -10,13 +10,22 @@ export default function ManageGallery() {
 
   const categories = ['Festivals', 'Community', 'Sports', 'Events'];
 
-  useEffect(() => { fetchPhotos(); }, []);
+  useEffect(() => { 
+    fetchPhotos(); 
+  }, []);
 
+  // FIXED: Updated endpoint to /api/gallery/photos
   const fetchPhotos = () => {
-    fetch('http://localhost:5000/api/gallery')
-      .then(res => res.json())
+    fetch('http://localhost:5000/api/gallery/photos')
+      .then(res => {
+        if (!res.ok) throw new Error("Server returned 404/500");
+        return res.json();
+      })
       .then(data => setPhotos(Array.isArray(data) ? data : []))
-      .catch(err => console.error("Error fetching gallery:", err));
+      .catch(err => {
+        console.error("Error fetching gallery:", err);
+        setPhotos([]);
+      });
   };
 
   // Helper to count photos by category
@@ -34,7 +43,8 @@ export default function ManageGallery() {
     formData.append('category', category);
 
     try {
-      const res = await fetch('http://localhost:5000/api/gallery', {
+      // FIXED: Updated endpoint to /api/gallery/photos
+      const res = await fetch('http://localhost:5000/api/gallery/photos', {
         method: 'POST',
         body: formData,
       });
@@ -42,25 +52,32 @@ export default function ManageGallery() {
       if (res.ok) {
         setStatus('✅ Uploaded Successfully!');
         setFile(null);
-        document.getElementById('fileInput').value = ""; 
+        const fileInput = document.getElementById('fileInput');
+        if (fileInput) fileInput.value = ""; 
         fetchPhotos();
       } else {
         setStatus('❌ Upload failed.');
       }
-    } catch (err) { setStatus('Server error.'); }
+    } catch (err) { 
+        setStatus('Server error.'); 
+    }
   };
 
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this photo?")) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/gallery/${id}`, { method: 'DELETE' });
+      // FIXED: Updated endpoint to /api/gallery/photos
+      const res = await fetch(`http://localhost:5000/api/gallery/photos/${id}`, { 
+        method: 'DELETE' 
+      });
       if (res.ok) fetchPhotos();
-    } catch (err) { console.error(err); }
+    } catch (err) { 
+        console.error(err); 
+    }
   };
 
   return (
     <div className="gallery-integrated-view">
-      {/* HEADER SECTION */}
       <div className="gallery-page-header">
         <div className="header-text">
           <h2><FaCameraRetro /> Gallery Manager</h2>
@@ -68,14 +85,21 @@ export default function ManageGallery() {
         </div>
       </div>
 
-      {/* CATEGORY COUNT GRID */}
       <div className="gallery-stats-grid">
         {categories.map(cat => (
           <div key={cat} className="category-stat-card">
             <span className="cat-label">{cat}</span>
             <span className="cat-value">{getCategoryCount(cat)}</span>
             <div className="cat-progress-bg">
-               <div className="cat-progress-fill" style={{ width: `${(getCategoryCount(cat) / photos.length) * 100}%` }}></div>
+                <div 
+                  className="cat-progress-fill" 
+                  style={{ 
+                    // ADDED: Prevent NaN errors if photos.length is 0
+                    width: photos.length > 0 
+                      ? `${(getCategoryCount(cat) / photos.length) * 100}%` 
+                      : '0%' 
+                  }}
+                ></div>
             </div>
           </div>
         ))}

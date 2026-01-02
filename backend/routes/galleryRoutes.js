@@ -5,80 +5,102 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-// --- 1. MULTER CONFIGURATION ---
-// Ensure upload directory exists
+// --- 1. MULTER CONFIGURATION (For Photos & Video Thumbnails) ---
 const uploadDir = 'uploads/';
 if (!fs.existsSync(uploadDir)){
     fs.mkdirSync(uploadDir);
 }
 
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'uploads/'); // Save files here
-    },
-    filename: function (req, file, cb) {
-        // Create unique filename: image-timestamp.jpg
-        cb(null, 'gallery-' + Date.now() + path.extname(file.originalname));
+    destination: (req, file, cb) => cb(null, 'uploads/'),
+    filename: (req, file, cb) => {
+        const prefix = file.fieldname === 'videoThumbnail' ? 'thumb-' : 'gallery-';
+        cb(null, prefix + Date.now() + path.extname(file.originalname));
     }
 });
 
 const upload = multer({ storage: storage });
 
-// --- 2. GET ALL PHOTOS ---
-router.get('/', async (req, res) => {
+// =========================================
+// SECTION A: PHOTOS (gallery table)
+// =========================================
+
+// GET ALL PHOTOS
+router.get('/photos', async (req, res) => {
     try {
         const [rows] = await db.query("SELECT * FROM gallery ORDER BY created_at DESC");
         res.json(rows);
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Database error" });
+        res.status(500).json({ error: "Database error fetching photos" });
     }
 });
 
-// --- 3. ADD NEW PHOTO (UPDATED FOR FILE UPLOAD) ---
-// 'image' is the key name we will use in the frontend form
-router.post('/', upload.single('image'), async (req, res) => {
+// ADD NEW PHOTO
+router.post('/photos', upload.single('image'), async (req, res) => {
     try {
         const { category, caption } = req.body;
-        
-        // Check if file was uploaded
-        if (!req.file) {
-            return res.status(400).json({ error: "No image file uploaded." });
-        }
+        if (!req.file) return res.status(400).json({ error: "No image file uploaded." });
 
-        // Create the URL (Assuming server runs on port 5000)
-        // We store the full URL or relative path. 
-        // NOTE: Ensure your server.js has: app.use('/uploads', express.static('uploads'));
         const imageUrl = `http://localhost:5000/uploads/${req.file.filename}`;
-
         const sql = "INSERT INTO gallery (src, category, caption) VALUES (?, ?, ?)";
         const [result] = await db.query(sql, [imageUrl, category, caption]);
 
-        res.status(201).json({ message: "Photo uploaded!", id: result.insertId, src: imageUrl });
+        res.status(201).json({ message: "Photo added!", id: result.insertId, src: imageUrl });
     } catch (err) {
-        console.error("Error adding photo:", err);
-        res.status(500).json({ error: "Server Error" });
+        res.status(500).json({ error: "Server Error adding photo" });
     }
 });
 
-// --- 4. DELETE PHOTO ---
-router.delete('/:id', async (req, res) => {
-    const { id } = req.params;
+// =========================================
+// SECTION B: VIDEOS (videos table)
+// =========================================
+
+// GET ALL VIDEOS
+router.get('/videos', async (req, res) => {
     try {
-        // Optional: First get the image path to delete the file from disk too
-        // const [rows] = await db.query("SELECT src FROM gallery WHERE id = ?", [id]);
-        // ... fs.unlink logic here if you want to save space ...
+        const [rows] = await db.query("SELECT * FROM videos WHERE is_active = TRUE ORDER BY created_at DESC");
+        res.json(rows);
+    } catch (err) {
+        res.status(500).json({ error: "Database error fetching videos" });
+    }
+});
 
-        const sql = "DELETE FROM gallery WHERE id = ?";
-        const [result] = await db.query(sql, [id]);
+// ADD NEW VIDEO (With Optional Thumbnail Upload)
+router.post('/videos', upload.single('videoThumbnail'), async (req, res) => {
+    try {
+        const { title, url, description, category } = req.body;
+        
+        // If an image was uploaded, create URL; else use a default or null
+        const thumbnail = req.file 
+            ? `http://localhost:5000/uploads/${req.file.filename}` 
+            : null;
 
-        if (result.affectedRows === 0) {
-            return res.status(404).json({ message: "Photo not found" });
-        }
-        res.json({ message: "Photo deleted successfully" });
+        const sql = `
+            INSERT INTO videos (title, url, thumbnail, description, category) 
+            VALUES (?, ?, ?, ?, ?)
+        `;
+        const [result] = await db.query(sql, [title, url, thumbnail, description, category || 'Event']);
+
+        res.status(201).json({ 
+            message: "Video linked successfully!", 
+            id: result.insertId,
+            thumbnail: thumbnail 
+        });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ error: "Database error" });
+        res.status(500).json({ error: "Server Error adding video" });
+    }
+});
+
+// DELETE VIDEO
+router.delete('/videos/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const [result] = await db.query("DELETE FROM videos WHERE id = ?", [id]);
+        if (result.affectedRows === 0) return res.status(404).json({ message: "Video not found" });
+        res.json({ message: "Video deleted successfully" });
+    } catch (err) {
+        res.status(500).json({ error: "Database error deleting video" });
     }
 });
 

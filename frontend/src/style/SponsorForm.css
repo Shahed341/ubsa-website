@@ -4,12 +4,13 @@
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(6px);
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 2000;
+  z-index: 3000;
+  padding: 20px;
 }
 
 /* ================================
@@ -17,27 +18,57 @@
 ================================ */
 .sponsor-form-glass {
   position: relative;
-  width: 95%;
+  width: 100%;
   max-width: 520px;
+  max-height: 90vh; /* Prevents modal from leaving screen */
   padding: 2.5rem;
   border-radius: 26px;
-  background: rgba(15, 15, 15, 0.97);
-  backdrop-filter: blur(22px);
+  background: rgba(15, 15, 15, 0.98);
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 30px 70px rgba(0, 0, 0, 0.85);
-  animation: modalFadeIn 0.3s ease-out;
+  overflow-y: auto; /* Allows scrolling if content is long */
+  animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Entrance animation */
 @keyframes modalFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* ================================
+   IMAGE UPLOAD & PREVIEW FIX
+================================ */
+.file-input-custom {
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.image-preview-container {
+  margin-top: 15px;
+  width: 100%;
+  height: 160px; /* Fixed height prevents "turning big" */
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.form-image-preview {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* Ensures logo fits inside the box */
+  padding: 10px;
+  animation: previewIn 0.4s ease;
+}
+
+@keyframes previewIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 /* ================================
@@ -49,192 +80,148 @@
   right: 22px;
   background: none;
   border: none;
-  color: #aaa;
-  font-size: 1.2rem;
+  color: #777;
+  font-size: 1.4rem;
   cursor: pointer;
-  transition: color 0.2s, transform 0.2s;
+  transition: 0.2s;
 }
 
-.close-x:hover {
-  color: #fff;
-  transform: scale(1.1);
-}
+.close-x:hover { color: #fff; transform: rotate(90deg); }
 
 /* ================================
-   HEADER
+   TYPOGRAPHY
 ================================ */
 .sponsor-form-glass h2 {
   font-size: 1.8rem;
   font-weight: 900;
+  color: #fff;
   margin-bottom: 0.3rem;
 }
 
 .step-indicator {
   font-size: 0.75rem;
   font-weight: 800;
-  letter-spacing: 1px;
   text-transform: uppercase;
   color: #90ee90;
-  margin-bottom: 1.6rem;
+  letter-spacing: 1px;
+  margin-bottom: 1.8rem;
 }
 
 /* ================================
-   FORM GROUPS
+   FORM ELEMENTS
 ================================ */
 .form-group-modal {
-  margin-bottom: 1.4rem;
+  margin-bottom: 1.2rem;
 }
 
 .form-group-modal label {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 8px;
   font-size: 0.85rem;
-  color: #ccc;
+  color: #aaa;
+  margin-bottom: 8px;
 }
 
-.form-group-modal label svg {
-  color: #e36f04;
-}
+.form-group-modal label svg { color: #e36f04; }
 
-/* Inputs */
 .form-group-modal input,
 .form-group-modal textarea,
 .form-group-modal select {
   width: 100%;
-  padding: 13px 16px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 12px 15px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   color: #fff;
   font-size: 0.95rem;
-  transition: border 0.2s, background 0.2s;
-}
-
-.form-group-modal textarea {
-  resize: vertical;
-}
-
-.form-group-modal input::placeholder,
-.form-group-modal textarea::placeholder {
-  color: #777;
+  transition: 0.2s;
 }
 
 .form-group-modal input:focus,
-.form-group-modal textarea:focus,
-.form-group-modal select:focus {
+.form-group-modal textarea:focus {
   outline: none;
   border-color: #e36f04;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.07);
 }
 
 /* ================================
-   PAYMENT SECTION
+   PAYMENT OPTIONS
 ================================ */
 .payment-instruction {
-  margin: 1.2rem 0 0.6rem;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #666;
   text-transform: uppercase;
-  color: #aaa;
-  letter-spacing: 0.8px;
+  margin: 1.5rem 0 0.8rem;
 }
 
 .pay-option {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 15px;
   padding: 1rem;
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   cursor: pointer;
-  transition: all 0.2s ease;
-  margin-bottom: 12px;
+  transition: 0.2s;
 }
 
-.pay-option svg {
-  font-size: 1.4rem;
-  color: #e36f04;
-}
-
-.pay-option:hover {
-  background: rgba(255, 255, 255, 0.08);
-}
+.pay-option:hover { background: rgba(255, 255, 255, 0.06); }
 
 .pay-option.selected {
   border-color: #e36f04;
-  background: rgba(227, 111, 4, 0.08);
+  background: rgba(227, 111, 4, 0.1);
 }
 
-/* Payment text */
-.pay-text span {
-  font-weight: 800;
-  color: #fff;
-}
+.pay-option svg { font-size: 1.3rem; color: #e36f04; }
 
-.pay-text small {
-  font-size: 0.75rem;
-  color: #888;
-}
+.pay-text { display: flex; flex-direction: column; }
+.pay-text span { font-size: 0.95rem; font-weight: 700; }
+.pay-text small { font-size: 0.7rem; color: #777; }
 
 /* ================================
-   BUTTONS
+   ACTION BUTTONS
 ================================ */
-.btn-next,
-.btn-final {
+.btn-next, .btn-final {
   width: 100%;
-  margin-top: 1.2rem;
-  padding: 14px;
+  padding: 15px;
+  margin-top: 1rem;
   border-radius: 12px;
   border: none;
   background: #e36f04;
   color: #fff;
   font-weight: 900;
-  letter-spacing: 0.8px;
   text-transform: uppercase;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: 0.2s;
 }
 
-.btn-next:hover,
-.btn-final:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 15px 35px rgba(227, 111, 4, 0.4);
+.btn-next:hover, .btn-final:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 10px 25px rgba(227, 111, 4, 0.4);
 }
 
-.btn-final:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-/* Back button */
 .btn-back {
+  display: block;
   width: 100%;
-  margin-top: 10px;
-  background: transparent;
+  margin-top: 15px;
+  background: none;
   border: none;
-  color: #aaa;
-  font-size: 0.85rem;
-  cursor: pointer;
+  color: #666;
+  font-size: 0.8rem;
   text-decoration: underline;
-  transition: color 0.2s;
+  cursor: pointer;
 }
 
-.btn-back:hover {
-  color: #fff;
+.btn-back:hover { color: #fff; }
+
+/* Custom Scrollbar for Modal */
+.sponsor-form-glass::-webkit-scrollbar {
+  width: 6px;
 }
-
-/* ================================
-   MOBILE OPTIMIZATION
-================================ */
-@media (max-width: 480px) {
-  .sponsor-form-glass {
-    padding: 2rem 1.6rem;
-    border-radius: 20px;
-  }
-
-  .sponsor-form-glass h2 {
-    font-size: 1.5rem;
-  }
+.sponsor-form-glass::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
 }

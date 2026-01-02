@@ -374,6 +374,58 @@
   color: var(--tiger-orange);
   font-size: 1.1rem;
 }
+/* --- SIDEBAR ICON SPECIFIC COLORS --- */
+
+/* 1. Overview (Tiger Orange) */
+.nav-item[href="/admin/dashboard"] svg {
+  color: var(--tiger-orange);
+}
+
+/* 2. Inbox (Member Red) */
+.nav-item[href*="inbox"] svg {
+  color: var(--member-red);
+}
+
+/* 3. Members (Member Red) */
+.nav-item[href*="members"] svg {
+  color: var(--member-red);
+}
+
+/* 4. Sponsors (Sponsor Orange) */
+.nav-item[href*="sponsors"] svg {
+  color: var(--sponsor-orange);
+}
+
+/* 5. Add Event (Event Green) */
+.nav-item[href*="add-event"] svg {
+  color: var(--event-green);
+}
+
+/* 6. Manage Gallery (Student Blue) */
+.nav-item[href*="gallery"] svg {
+  color: var(--student-blue);
+}
+
+/* 7. Committee Reform (Member Red) */
+.nav-item[href*="committee"] svg {
+  color: var(--member-red);
+}
+
+/* 8. System Settings (Member Red/Alert) */
+.nav-item[href*="settings"] svg {
+  color: var(--member-red);
+}
+
+/* 9. Public Site Button (Event Green) */
+.go-ubsa-home svg {
+  color: var(--event-green) !important;
+}
+
+/* Hover Effect: Glow matching the specific icon color */
+.nav-item:hover svg {
+  filter: drop-shadow(0 0 5px currentColor);
+  transition: 0.3s ease;
+}
 
 .quick-btn:hover {
   transform: translateY(-3px);

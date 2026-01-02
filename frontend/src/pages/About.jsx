@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { 
   FaUsers, FaHandshake, FaCalendarAlt, 
-  FaGraduationCap, FaQuoteLeft, FaHistory, FaArrowRight 
+  FaGraduationCap, FaQuoteLeft, FaHistory, FaArrowRight, FaFileContract 
 } from 'react-icons/fa';
 import '../style/About.css';
 
@@ -19,33 +20,29 @@ export default function About() {
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [stats, setStats] = useState({ members: 0, sponsors: 0 });
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        // Replace these URLs with your actual backend endpoints
         const [memRes, sponRes] = await Promise.all([
           fetch('http://localhost:5000/api/members'),
           fetch('http://localhost:5000/api/sponsors')
         ]);
-
         const memData = await memRes.json();
         const sponData = await sponRes.json();
 
         setStats({
-          // Assumes your API returns an array of objects
           members: Array.isArray(memData) ? memData.length : 0,
           sponsors: Array.isArray(sponData) ? sponData.length : 0
         });
       } catch (err) {
         console.error("Error fetching DB stats:", err);
-        // Fallback values if DB is offline
         setStats({ members: 500, sponsors: 15 });
       } finally {
         setLoading(false);
       }
     };
-
     fetchStats();
   }, []);
 
@@ -66,7 +63,6 @@ export default function About() {
             <div className="stat-item">
               <FaUsers className="stat-icon" />
               <div className="stat-text-group">
-                {/* Show a dash while loading, then the real number */}
                 <h2>{loading ? "--" : stats.members}+</h2>
                 <p>Members</p>
               </div>
@@ -99,10 +95,17 @@ export default function About() {
           >
              <h2 className="text-highlight"><FaQuoteLeft /> Our Motive</h2>
              <p>
-               UBSA is more than just a student union; it is a cultural sanctuary. Our motive is to bridge the 
-               gap between tradition and the USask experience, fostering a supportive environment where 
-               Bangladeshi students can thrive academically and socially while celebrating our rich heritage.
+               UBSA aims to support the unique needs of Bangladeshi undergraduate students at USask[cite: 11]. 
+               We bridge the gap between tradition and campus life, helping students navigate university 
+               services and cultural representation[cite: 16, 18].
              </p>
+             {/* Corrected Navigation Route */}
+             <button 
+                className="btn-constitution-link"
+                onClick={() => navigate('/constitution')}
+             >
+               <FaFileContract /> Read Our Constitution
+             </button>
           </motion.div>
         </section>
 
@@ -125,17 +128,17 @@ export default function About() {
             </motion.div>
           </div>
 
-          <div className="team-grid">
+          <div className="team-grid-3-col">
             {otherTeam.map((member, index) => (
               <motion.div 
                 key={index}
                 layout
                 onClick={() => toggleExpand(index)}
-                className={`glass-screen team-card ${expandedIndex === index ? 'expanded' : ''}`}
+                className={`glass-screen team-card-small ${expandedIndex === index ? 'expanded' : ''}`}
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
               >
                 <div className="card-header-simple">
-                  <img src={member.image} alt={member.name} className="mini-img" />
+                  <img src={member.image} alt={member.name} className="mini-img-small" />
                   <div className="mini-meta">
                     <span className="mini-role">{member.role}</span>
                     <h4>{member.name}</h4>
@@ -164,11 +167,11 @@ export default function About() {
 
         {/* SECTION 4: LEGACY */}
         <section className="legacy-section">
-          <div className="glass-screen legacy-card">
-            <FaHistory className="legacy-icon" />
+          <div className="glass-screen legacy-card-small">
+            <FaHistory className="legacy-icon-small" />
             <h2>Our Legacy</h2>
-            <button className="btn-send-home">
-              View Past Committees <FaArrowRight />
+            <button className="btn-send-home-small" onClick={() => navigate('/legacy')}>
+              Past Committees <FaArrowRight />
             </button>
           </div>
         </section>
@@ -178,11 +181,11 @@ export default function About() {
 }
 
 const TEAM_DATA = [
-  { name: "Rubana Sayeda", role: "President", dept: "Economics", punchline: "Leading with vision, uniting with passion.", bio: "As the founding President, Rubana oversees the overall direction of UBSA.", image: PresidentImg },
-  { name: "Nusrat Ahona", role: "Vice President", dept: "Computer Science", punchline: "Debugging the blueprint for club success.", bio: "Nusrat handles internal operations and technical integrations.", image: VPImg },
-  { name: "Mohammed Khan", role: "Finance Director", dept: "Business", punchline: "Making every contribution count.", bio: "Mohammed manages the treasury and sponsorship funds.", image: FinanceImg },
-  { name: "Rodoshy Prithibi", role: "Event Director", dept: "Psychology", punchline: "Turning cultural ideas into reality.", bio: "Rodoshy is the lead designer of our major cultural festivals.", image: EventDirImg },
-  { name: "Ishrat Maya", role: "Event Coordinator", dept: "Engineering", punchline: "Coordinating the art of perfect events.", bio: "Ishrat focuses on logistics and detailed planning.", image: EventCoordImg },
-  { name: "Rab Ahmed Rwna", role: "Outreach Director", dept: "Political Science", punchline: "Building bridges beyond the campus.", bio: "Rab leads our community engagement.", image: OutreachImg },
-  { name: "Abir Khan", role: "Social Director", dept: "Arts & Science", punchline: "Creating social vibes that stick.", bio: "Abir manages our social presence and member interactions.", image: SocialImg }
+  { name: "Rubana Sayeda", role: "President", dept: "Economics", punchline: "Leading with vision, uniting with passion.", bio: "Oversees all positions and prepares the annual report[cite: 67].", image: PresidentImg },
+  { name: "Nusrat Ahona", role: "Vice President", dept: "Computer Science", punchline: "Debugging the blueprint for club success.", bio: "Manages administrative tasks and internal coordination[cite: 71].", image: VPImg },
+  { name: "Mohammed Khan", role: "Finance Director", dept: "Business", punchline: "Making every contribution count.", bio: "Manages funds and presents financial statements[cite: 73, 139].", image: FinanceImg },
+  { name: "Rodoshy Prithibi", role: "Event Director", dept: "Psychology", punchline: "Turning cultural ideas into reality.", bio: "Plans and organizes cultural and social activities[cite: 77].", image: EventDirImg },
+  { name: "Ishrat Maya", role: "Event Coordinator", dept: "Engineering", punchline: "Coordinating the art of perfect events.", bio: "Recruits volunteers and manages logistics[cite: 80].", image: EventCoordImg },
+  { name: "Rab Ahmed Rwna", role: "Outreach Director", dept: "Political Science", punchline: "Building bridges beyond the campus.", bio: "Coordinates volunteer opportunities and partnerships[cite: 84].", image: OutreachImg },
+  { name: "Abir Khan", role: "Social Director", dept: "Arts & Science", punchline: "Creating social vibes that stick.", bio: "Manages social media presence and promotes activities[cite: 75].", image: SocialImg }
 ];
