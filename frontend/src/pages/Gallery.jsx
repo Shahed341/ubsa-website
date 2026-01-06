@@ -18,7 +18,7 @@ export default function Gallery() {
   const categories = ['All', 'Festivals', 'Community', 'Sports', 'Events'];
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/gallery')
+    fetch('http://localhost:5000/api/gallery/photos')
       .then(res => res.json())
       .then(data => {
         setImages(data);

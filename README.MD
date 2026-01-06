@@ -9,6 +9,9 @@ A full-stack "Club Operating System" for the University of Saskatchewan Banglade
 3. Database: Ensure your MySQL/Docker container is running and the schema is applied.
 4. Docker:   Locate docker-compose.yml and run `docker-compose up --build`
 
+## Api Integration
+1. Instagram: Go to behold.so then register with insta id. Create the json feed URL and paste in HomeInsta.jsx.
+
 ## 🛠️ Features
 
 🌐 Public Experience

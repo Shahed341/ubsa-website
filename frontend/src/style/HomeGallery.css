@@ -22,7 +22,7 @@
             rgba(0, 29, 29, 0.6) 20%, 
             rgba(0, 0, 0, 0.8) 100%
         ),
-        url('../assets/TigerGalleryPageBG.jpg');
+        url('../assets/HomeGalleryBG.jpg');
     background-size: cover;
     background-position: center;
     filter: blur(8px);

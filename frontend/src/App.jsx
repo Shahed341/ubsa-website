@@ -17,6 +17,7 @@ import Contact from './pages/Contact';
 import Join from './pages/Join';
 import Constitution from './components/Constitution';
 import GalleryVideo from './components/gallery/GalleryVideo';
+import HomeInsta from './pages/Instagram/HomeInsta';
 
 // --- ADMIN PAGES ---
 import Login from './pages/adminpages/Login';
@@ -64,6 +65,7 @@ function App() {
         <Route path="/join" element={<Join />} />
         <Route path="/constitution" element={<Constitution />} />
         <Route path="/videos" element={<GalleryVideo />} />
+        <Route path="/instagram" element={<HomeInsta />} />
         
         {/* --- ADMIN AUTHENTICATION --- */}
         <Route path="/admin/login" element={<Login />} />

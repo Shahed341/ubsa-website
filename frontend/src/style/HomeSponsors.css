@@ -1,38 +1,37 @@
 /* src/style/HomeSponsors.css */
 
-/* --- SECTION CONTAINER --- */
 .home-sponsors-section {
   position: relative;
-  padding: 8rem 2rem;
+  padding: 10rem 2rem;
   color: #fff;
   text-align: center;
   overflow: hidden;
-
-  /* TIGER BACKGROUND SETUP */
-  /* Ensure the file path to your image is correct */
-  background-image: url('../assets/TigerGalleryPageBG.jpg');
+  /* Tiger background is fixed, creating the floating effect */
+  background-image: url('../assets/HomeSponsorBG.png');
   background-size: cover;
   background-position: center;
-  background-attachment: fixed; /* Parallax Effect: Image stays still while scrolling */
+  background-attachment: fixed;
 }
 
-/* Dark Overlay to make text readable over the tiger image */
+/* --- THE SMOOTH TRANSITION OVERLAY --- */
 .overlay-dark {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  /* Pure Emerald Flow: No Black, just Deep Green to Clear */
   background: linear-gradient(
-    to bottom, 
-    #000 0%, 
-    rgba(0, 20, 10, 0.7) 50%, 
-    #000 100%
+    to bottom,
+    #001a1a 0%,               /* Matches previous section end */
+    rgba(0, 40, 30, 0.7) 20%,  /* Soft Emerald Fade */
+    rgba(0, 0, 0, 0) 50%,      /* Perfectly Clear for Tiger Face */
+    rgba(0, 40, 30, 0.7) 80%,  /* Soft Emerald Fade */
+    #001a1a 100%              /* Matches Insta section start */
   );
   z-index: 1;
 }
 
-/* Content Wrapper to sit on top of overlay */
 .content-wrapper {
   position: relative;
   z-index: 2;
@@ -42,143 +41,131 @@
 
 /* --- TYPOGRAPHY --- */
 .section-title-home {
-  font-size: 3.5rem;
-  font-weight: 800;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 900;
   text-transform: uppercase;
   margin-bottom: 0.5rem;
-  text-shadow: 0 4px 15px rgba(0,0,0,0.8);
+  text-shadow: 0 4px 15px rgba(0,0,0,0.6);
   letter-spacing: -1px;
 }
 
 .highlight {
-  color: #e36f04; /* Orange */
+  color: #ff1111; /* Red to match the global "Moments" accent */
+  text-shadow: 0 0 15px rgba(255, 17, 17, 0.5);
 }
 
 .section-subtitle {
-  font-size: 1.2rem;
-  color: #ccc;
-  margin-bottom: 4rem;
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 5rem;
   font-weight: 300;
+  letter-spacing: 1px;
 }
 
-/* --- SPONSOR GRID --- */
+/* --- GRID & 5% FROSTED GLASS CARDS --- */
 .home-sponsors-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2.5rem;
-  margin-bottom: 5rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 3rem;
+  margin-bottom: 6rem;
 }
 
-/* --- GLASS CARD STYLE --- */
 .sponsor-preview-card.glass-effect {
-  background: rgba(255, 255, 255, 0.05); /* Very transparent white */
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  /* High-end 5% Frosted Glass */
+  background: rgba(255, 255, 255, 0.05); 
+  backdrop-filter: blur(15px) saturate(180%);
+  -webkit-backdrop-filter: blur(15px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  padding: 2rem;
-  transition: all 0.4s ease;
+  border-radius: 24px;
+  padding: 3rem 2rem;
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
   display: flex;
   flex-direction: column;
   align-items: center;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
 }
 
-/* Hover Effect: Glow Orange */
 .sponsor-preview-card:hover {
-  background: rgba(40, 40, 40, 0.6);
-  border-color: #e36f04;
-  transform: translateY(-10px);
-  box-shadow: 0 15px 40px rgba(227, 111, 4, 0.2);
+  transform: translateY(-15px) scale(1.02);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #ff1111;
+  box-shadow: 0 30px 60px rgba(255, 17, 17, 0.2);
 }
 
-/* Image Box */
+/* Image Container */
 .sp-img-box {
   width: 100%;
-  height: 140px;
+  height: 120px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1.5rem;
-  background: rgba(0, 0, 0, 0.3); /* Darker box behind logo */
-  border-radius: 12px;
-  padding: 1rem;
+  margin-bottom: 2rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  padding: 1.5rem;
 }
 
 .sp-img-box img {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 4px 4px rgba(0,0,0,0.5));
+  filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
 }
 
-/* Info Text */
 .sp-info h3 {
-  font-size: 1.5rem;
-  margin-bottom: 0.8rem;
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
   color: #fff;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .tier-badge {
   display: inline-block;
-  background: #e36f04;
-  color: #000;
-  font-weight: 800;
-  font-size: 0.8rem;
-  padding: 0.3rem 0.9rem;
-  border-radius: 50px;
+  background: #ff1111;
+  color: #fff;
+  font-weight: 900;
+  font-size: 0.75rem;
+  padding: 0.4rem 1.2rem;
+  border-radius: 100px;
   text-transform: uppercase;
-  margin-bottom: 1.2rem;
-  box-shadow: 0 2px 8px rgba(227, 111, 4, 0.4);
+  margin-bottom: 1.5rem;
+  box-shadow: 0 5px 15px rgba(255, 17, 17, 0.4);
 }
 
 .discount-preview {
-  color: #bbb;
-  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding-top: 1rem;
+  padding-top: 1.5rem;
   width: 100%;
+  font-style: italic;
 }
 
-/* --- BUTTON --- */
-.action-row {
-  display: flex;
-  justify-content: center;
-}
-
+/* --- CENTERED ACTION BUTTON --- */
 .btn-view-partners {
   display: inline-block;
-  padding: 1rem 3rem;
-  font-size: 1.1rem;
-  font-weight: 700;
+  padding: 1.2rem 4rem;
+  font-size: 1rem;
+  font-weight: 800;
   color: #fff;
-  text-decoration: none;
-  background: transparent;
-  border: 2px solid #e36f04;
-  border-radius: 50px;
+  text-decoration: none !important;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 100px;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  transition: all 0.3s ease;
+  letter-spacing: 2px;
+  backdrop-filter: blur(10px);
+  transition: all 0.4s ease;
 }
 
 .btn-view-partners:hover {
-  background: #e36f04;
-  box-shadow: 0 0 30px rgba(227, 111, 4, 0.5);
-  transform: scale(1.05);
+  background: #ff1111;
+  border-color: #ff1111;
+  box-shadow: 0 0 40px rgba(255, 17, 17, 0.6);
+  transform: translateY(-5px) scale(1.05);
 }
 
-/* --- MOBILE RESPONSIVENESS --- */
 @media (max-width: 768px) {
-  .section-title-home {
-    font-size: 2.5rem;
-  }
-  
-  .home-sponsors-section {
-    padding: 4rem 1.5rem;
-  }
-  
-  .home-sponsors-grid {
-    grid-template-columns: 1fr; /* Stack cards vertically on mobile */
-    gap: 2rem;
-  }
+  .home-sponsors-grid { grid-template-columns: 1fr; }
+  .section-title-home { font-size: 2.2rem; }
 }

@@ -30,36 +30,67 @@
 }
 
 /* =========================================
-   2. HEADER & FILTERS
+   2. HEADER & GLASS PILL FILTERS (RED THEME)
    ========================================= */
 .gallery-header { text-align: center; margin-bottom: 2rem; }
 .page-title { font-size: 3.5rem; font-weight: 800; text-transform: uppercase; }
-.text-highlight { color: #e36f04; }
+.text-highlight { color: #d32f2f; }
 
 .gallery-filter {
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  gap: 1.5rem;
   margin-bottom: 3rem;
-  flex-wrap: wrap;
+  padding: 15px 20px;
+  /* Support for single-row scrolling on small screens */
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none; /* Firefox */
+}
+
+.gallery-filter::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
 }
 
 .filter-btn {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #eacda3;
-  padding: 0.6rem 1.5rem;
-  border-radius: 50px;
+  text-decoration: none; /* No underline */
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.8);
+  padding: 0.8rem 2.2rem;
+  border-radius: 100px; /* Pill Shape */
   cursor: pointer;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(4px);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  backdrop-filter: blur(10px);
+  flex-shrink: 0; /* Prevents squishing in the row */
 }
 
+/* HOVER: Red Text, Red Shadow, Red Glow */
+.filter-btn:hover {
+  color: #ff1111;
+  font-size: 1.1rem; /* Bigger text on hover */
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 17, 17, 0.4);
+  transform: translateY(-3px);
+  /* Red Ambient Glow & Shadow */
+  box-shadow: 
+    0 10px 25px rgba(255, 17, 17, 0.3), 
+    0 0 15px rgba(255, 17, 17, 0.2);
+}
+
+/* ACTIVE: Persistent Red Glow */
 .filter-btn.active {
-  background: #e36f04;
-  color: #fff;
-  border-color: #e36f04;
-  box-shadow: 0 0 15px rgba(227, 111, 4, 0.4);
+  background: rgba(211, 47, 47, 0.15);
+  color: #ff1111;
+  border-color: #d32f2f;
+  font-size: 1.1rem;
+  box-shadow: 
+    0 0 20px rgba(211, 47, 47, 0.4),
+    inset 0 0 10px rgba(211, 47, 47, 0.1);
 }
 
 /* =========================================
@@ -118,12 +149,10 @@
   object-fit: cover;
 }
 
-/* Position States for 3D Flow */
 .carousel-card.center {
   z-index: 10;
   transform: translateX(0) scale(1.25) translateZ(150px);
   opacity: 1;
-  filter: blur(0);
 }
 
 .carousel-card.left-1 {
@@ -144,19 +173,16 @@
   z-index: 2;
   transform: translateX(-620px) scale(0.6) translateZ(-100px);
   opacity: 0.2;
-  filter: blur(6px);
 }
 
 .carousel-card.right-2 {
   z-index: 2;
   transform: translateX(620px) scale(0.6) translateZ(-100px);
   opacity: 0.2;
-  filter: blur(6px);
 }
 
 .carousel-card.hidden { opacity: 0; pointer-events: none; }
 
-/* Navigation Buttons - Pushed lower and to extreme edges */
 .nav-btn {
   position: absolute;
   top: 60%;
@@ -178,16 +204,16 @@
 
 .nav-btn.left { left: 15px; }
 .nav-btn.right { right: 15px; }
-.nav-btn:hover { background: #e36f04; transform: translateY(-50%) scale(1.1); }
+.nav-btn:hover { background: #d32f2f; transform: translateY(-50%) scale(1.1); }
 
 /* =========================================
-   4. SCROLL INDICATOR WRAPPER (POST-SLIDE)
+   4. SCROLL INDICATOR & VIDEO SECTION
    ========================================= */
 .scroll-indicator-wrapper {
   width: 100%;
   display: flex;
   justify-content: center;
-  padding: 40px 0; /* Ensures it sits well below the 3D track */
+  padding: 40px 0;
 }
 
 .scroll-indicator {
@@ -196,14 +222,12 @@
   align-items: center;
   gap: 12px;
   cursor: pointer;
-  color: #e36f04;
+  color: #d32f2f;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 2px;
   transition: 0.2s ease;
 }
-
-.scroll-indicator:hover { color: white; transform: scale(1.05); }
 
 .bounce-arrow {
   font-size: 2.2rem;
@@ -213,18 +237,24 @@
 @keyframes bounce {
   0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
   40% { transform: translateY(-12px); }
-  60% { transform: translateY(-6px); }
+}
+
+.section-divider {
+  border: none;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(211, 47, 47, 0.4), transparent);
+  margin: 4rem auto;
+  width: 80%;
 }
 
 /* =========================================
-   5. GRID VIEW SECTION - CENTERED & PADDED
+   5. GRID VIEW SECTION
    ========================================= */
 .gallery-grid-section {
   width: 100%;
   margin: 40px auto;
-  padding: 4rem 8%; /* Increased side padding for balance */
+  padding: 4rem 8%;
   box-sizing: border-box;
-  animation: fadeIn 1s ease;
 }
 
 .grid-header-line {
@@ -236,22 +266,19 @@
   font-size: 1.6rem;
   font-weight: 800;
   text-transform: uppercase;
-  color: white;
 }
 
 .grid-header-line::before, .grid-header-line::after {
   content: "";
   height: 3px;
   width: 100px;
-  background: #e36f04;
+  background: #d32f2f;
 }
 
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 30px;
-  width: 100%;
-  margin: 0 auto; /* Centers the grid container */
 }
 
 .grid-item {
@@ -272,33 +299,21 @@
 
 .grid-item:hover img { transform: scale(1.1); }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(40px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
 /* =========================================
    6. RESPONSIVE FIXES
    ========================================= */
-@media (max-width: 1200px) {
-    .carousel-card.left-2 { transform: translateX(-520px) scale(0.6); }
-    .carousel-card.right-2 { transform: translateX(520px) scale(0.6); }
-}
-.section-divider {
-  border: none;
-  height: 1px;
-  background: linear-gradient(to right, transparent, rgba(227, 111, 4, 0.4), transparent);
-  margin: 4rem auto;
-  width: 80%;
-}
-
-/* Ensure the grid section has enough space to be the 'destination' at the end */
-.gallery-grid-section {
-  padding-top: 2rem;
-  padding-bottom: 5rem;
-}
-
 @media (max-width: 768px) {
+  .gallery-filter {
+    justify-content: flex-start; /* Alignment for row scroll */
+    gap: 0.8rem;
+    padding: 10px;
+  }
+  
+  .filter-btn {
+    padding: 0.5rem 1.2rem;
+    font-size: 0.75rem; /* Smaller buttons on mobile */
+  }
+
   .carousel-card {
     width: 300px;
     height: 230px;

@@ -4,7 +4,7 @@ import { FaClock, FaMapMarkerAlt, FaTicketAlt, FaCalendarAlt } from "react-icons
 import "../style/HomeEvents.css";
 
 // Asset Imports
-import TigerBG from "../assets/TigerGalleryPageBG.jpg"; 
+import TigerBG from "../assets/Event_page.jpg"; 
 import EventIcon from "../assets/BD_Cultural_Elements/Event_icon.png";
 
 /**

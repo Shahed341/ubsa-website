@@ -9,7 +9,7 @@ export default function HomeGallery() {
   const expandedIndex = 2; 
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/gallery')
+    fetch('http://localhost:5000/api/gallery/photos')
       .then(res => res.json())
       .then(data => {
         // We need at least 5 images for this to look right
