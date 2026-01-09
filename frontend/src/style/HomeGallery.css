@@ -1,21 +1,25 @@
-/* --- SECTION LAYOUT --- */
+/* ============================================================
+   --- 1. SECTION LAYOUT & BACKGROUND ---
+   ============================================================ */
 .home-gallery-section {
     position: relative;
-    padding: 100px 20px;
+    padding: 80px 20px;
     width: 100%;
-    background: #001a1a;
+    background: #050505; /* Deep black base */
     overflow: hidden;
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
-/* --- TIGER BACKGROUND MASK --- */
+/* Background Blur Effect */
 .home-gallery-section::before {
     content: "";
     position: absolute;
     inset: 0;
-    background: url('../assets/HomeGalleryBG.jpg') center/cover fixed no-repeat;
-    filter: brightness(0.2) blur(8px);
+    /* Replace with your actual BG image path */
+    background: radial-gradient(circle at center, rgba(211, 47, 47, 0.15) 0%, transparent 70%);
     z-index: 0;
 }
 
@@ -23,147 +27,185 @@
     position: relative;
     z-index: 10;
     width: 100%;
-    max-width: 1450px;
+    max-width: 1600px;
     text-align: center;
 }
 
-/* --- TITLE & HIGHLIGHT --- */
+/* ============================================================
+   --- 2. TYPOGRAPHY ---
+   ============================================================ */
 .home-gallery-title {
-    font-size: clamp(2.5rem, 5vw, 3.8rem);
+    font-size: clamp(2rem, 5vw, 3.5rem);
     font-weight: 900;
     text-transform: uppercase;
     color: #fff;
     margin-bottom: 50px;
-    letter-spacing: 2px;
+    letter-spacing: 4px;
 }
 
 .highlight {
     color: #d32f2f;
-    text-shadow: 0 0 20px rgba(211, 47, 47, 0.6);
+    text-shadow: 0 0 20px rgba(211, 47, 47, 0.5);
 }
 
-/* --- FLEX CONTAINER (The Stage) --- */
+/* ============================================================
+   --- 3. THE VIEWPORT & BELT ---
+   ============================================================ */
+
+/* This acts as the "Window" that only shows 5 photos */
+.gallery-stage-viewport {
+    width: 100%;
+    overflow: hidden;
+    padding: 40px 0;
+}
+
 .gallery-flex-container {
     display: flex;
-    width: 100%;
-    height: 580px;
-    gap: 1.2rem;
-    margin: 0 auto;
-    /* Ensure child animations are contained */
+    gap: 20px;
+    width: 120%; /* Wider than viewport to hold the "entering" image */
+    height: 550px;
+    align-items: stretch;
+    /* Initial offset so we don't see the 'exiting-node' (index 0) */
+    transform: translateX(calc(-15%)); 
     will-change: transform;
 }
 
-/* --- BASE GLASS COLUMN STYLE --- */
+/* ============================================================
+   --- 4. PHOTO COLUMN STYLES ---
+   ============================================================ */
 .gallery-glass-col {
     position: relative;
-    flex: 1; /* Default state for most nodes */
-    min-width: 100px;
-    border-radius: 30px;
+    flex: 1; /* Standard size for 4 of the 5 visible photos */
+    min-width: 150px;
+    border-radius: 25px;
     background-size: cover;
     background-position: center;
     cursor: pointer;
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    filter: brightness(0.4) grayscale(0.6);
-    
-    /* Smooth global transition for when the state resets */
-    transition: 
-        flex 1.2s cubic-bezier(0.4, 0, 0.2, 1),
-        filter 0.8s ease,
-        border-color 0.8s ease;
+    filter: brightness(0.3) grayscale(0.6);
+    transition: filter 0.6s ease, border-color 0.6s ease, box-shadow 0.6s ease;
 }
 
-/* --- THE SEQUENTIAL HANDOFF LOGIC --- */
+.glass-inner-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.8));
+    opacity: 0.5;
+}
 
-/* 1. INITIAL ACTIVE (3rd Photo) */
+/* The FEATURED (Center) Image */
 .gallery-glass-col.current-active {
-    flex: 6; 
+    flex: 4; /* Takes up much more space */
     filter: brightness(1) grayscale(0);
     border-color: #d32f2f;
+    box-shadow: 0 15px 50px rgba(211, 47, 47, 0.3);
 }
 
-/* 2. THE SHRINKING MOTION (Triggered by .stage-transition) */
+/* ============================================================
+   --- 5. PUSH & FADE ANIMATIONS ---
+   ============================================================ */
+
+/* Triggered when React starts the transition */
+.stage-transition {
+    /* Slide the whole belt left by one slot width */
+    animation: pushBeltLeft 1s cubic-bezier(0.45, 0, 0.55, 1) forwards;
+}
+
+/* Ensure individual columns don't use 'transition' during 'animation' to avoid jitter */
+.stage-transition .gallery-glass-col {
+    transition: none !important;
+}
+
+/* Shrink the current big one */
 .stage-transition .current-active {
-    animation: slowShrink 1.2s forwards cubic-bezier(0.4, 0, 0.2, 1);
+    animation: pushShrink 1s cubic-bezier(0.45, 0, 0.55, 1) forwards;
 }
 
-/* 3. THE GROWING MOTION (4th Photo starts expanding) */
+/* Grow the next one */
 .stage-transition .next-active {
-    animation: slowGrow 1.2s forwards cubic-bezier(0.4, 0, 0.2, 1);
+    animation: pushGrow 1s cubic-bezier(0.45, 0, 0.55, 1) forwards;
 }
 
-/* 4. THE EXITING NODE (1st Photo fades) */
+/* Fade out the one leaving the screen */
 .stage-transition .exiting-node {
-    animation: exitFade 1.2s forwards cubic-bezier(0.4, 0, 0.2, 1);
+    animation: pushFadeOut 1s ease forwards;
 }
 
-/* 5. THE ENTERING NODE (6th Photo appears) */
+/* Fade in the one entering the screen */
 .stage-transition .entering-node {
-    animation: enterFade 1.2s forwards cubic-bezier(0.4, 0, 0.2, 1);
+    animation: pushFadeIn 1s ease forwards;
 }
 
-/* --- KEYFRAMES --- */
+/* ============================================================
+   --- 6. KEYFRAMES ---
+   ============================================================ */
 
-@keyframes slowShrink {
-    0% { flex: 6; filter: brightness(1) grayscale(0); }
-    100% { flex: 1; filter: brightness(0.4) grayscale(0.6); }
+@keyframes pushBeltLeft {
+    from { transform: translateX(calc(-15%)); }
+    to { transform: translateX(calc(-30%)); }
 }
 
-@keyframes slowGrow {
-    0% { flex: 1; filter: brightness(0.4) grayscale(0.6); }
-    100% { 
-        flex: 6; 
-        filter: brightness(1) grayscale(0); 
-        border-color: #d32f2f;
-        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
-    }
+@keyframes pushShrink {
+    from { flex: 4; filter: brightness(1) grayscale(0); }
+    to { flex: 1; filter: brightness(0.3) grayscale(0.6); }
 }
 
-@keyframes exitFade {
-    0% { flex: 1; opacity: 1; transform: translateX(0); }
-    100% { flex: 0; min-width: 0; margin: 0; opacity: 0; transform: translateX(-40px); }
+@keyframes pushGrow {
+    from { flex: 1; filter: brightness(0.3) grayscale(0.6); }
+    to { flex: 4; filter: brightness(1) grayscale(0); border-color: #d32f2f; }
 }
 
-@keyframes enterFade {
-    0% { flex: 0; min-width: 0; opacity: 0; transform: translateX(40px); }
-    100% { flex: 1; min-width: 100px; opacity: 1; transform: translateX(0); }
+@keyframes pushFadeOut {
+    from { opacity: 1; transform: scale(1); }
+    to { opacity: 0; transform: scale(0.9); }
 }
 
-/* --- BUTTON (Crystalline Style) --- */
-.view-gallery-btn {
+@keyframes pushFadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* ============================================================
+   --- 7. UI ELEMENTS ---
+   ============================================================ */
+.gallery-btn-container {
     margin-top: 50px;
+}
+
+.view-gallery-btn {
     display: inline-flex;
     align-items: center;
-    padding: 15px 45px;
-    font-size: 1.2rem;
-    font-weight: 900;
+    padding: 14px 40px;
+    font-size: 1rem;
+    font-weight: 800;
     text-transform: uppercase;
     color: #fff;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: transparent;
+    border: 2px solid #d32f2f;
     border-radius: 50px;
-    backdrop-filter: blur(12px);
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
 }
 
 .view-gallery-btn:hover {
-    background: #ffffff;
-    color: #d32f2f;
-    transform: translateY(-5px) scale(1.05);
-    box-shadow: 0 15px 30px rgba(255, 255, 255, 0.2);
+    background: #d32f2f;
+    box-shadow: 0 0 20px rgba(211, 47, 47, 0.4);
+    transform: translateY(-3px);
 }
 
-/* --- RESPONSIVE --- */
-@media (max-width: 900px) {
-    .gallery-flex-container { height: 450px; }
-    .gallery-glass-col { min-width: 80px; }
+/* ============================================================
+   --- 8. RESPONSIVENESS ---
+   ============================================================ */
+@media (max-width: 1024px) {
+    .gallery-flex-container { height: 400px; }
+    .gallery-glass-col.current-active { flex: 3; }
 }
 
-@media (max-width: 600px) {
-    .gallery-flex-container { height: 350px; gap: 0.5rem; }
-    .gallery-glass-col { min-width: 40px; border-radius: 15px; }
-    .gallery-glass-col.current-active, 
-    .gallery-glass-col.next-active { flex: 4; }
-    .home-gallery-title { font-size: 2rem; }
+@media (max-width: 768px) {
+    .gallery-flex-container { height: 320px; gap: 10px; }
+    .gallery-glass-col { min-width: 60px; border-radius: 15px; }
+    .gallery-glass-col.current-active { flex: 4; }
+    .home-gallery-title { font-size: 1.8rem; }
 }
