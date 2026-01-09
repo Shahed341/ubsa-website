@@ -13,7 +13,6 @@ export default function HomeInsta() {
       try {
         const response = await fetch('https://feeds.behold.so/z5VUXCiRkFNeOU6nuCnF');
         const data = await response.json();
-        // Accessing the posts array from the provided JSON structure
         const postData = data.posts ? data.posts : data;
         setPosts(postData.slice(0, 9)); 
         setLoading(false);
@@ -25,39 +24,38 @@ export default function HomeInsta() {
     fetchInstagram();
   }, []);
 
-  if (loading) return <div className="insta-loading-spinner"></div>;
+  if (loading) return <div className="hins-spinner"></div>;
 
   return (
-    <section className="insta-dynamic-section" style={{ '--tiger-bg': `url(${TigerBG})` }}>
-      {/* Dynamic Background Layers */}
-      <div className="insta-fixed-bg"></div>
-      <div className="insta-theme-overlay"></div>
+    <section className="hins-section" style={{ '--tiger-bg': `url(${TigerBG})` }}>
+      {/* Shared Parallax Background Logic */}
+      <div className="hins-fixed-bg"></div>
+      <div className="hins-overlay-tint"></div>
 
-      {/* Floating 5% Frosted Glass Card */}
-      <div className="insta-glass-card-container">
-        <div className="insta-header-centered">
-          <div className="insta-gradient-ring">
-            <div className="insta-avatar-inner">
-              <FaInstagram className="insta-icon-top" />
+      <div className="hins-glass-wrapper">
+        <div className="hins-header">
+          <div className="hins-logo-ring">
+            <div className="hins-logo-inner">
+              <FaInstagram className="hins-main-icon" />
             </div>
           </div>
-          <div className="insta-brand-info">
+          <div className="hins-brand-meta">
             <h2>ubsa.usask</h2>
             <p>Bengali Student Association • U of S</p>
           </div>
         </div>
 
-        {/* 3x3 Dynamic Grid */}
-        <div className="insta-3x3-responsive-grid">
+        {/* 3x3 Grid with Fixed Spacing */}
+        <div className="hins-grid-container">
           {posts.map((post) => (
-            <div key={post.id} className="insta-grid-item" onClick={() => setSelectedPost(post)}>
-              <div className="img-zoom-container">
+            <div key={post.id} className="hins-tile" onClick={() => setSelectedPost(post)}>
+              <div className="hins-tile-media">
                 <img 
                   src={post.mediaType === "VIDEO" ? (post.thumbnailUrl || post.mediaUrl) : post.mediaUrl} 
-                  alt="UBSA Insta" 
+                  alt="UBSA Social" 
                 />
               </div>
-              <div className="tile-indicator-box">
+              <div className="hins-indicator">
                 {post.mediaType === "VIDEO" && <FaPlay />}
                 {post.mediaType === "CAROUSEL_ALBUM" && <FaClone />}
               </div>
@@ -65,50 +63,49 @@ export default function HomeInsta() {
           ))}
         </div>
 
-        <div className="insta-cta-centered">
-          <a href="https://www.instagram.com/ubsa.usask/" target="_blank" rel="noreferrer" className="insta-pill-btn">
+        <div className="hins-footer">
+          <a href="https://www.instagram.com/ubsa.usask/" target="_blank" rel="noreferrer" className="hins-pill-btn">
             Follow on Instagram
           </a>
         </div>
       </div>
 
-      {/* ENHANCED MODAL VIEW */}
+      {/* ISOLATED MODAL VIEW */}
       {selectedPost && (
-        <div className="insta-custom-modal-overlay" onClick={() => setSelectedPost(null)}>
-          <div className="insta-modal-inner-box" onClick={e => e.stopPropagation()}>
-            {/* Close Button */}
-            <button className="modal-close-x" onClick={() => setSelectedPost(null)}>
+        <div className="hins-modal-overlay" onClick={() => setSelectedPost(null)}>
+          <div className="hins-modal-box" onClick={e => e.stopPropagation()}>
+            <button className="hins-close-x" onClick={() => setSelectedPost(null)}>
               <FaTimes />
             </button>
 
-            <div className="modal-left-media">
+            <div className="hins-modal-left">
               {selectedPost.mediaType === "VIDEO" ? (
                 <video src={selectedPost.mediaUrl} controls autoPlay loop />
               ) : (
-                <img src={selectedPost.mediaUrl} alt="Instagram Post" />
+                <img src={selectedPost.mediaUrl} alt="Post Detail" />
               )}
             </div>
 
-            <div className="modal-right-details">
-              <div className="modal-profile-top">
-                <div className="avatar-u-mini">U</div>
-                <div className="user-name-stack">
+            <div className="hins-modal-right">
+              <div className="hins-user-row">
+                <div className="hins-avatar-mini">U</div>
+                <div className="hins-user-info">
                    <strong>ubsa.usask</strong>
                    <span>Saskatoon, SK</span>
                 </div>
               </div>
 
-              <div className="modal-caption-area">
+              <div className="hins-caption-scroll">
                 <p><strong>ubsa.usask</strong> {selectedPost.caption || "No caption available."}</p>
               </div>
 
-              <div className="modal-engagement-row">
-                 <div className="stat-item"><FaHeart /> <span>{Math.floor(Math.random() * 200) + 50}</span></div>
-                 <div className="stat-item"><FaComment /> <span>{Math.floor(Math.random() * 20) + 5}</span></div>
-                 <div className="stat-item"><FaShareAlt /></div>
+              <div className="hins-stats-bar">
+                 <div className="hins-stat"><FaHeart /> <span>{Math.floor(Math.random() * 200) + 50}</span></div>
+                 <div className="hins-stat"><FaComment /> <span>{Math.floor(Math.random() * 20) + 5}</span></div>
+                 <div className="hins-stat"><FaShareAlt /></div>
               </div>
 
-              <a href={selectedPost.permalink} target="_blank" rel="noreferrer" className="modal-external-link">
+              <a href={selectedPost.permalink} target="_blank" rel="noreferrer" className="hins-ext-link">
                 View on Instagram
               </a>
             </div>

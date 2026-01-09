@@ -1,156 +1,163 @@
-/* src/style/HomeContact.css */
-
-.home-contact-section {
+/* --- SECTION CONTAINER & FIXED BG --- */
+.hcon-section {
   position: relative;
-  padding: 6rem 2rem 8rem;
-  background-color: #000;
-  color: #fdfaf5; /* Cream white for better readability */
-}
-
-.home-contact-container {
-  max-width: 1100px;
-  margin: 0 auto;
-}
-
-/* --- GLASS CARD --- */
-.contact-glass-card {
+  width: 100%;
+  min-height: 85vh;
   display: flex;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 24px; /* Slightly more rounded like admin forms */
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
   overflow: hidden;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
 }
 
-/* --- LEFT COLUMN (Text) --- */
-.contact-text-col {
+.hcon-fixed-bg {
+  position: absolute;
+  inset: 0;
+  background-image: var(--tiger-bg);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; /* Parallax logic */
+  z-index: -2;
+}
+
+.hcon-overlay-tint {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, 
+    rgba(0, 0, 0, 0.636) 0%, 
+    rgba(0, 30, 20, 0.5) 50%, 
+    rgba(0, 0, 0, 0.364) 100%);
+  z-index: -1;
+}
+
+.hcon-container {
+  width: 100%;
+  max-width: 950px; /* Small/Compact card container */
+  z-index: 10;
+}
+
+/* --- 50/50 COMPACT GLASS CARD --- */
+.hcon-glass-card {
+  display: flex;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(25px) saturate(160%);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 40px;
+  overflow: hidden;
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.8);
+}
+
+/* --- LEFT HALF (DETAILS) --- */
+.hcon-details-side {
   flex: 1;
-  padding: 4rem 3rem;
-  background: linear-gradient(135deg, rgba(144, 238, 144, 0.05), transparent); /* Hint of Light Green */
+  padding: 4rem;
+  background: rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-.contact-text-col .section-title-home {
-  font-size: 2.8rem;
-  font-weight: 800;
-  text-align: left;
-  margin-bottom: 1rem;
-  color: #90ee90; /* Light Green matching AddEvent style */
+.hcon-title {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #ffeac8; /* Cream */
+  margin-bottom: 0.5rem;
+  white-space: nowrap; /* Forces same line */
 }
 
-.contact-text-col .highlight {
-  color: #e36f04; /* UBSA Orange */
+.hcon-highlight { color: #db280a; } /* Brand Red */
+
+.hcon-subtitle {
+  color: rgba(255, 234, 200, 0.6);
+  font-size: 1rem;
+  margin-bottom: 3rem;
 }
 
-.contact-text-col .section-subtitle {
-  text-align: left;
-  margin-bottom: 2.5rem;
-  color: #ccc;
-  line-height: 1.6;
-}
+.hcon-info-stack { display: flex; flex-direction: column; gap: 2rem; }
+.hcon-info-item { display: flex; align-items: center; gap: 15px; }
 
-.quick-info p {
-  font-size: 1.1rem;
-  margin-bottom: 0.8rem;
-  color: #fdfaf5;
+.hcon-icon-box {
+  width: 48px;
+  height: 48px;
+  background: rgba(219, 40, 10, 0.1);
+  border: 1px solid rgba(219, 40, 10, 0.4);
+  border-radius: 14px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  color: #db280a;
+  font-size: 1.3rem;
 }
 
-/* --- RIGHT COLUMN (Form) --- */
-.contact-form-col {
-  flex: 1.2;
-  padding: 4rem 3rem;
-  background: rgba(255, 255, 255, 0.02);
+.hcon-info-text strong { display: block; color: #ffeac8; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+.hcon-info-text p { color: rgba(255, 234, 200, 0.8); font-size: 1rem; margin: 0; }
+
+/* --- RIGHT HALF (FIELDS) --- */
+.hcon-form-side {
+  flex: 1;
+  padding: 4rem;
+  background: rgba(255, 255, 255, 0.01);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.form-group-home {
-  margin-bottom: 1.2rem;
-}
+.hcon-input-group { margin-bottom: 1.2rem; }
 
-.form-group-home input,
-.form-group-home textarea {
+.hcon-input-group input,
+.hcon-input-group textarea {
   width: 100%;
   padding: 1.1rem;
-  background: rgba(255, 255, 255, 0.08); /* Darker/Visible like AddEvent */
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 12px; /* Matching the AddEvent input rounds */
-  color: #fff;
-  font-family: inherit;
+  background: #121616; /* Ash Grey Input */
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  color: #ffeac8;
   font-size: 1rem;
+  /* Deep Inset Shadow for Depth */
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.6);
   transition: all 0.3s ease;
 }
 
-.form-group-home input:focus,
-.form-group-home textarea:focus {
+.hcon-input-group input:focus,
+.hcon-input-group textarea:focus {
   outline: none;
-  background: rgba(255, 255, 255, 0.12);
-  border-color: #e36f04; /* Orange Glow */
-  box-shadow: 0 0 10px rgba(227, 111, 4, 0.2);
+  background: #1a1e1e;
+  border-color: #db280a;
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.6), 0 0 15px rgba(219, 40, 10, 0.1);
 }
 
-/* Placeholder color */
-.form-group-home input::placeholder,
-.form-group-home textarea::placeholder {
-  color: rgba(255, 255, 255, 0.4);
-}
-
-/* --- SUBMIT BUTTON --- */
-.btn-send-home {
+/* --- BUTTON: WHITE FILL / RED TEXT POP --- */
+.hcon-btn-pop {
   width: 100%;
   padding: 1.1rem;
-  background: #e36f04;
-  color: #fff; /* White text for better contrast */
-  font-weight: 700;
-  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffeac8;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  border: none;
-  border-radius: 12px; /* Squared slightly more to match "Event" style */
+  letter-spacing: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.btn-send-home:hover:not(:disabled) {
-  background: #ff7b00;
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(227, 111, 4, 0.3);
+.hcon-btn-pop:hover:not(:disabled) {
+  background: #ffffff; /* White Fill */
+  color: #db280a; /* Red Text */
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(255, 255, 255, 0.2);
+  border-color: #fff;
 }
 
-.btn-send-home:disabled {
-  background: #444;
-  cursor: not-allowed;
-  opacity: 0.7;
-}
-
-/* --- MOBILE RESPONSIVE --- */
-@media (max-width: 768px) {
-  .contact-glass-card {
-    flex-direction: column;
-  }
-  
-  .contact-text-col, .contact-form-col {
-    padding: 3rem 2rem;
-  }
-
-  .contact-text-col .section-title-home {
-    font-size: 2.2rem;
-    text-align: center;
-  }
-  
-  .contact-text-col .section-subtitle,
-  .quick-info {
-    text-align: center;
-    justify-content: center;
-  }
-  
-  .quick-info p {
-    justify-content: center;
-  }
+/* --- RESPONSIVE --- */
+@media (max-width: 850px) {
+  .hcon-glass-card { flex-direction: column; }
+  .hcon-details-side, .hcon-form-side { padding: 3rem 2rem; }
+  .hcon-title { white-space: normal; text-align: center; }
+  .hcon-subtitle, .hcon-info-item { justify-content: center; text-align: center; }
+  .hcon-info-item { flex-direction: column; }
 }

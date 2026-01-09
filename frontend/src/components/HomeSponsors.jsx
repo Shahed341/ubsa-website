@@ -26,48 +26,48 @@ export default function HomeSponsors() {
 
   const getTierIcon = (tier) => {
     switch(tier?.toLowerCase()) {
-      case 'platinum': return <FaCrown className="tier-icon platinum" />;
-      case 'gold': return <FaAward className="tier-icon gold" />;
-      default: return <FaStar className="tier-icon silver" />;
+      case 'platinum': return <FaCrown className="hmsp-tier-icon platinum" />;
+      case 'gold': return <FaAward className="hmsp-tier-icon gold" />;
+      default: return <FaStar className="hmsp-tier-icon silver" />;
     }
   };
 
   return (
-    <section className="home-sponsors-section">
-      <div className="content-wrapper">
-        <div className="home-sponsors-header">
-          <FaHandshake className="header-main-icon" />
-          <h2 className="section-title-home">Official <span className="highlight">Partners</span></h2>
-          <p className="section-subtitle">Supporting the Bengali community at USask.</p>
+    <section className="hmsp-section">
+      <div className="hmsp-content-wrapper">
+        <div className="hmsp-header">
+          <FaHandshake className="hmsp-header-main-icon" />
+          <h2 className="hmsp-section-title">Official <span className="hmsp-highlight">Partners</span></h2>
+          <p className="hmsp-section-subtitle">Supporting the Bengali community at USask.</p>
         </div>
 
-        <div className="home-sponsors-grid">
+        <div className="hmsp-grid">
           {sponsors.map((sponsor) => (
-            <div key={sponsor.id} className="sponsor-preview-card crystal-glass">
+            <div key={sponsor.id} className="hmsp-card-glass">
               {/* Top Right Tier Badge */}
-              <div className={`top-right-tier ${sponsor.tier?.toLowerCase()}`}>
+              <div className={`hmsp-top-right-tier ${sponsor.tier?.toLowerCase()}`}>
                 {getTierIcon(sponsor.tier)}
                 <span>{sponsor.tier}</span>
               </div>
 
-              {/* 1. Picture */}
-              <div className="sp-img-box">
+              {/* 1. Picture - Fixed Top-Crop Fill */}
+              <div className="hmsp-img-box">
                 <img src={getImageUrl(sponsor.image_url)} alt={sponsor.name} />
               </div>
               
-              <div className="sp-content">
-                {/* 2. Business Name */}
-                <h3 className="business-name">{sponsor.name}</h3>
+              <div className="hmsp-card-body">
+                {/* 2. Business Name - RED */}
+                <h3 className="hmsp-business-name">{sponsor.name}</h3>
 
-                {/* 3. Description */}
-                <p className="business-desc">
+                {/* 3. Description - CREAM */}
+                <p className="hmsp-business-desc">
                   {sponsor.description || "A proud partner supporting UBSA events and student initiatives throughout the academic year."}
                 </p>
 
-                {/* 4. Offerings/Discount */}
-                <div className="offering-box">
-                   <FaTags className="tag-icon" />
-                   <span className="benefit-text">
+                {/* 4. Offerings - GREEN TINT */}
+                <div className="hmsp-offering-box">
+                   <FaTags className="hmsp-tag-icon" />
+                   <span className="hmsp-benefit-text">
                      {sponsor.discount_title ? sponsor.discount_title : "Member Exclusive Perk"}
                    </span>
                 </div>
@@ -76,9 +76,9 @@ export default function HomeSponsors() {
           ))}
         </div>
 
-        <div className="action-row">
-          <Link to="/sponsors" className="btn-crystal-action">
-            Explore All Partners <FaArrowRight />
+        <div className="hmsp-action-row">
+          <Link to="/sponsors" className="hmsp-btn-action">
+            Explore All Partners <FaArrowRight style={{marginLeft: '10px'}} />
           </Link>
         </div>
       </div>

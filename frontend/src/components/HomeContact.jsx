@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
+import { FaMapMarkerAlt, FaEnvelopeOpenText, FaPaperPlane } from 'react-icons/fa';
 import '../style/HomeContact.css';
+import TigerBG from '../assets/ContactPageBG.png'; 
 
 export default function HomeContact() {
   const [formData, setFormData] = useState({ 
-    name: '', 
-    email: '', 
-    subject: 'General Inquiry', // Default subject for DB consistency
-    message: '' 
+    name: '', email: '', subject: 'General Inquiry', message: '' 
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -17,92 +16,74 @@ export default function HomeContact() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-
     try {
-      // Direct fetch call to your backend
       const response = await fetch('http://localhost:5000/api/contact-messages', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
-
       if (response.ok) {
-        alert('Thank you! Your message has been sent to our team.');
-        // Reset form after success
+        alert('Message sent successfully!');
         setFormData({ name: '', email: '', subject: 'General Inquiry', message: '' });
-      } else {
-        const errorData = await response.json();
-        alert(`Failed to send: ${errorData.error || 'Unknown error'}`);
       }
     } catch (error) {
       console.error('Error submitting form:', error);
-      alert('Could not connect to the server. Please check if the backend is running.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <section className="home-contact-section">
-      <div className="home-contact-container">
-        
-        <div className="contact-glass-card">
-          <div className="contact-text-col">
-            <h2 className="section-title-home">Get in <span className="highlight">Touch</span></h2>
-            <p className="section-subtitle">
-              Have a question or want to join UBSA? Drop us a message below.
-            </p>
-            <div className="quick-info">
-              <p>📍 Place Riel Student Centre</p>
-              <p>📧 ubsa.usask@gmail.com</p>
+    <section className="hcon-section" style={{ '--tiger-bg': `url(${TigerBG})` }}>
+      {/* Shared Parallax Background Layers */}
+      <div className="hcon-fixed-bg"></div>
+      <div className="hcon-overlay-tint"></div>
+
+      <div className="hcon-container">
+        <div className="hcon-glass-card">
+          
+          {/* Left Half: Details */}
+          <div className="hcon-details-side">
+            <h2 className="hcon-title">Get in <span className="hcon-highlight">Touch</span></h2>
+            <p className="hcon-subtitle">Drop us a message and we'll get back to you shortly.</p>
+            
+            <div className="hcon-info-stack">
+              <div className="hcon-info-item">
+                <div className="hcon-icon-box"><FaMapMarkerAlt /></div>
+                <div className="hcon-info-text">
+                   <strong>Location</strong>
+                   <p>Place Riel Student Centre</p>
+                </div>
+              </div>
+              <div className="hcon-info-item">
+                <div className="hcon-icon-box"><FaEnvelopeOpenText /></div>
+                <div className="hcon-info-text">
+                   <strong>Email</strong>
+                   <p>ubsa.usask@gmail.com</p>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="contact-form-col">
-            <form onSubmit={handleSubmit}>
-              <div className="form-group-home">
-                <input 
-                  type="text" 
-                  name="name" 
-                  placeholder="Your Name" 
-                  value={formData.name} 
-                  onChange={handleChange} 
-                  required 
-                />
+          {/* Right Half: Form Fields */}
+          <div className="hcon-form-side">
+            <form onSubmit={handleSubmit} className="hcon-form">
+              <div className="hcon-input-group">
+                <input type="text" name="name" placeholder="Name" value={formData.name} onChange={handleChange} required />
               </div>
-              <div className="form-group-home">
-                <input 
-                  type="email" 
-                  name="email" 
-                  placeholder="Your Email" 
-                  value={formData.email} 
-                  onChange={handleChange} 
-                  required 
-                />
+              <div className="hcon-input-group">
+                <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
               </div>
-              <div className="form-group-home">
-                <textarea 
-                  name="message" 
-                  rows="4" 
-                  placeholder="Your Message..." 
-                  value={formData.message} 
-                  onChange={handleChange} 
-                  required 
-                ></textarea>
+              <div className="hcon-input-group">
+                <textarea name="message" rows="3" placeholder="Your Message..." value={formData.message} onChange={handleChange} required></textarea>
               </div>
-              <button 
-                type="submit" 
-                className="btn-send-home" 
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? 'Sending...' : 'Send Message'}
+              <button type="submit" className="hcon-btn-pop" disabled={isSubmitting}>
+                {isSubmitting ? '...' : <>Send Message <FaPaperPlane style={{marginLeft: '8px'}}/></>}
               </button>
             </form>
           </div>
-        </div>
 
+        </div>
       </div>
     </section>
   );

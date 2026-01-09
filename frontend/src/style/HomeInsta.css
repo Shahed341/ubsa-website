@@ -1,231 +1,186 @@
-/* --- SECTION CONTAINER & BACKGROUND FLOW --- */
-.insta-dynamic-section {
+/* --- ISOLATED SECTION (hins- prefix) --- */
+.hins-section {
   position: relative;
   width: 100%;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 5vh 2vw;
+  padding: 80px 20px;
   overflow: hidden;
 }
 
-.insta-fixed-bg {
+.hins-fixed-bg {
   position: absolute;
   inset: 0;
   background-image: var(--tiger-bg);
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
+  background-attachment: fixed; /* Parallax logic */
   z-index: -2;
 }
 
-.insta-theme-overlay {
+.hins-overlay-tint {
   position: absolute;
   inset: 0;
-  /* Green from Top, Dark from Bottom */
+  /* Emerald to Black gradient */
   background: linear-gradient(to bottom, 
-    rgba(0, 40, 30, 0.8) 0%, 
-    rgba(0, 0, 0, 0) 50%, 
-    rgba(0, 0, 0, 0.9) 100%);
+    rgba(0, 40, 30, 0.85) 0%, 
+    rgba(0, 0, 0, 0.5) 50%, 
+    rgba(0, 0, 0, 0.566) 100%);
   z-index: -1;
 }
 
-/* --- 5% FROSTED GLASS CONTAINER --- */
-.insta-glass-card-container {
-  background: rgba(255, 255, 255, 0.05); /* 5% Opacity */
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+/* --- GLASS CARD --- */
+.hins-glass-wrapper {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(25px) saturate(180%);
+  -webkit-backdrop-filter: blur(25px);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 30px;
-  padding: 40px;
-  width: 95%;
+  border-radius: 40px;
+  padding: 50px;
+  width: 100%;
   max-width: 1100px;
-  max-height: 90vh; /* Fits dynamically in screen */
-  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.7);
   z-index: 10;
   display: flex;
   flex-direction: column;
 }
 
-/* --- HEADER & TITLES --- */
-.insta-header-centered {
+/* --- HEADER --- */
+.hins-header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
 }
 
-.insta-gradient-ring {
-  padding: 3px;
-  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+.hins-logo-ring {
+  padding: 4px;
+  background: linear-gradient(45deg, #f09433, #dc2743, #bc1888);
   border-radius: 50%;
-  margin-bottom: 12px;
+  margin-bottom: 15px;
 }
 
-.insta-avatar-inner {
+.hins-logo-inner {
   background: #000;
-  padding: 12px;
+  padding: 15px;
   border-radius: 50%;
   display: flex;
 }
 
-.insta-icon-top { font-size: 1.8rem; color: #fff; }
+.hins-main-icon { font-size: 2rem; color: #fff; }
 
-.insta-brand-info h2 { 
-  font-size: clamp(1.5rem, 4vw, 2.5rem); 
+.hins-brand-meta h2 { 
+  font-size: clamp(1.8rem, 5vw, 2.8rem); 
   font-weight: 900; 
-  color: #fff; 
+  color: #ffeac8; /* Cream Title */
   margin: 0;
-  text-shadow: 0 4px 10px rgba(0,0,0,0.5); 
 }
-.insta-brand-info p { color: rgba(255,255,255,0.7); font-size: 0.9rem; }
 
-/* --- 3x3 GRID LOGIC --- */
-.insta-3x3-responsive-grid {
+.hins-brand-meta p { color: rgba(255, 234, 200, 0.7); font-size: 1rem; }
+
+/* --- GRID (FIXED OVERLAP) --- */
+.hins-grid-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
-  flex: 1;
-  overflow: hidden;
+  gap: 20px; 
+  width: 100%;
 }
 
-.insta-grid-item {
+.hins-tile {
   position: relative;
   aspect-ratio: 1/1;
-  border-radius: 12px;
+  border-radius: 15px;
   overflow: hidden;
   cursor: pointer;
   background: #000;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.img-zoom-container {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-.insta-grid-item img {
+.hins-tile-media { width: 100%; height: 100%; }
+.hins-tile-media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
+  transition: transform 0.6s ease;
 }
 
-/* NO TINT ON HOVER - JUST SCALE */
-.insta-grid-item:hover img {
-  transform: scale(1.15);
-}
+.hins-tile:hover img { transform: scale(1.1); }
 
-.tile-indicator-box {
+.hins-indicator {
   position: absolute;
-  top: 10px; right: 10px;
+  top: 12px; right: 12px;
   color: #fff;
-  filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
 }
 
-/* --- CENTERED ACTION BUTTON --- */
-.insta-cta-centered {
+/* --- FOOTER BUTTON --- */
+.hins-footer {
   display: flex;
   justify-content: center;
-  margin-top: 30px;
+  margin-top: 50px;
 }
 
-.insta-pill-btn {
-  text-decoration: none !important;
-  padding: 12px 40px;
-  background: rgba(255, 255, 255, 0.1);
+.hins-pill-btn {
+  text-decoration: none;
+  padding: 15px 45px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffeac8;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 100px;
-  color: #fff;
-  font-weight: 800;
+  font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
   transition: all 0.4s ease;
 }
 
-.insta-pill-btn:hover {
-  background: #d32f2f;
-  border-color: #d32f2f;
-  box-shadow: 0 0 30px rgba(211, 47, 47, 0.6);
-  transform: scale(1.05);
+.hins-pill-btn:hover {
+  background: #ffffff;
+  color: #db280a; /* Red Text Pop */
+  border-color: #fff;
+  transform: translateY(-5px);
 }
 
-/* --- ENHANCED MODAL --- */
-.insta-custom-modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.92);
-  z-index: 9999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-  backdrop-filter: blur(10px);
+/* --- MODAL --- */
+.hins-modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.95);
+  z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 30px;
+  backdrop-filter: blur(15px);
 }
 
-.insta-modal-inner-box {
-  position: relative;
-  display: flex;
-  background: #000;
-  width: 100%;
-  max-width: 1000px;
-  height: 80vh;
-  border-radius: 20px;
-  border: 1px solid #333;
-  overflow: hidden;
+.hins-modal-box {
+  position: relative; display: flex; background: #000; 
+  width: 100%; max-width: 1100px; height: 85vh;
+  border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.1); overflow: hidden;
 }
 
-.modal-close-x {
-  position: absolute;
-  top: 15px; right: 15px;
-  background: rgba(255,255,255,0.1);
-  border: none;
-  color: white;
-  width: 35px; height: 35px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 100;
-  transition: 0.3s;
+.hins-close-x {
+  position: absolute; top: 20px; right: 20px;
+  background: rgba(255,255,255,0.1); border: none; color: white;
+  width: 40px; height: 40px; border-radius: 50%; cursor: pointer; z-index: 100;
 }
-.modal-close-x:hover { background: #d32f2f; }
 
-.modal-left-media { flex: 1.4; background: #000; display: flex; align-items: center; justify-content: center; }
-.modal-left-media img, .modal-left-media video { max-width: 100%; max-height: 100%; object-fit: contain; }
+.hins-modal-left { flex: 1.5; background: #000; display: flex; align-items: center; justify-content: center; }
+.hins-modal-left img, .hins-modal-left video { max-width: 100%; max-height: 100%; object-fit: contain; }
 
-.modal-right-details { flex: 0.6; padding: 30px; display: flex; flex-direction: column; background: #050505; }
+.hins-modal-right { flex: 0.8; padding: 40px; display: flex; flex-direction: column; background: #080808; border-left: 1px solid #1a1a1a; }
+.hins-user-row { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; }
+.hins-avatar-mini { width: 40px; height: 40px; background: #db280a; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: bold; }
 
-.modal-profile-top { display: flex; align-items: center; gap: 12px; margin-bottom: 25px; border-bottom: 1px solid #222; padding-bottom: 15px;}
-.avatar-u-mini { width: 35px; height: 35px; background: #d32f2f; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; }
-.user-name-stack { display: flex; flex-direction: column; }
-.user-name-stack span { font-size: 0.75rem; color: #888; }
+.hins-caption-scroll { flex: 1; overflow-y: auto; color: #ddd; line-height: 1.7; font-size: 1rem; }
+.hins-stats-bar { display: flex; gap: 25px; padding: 25px 0; border-top: 1px solid #1a1a1a; margin-top: 20px; }
+.hins-stat { display: flex; align-items: center; gap: 8px; color: #eee; }
 
-.modal-caption-area { flex: 1; overflow-y: auto; color: #ccc; line-height: 1.6; font-size: 0.95rem; }
-
-.modal-engagement-row { display: flex; gap: 20px; padding: 20px 0; border-top: 1px solid #222; margin-top: 15px; }
-.stat-item { display: flex; align-items: center; gap: 6px; color: #eee; cursor: pointer; }
-.stat-item svg { color: #888; transition: 0.3s; }
-.stat-item:hover svg { color: #d32f2f; }
-
-.modal-external-link {
-  text-align: center;
-  background: #222;
-  color: #fff;
-  padding: 12px;
-  border-radius: 8px;
-  text-decoration: none !important;
-  font-weight: 700;
-  font-size: 0.9rem;
-  transition: 0.3s;
+.hins-ext-link {
+  text-align: center; background: #fff; color: #db280a;
+  padding: 15px; border-radius: 12px; text-decoration: none; font-weight: 800; transition: 0.3s;
 }
-.modal-external-link:hover { background: #d32f2f; }
 
+/* --- MOBILE --- */
 @media (max-width: 768px) {
-  .insta-3x3-responsive-grid { gap: 5px; }
-  .insta-modal-inner-box { flex-direction: column; height: 95vh; }
-  .modal-right-details { flex: 1; padding: 20px; }
-  .modal-left-media { flex: 1; }
+  .hins-grid-container { gap: 10px; }
+  .hins-glass-wrapper { padding: 20px; }
+  .hins-modal-box { flex-direction: column; height: 90vh; }
+  .hins-modal-right { padding: 20px; flex: none; height: 45%; }
 }
