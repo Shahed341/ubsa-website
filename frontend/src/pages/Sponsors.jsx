@@ -6,9 +6,7 @@ import {
   FaMapMarkerAlt, 
   FaInfoCircle, 
   FaPercentage, 
-  FaRibbon, 
-  FaTimes,
-  FaArrowRight
+  FaRibbon
 } from 'react-icons/fa';
 import SponsorFormModal from '../components/SponsorFormModal';
 import '../style/Sponsors.css';
@@ -25,7 +23,7 @@ const MOCK_DATA = [
     name: "Shahed Travels", 
     tier: "Platinum", 
     discount_title: "$50 OFF International Flights", 
-    description: "Your local travel partner specializing in student bookings and group travel back to Bangladesh. We ensure the best rates for the UBSA community.", 
+    description: "Your local travel partner specializing in student bookings and group travel back to Bangladesh. We ensure the best rates for the UBSA community. Our services include visa assistance and customized tour packages for families and students alike.", 
     image_url: ShahedTravels, 
     isLocal: true, 
     location: "Saskatoon, SK", 
@@ -37,7 +35,7 @@ const MOCK_DATA = [
     name: "Shahed Tech", 
     tier: "Gold", 
     discount_title: "15% OFF All Repair Services", 
-    description: "Expert tech support, hardware repairs, and software troubleshooting for the USask student community. Fast and reliable service.", 
+    description: "Expert tech support, hardware repairs, and software troubleshooting for the USask student community. Fast and reliable service for laptops, smartphones, and gaming consoles with a student-first approach.", 
     image_url: ShahedTech, 
     isLocal: true, 
     location: "Saskatoon, SK", 
@@ -49,7 +47,7 @@ const MOCK_DATA = [
     name: "Shahed Bite", 
     tier: "Silver", 
     discount_title: "Free Soft Drink with any Meal", 
-    description: "Authentic Bengali street food and traditional snacks. Experience the true flavors of home right here in Saskatoon.", 
+    description: "Authentic Bengali street food and traditional snacks. Experience the true flavors of home right here in Saskatoon. From spicy Jhalmuri to sweet Mishti, we bring the heart of Dhaka to your plate.", 
     image_url: ShahedBite, 
     isLocal: true, 
     location: "Saskatoon, SK", 
@@ -61,7 +59,6 @@ const MOCK_DATA = [
 export default function Sponsors() {
   const [sponsors, setSponsors] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedSponsor, setSelectedSponsor] = useState(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
 
   useEffect(() => {
@@ -100,33 +97,47 @@ export default function Sponsors() {
         
         <div className="sppg-grid">
           {tierSponsors.map((sponsor) => (
-            <div 
-              key={sponsor.id} 
-              className="sppg-glass-card" 
-              onClick={() => setSelectedSponsor(sponsor)}
-            >
-              <div className="sppg-logo-wrapper">
-                <img src={getImageUrl(sponsor)} alt={sponsor.name} />
-                <div className="sppg-card-overlay-hint">
-                  <span>View Details <FaArrowRight /></span>
+            <div key={sponsor.id} className="sppg-detailed-card">
+              {/* Left Side: Photo & Tier */}
+              <div className="sppg-card-media-pane">
+                <img src={getImageUrl(sponsor)} alt={sponsor.name} className="sppg-card-hero-img" />
+                <div className="sppg-card-tier-tag">
+                  {sponsor.tier} Partner
                 </div>
               </div>
 
-              <div className="sppg-card-body">
-                <h3 className="sppg-sponsor-name">{sponsor.name}</h3>
-                <p className="sppg-sponsor-preview">
-                  {sponsor.description.substring(0, 90)}...
-                </p>
-                <div className="sppg-badge-container">
-                  {sponsor.discount_title ? (
-                    <span className="sppg-badge sppg-badge-perk">
-                      <FaPercentage /> {sponsor.discount_title}
-                    </span>
-                  ) : (
-                    <span className="sppg-badge sppg-badge-supporter">
-                      <FaHandshake /> Community Partner
-                    </span>
+              {/* Right Side: Information */}
+              <div className="sppg-card-details-pane">
+                <h2 className="sppg-card-title">{sponsor.name}</h2>
+                
+                <div className="sppg-card-contact-bar">
+                  {sponsor.website_url && (
+                    <a href={sponsor.website_url} target="_blank" rel="noreferrer" className="sppg-card-action-link">
+                      <FaGlobe /> Website
+                    </a>
                   )}
+                  {sponsor.phone && (
+                    <a href={`tel:${sponsor.phone}`} className="sppg-card-action-link">
+                      <FaPhoneAlt /> Contact
+                    </a>
+                  )}
+                </div>
+
+                {sponsor.discount_title && (
+                  <div className="sppg-card-offer-box">
+                    <FaPercentage className="offer-icon-red" />
+                    <div>
+                      <p className="offer-val">{sponsor.discount_title}</p>
+                    </div>
+                  </div>
+                )}
+
+                <div className="sppg-card-bio">
+                  <p>{sponsor.description}</p>
+                </div>
+
+                <div className="sppg-card-loc-footer">
+                  <FaMapMarkerAlt /> {sponsor.location || 'Saskatoon, SK'}
                 </div>
               </div>
             </div>
@@ -157,7 +168,6 @@ export default function Sponsors() {
           Collaborating with local businesses to empower and support the USask Bengali community.
         </p>
         
-        {/* Snake Border Wrapper */}
         <div className="snake-border-container">
           <div className="snake-line green"></div>
           <div className="snake-line red"></div>
@@ -167,78 +177,13 @@ export default function Sponsors() {
         </div>
       </header>
 
-      {/* Tiered Content */}
+      {/* Permanent Tiered List */}
       <section className="sppg-categorized-list">
         {['Platinum', 'Gold', 'Silver', 'Bronze'].map((tier) => renderSponsorTier(tier))}
       </section>
-
-      {/* Detail Modal */}
-      {selectedSponsor && (
-        <SponsorModal 
-          sponsor={selectedSponsor} 
-          onClose={() => setSelectedSponsor(null)} 
-          getImageUrl={getImageUrl} 
-        />
-      )}
 
       {/* Application Form */}
       {isFormOpen && <SponsorFormModal onClose={() => setIsFormOpen(false)} />}
     </div>
   );
 }
-
-const SponsorModal = ({ sponsor, onClose, getImageUrl }) => (
-  <div className="sppg-modal-overlay" onClick={onClose}>
-    <div className="sppg-modal-glass-card" onClick={(e) => e.stopPropagation()}>
-      <button className="sppg-modal-close-btn" onClick={onClose} aria-label="Close">
-        <FaTimes />
-      </button>
-      
-      <div className="sppg-modal-layout">
-        <div className="sppg-modal-media-pane">
-          <img src={getImageUrl(sponsor)} alt={sponsor.name} className="sppg-modal-hero-img" />
-          <div className={`sppg-modal-tier-tag tag-${sponsor.tier.toLowerCase()}`}>
-            {sponsor.tier} Partner
-          </div>
-        </div>
-
-        <div className="sppg-modal-details-pane">
-          <h2 className="sppg-modal-title">{sponsor.name}</h2>
-          
-          <div className="sppg-modal-contact-bar">
-            {sponsor.website_url && (
-              <a href={sponsor.website_url} target="_blank" rel="noreferrer" className="sppg-modal-action-link">
-                <FaGlobe /> Website
-              </a>
-            )}
-            {sponsor.phone && (
-              <a href={`tel:${sponsor.phone}`} className="sppg-modal-action-link">
-                <FaPhoneAlt /> Contact
-              </a>
-            )}
-          </div>
-
-          <div className="sppg-modal-content-scroll">
-             {sponsor.discount_title && (
-               <div className="sppg-modal-offer-card">
-                  <FaPercentage className="offer-icon" />
-                  <div>
-                    <span className="offer-label">Exclusive Member Perk</span>
-                    <p className="offer-val">{sponsor.discount_title}</p>
-                  </div>
-               </div>
-             )}
-
-             <div className="sppg-modal-bio">
-                <h3><FaInfoCircle /> About the Partner</h3>
-                <p>{sponsor.description}</p>
-                <div className="sppg-modal-loc-footer">
-                   <FaMapMarkerAlt /> {sponsor.location || 'Saskatoon, SK'}
-                </div>
-             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-);

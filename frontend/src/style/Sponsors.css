@@ -28,12 +28,17 @@
 }
 
 /* ============================================================
-   --- 2. HERO SECTION & TITLE GLASS ---
+   --- 2. HERO SECTION (CENTRAL ALIGNMENT) ---
    ============================================================ */
 .sppg-hero {
   text-align: center;
-  margin-bottom: 80px;
+  margin-bottom: 100px;
   animation: fadeInDown 1s ease-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  justify-content: center;
+  width: 100%;
 }
 
 .sppg-title-glass {
@@ -69,136 +74,72 @@
 }
 
 /* ============================================================
-   --- 3. DUAL-COLOR SNAKE BUTTON (UPDATED) ---
+   --- 3. SNAKE BORDER BUTTON (FIXED PATHING) ---
    ============================================================ */
 .snake-border-container {
-    position: relative;
-    display: inline-flex; /* Changed to inline-flex to wrap tight to the button */
-    padding: 2px;         /* This creates the "track" for the snake */
-    border-radius: 50px;  /* MATCH THIS TO THE BUTTON */
-    overflow: hidden;
-    background: rgba(255, 255, 255, 0.03);
-    z-index: 1;
+  position: relative;
+  display: inline-flex; 
+  align-items: center;
+  justify-content: center;
+  padding: 3px; 
+  border-radius: 50px; 
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.05);
+  z-index: 100;
+  width: fit-content;
+  margin: 0 auto;
 }
 
 .snake-line {
-    position: absolute;
-    z-index: 0;
-    width: 130px; 
-    height: 4px;
-    /* The 'round 50px' here keeps the snake on the curve */
-    offset-path: rect(0% 100% 100% 0% round 50px);
-    animation: snakeMove 3s linear infinite;
+  position: absolute;
+  z-index: 0;
+  width: 140px; 
+  height: 4px;
+  offset-path: rect(0% 100% 100% 0% round 50px);
+  animation: snakeMove 3s linear infinite;
 }
 
-/* Ensure the button fills the container without gaps */
-.sppg-btn-become {
-    position: relative;
-    z-index: 2;
-    margin: 0 !important;
-    border-radius: 50px; /* Keep consistent */
-    width: 100%;
-    height: 100%;
-}
-
-.snake-line.green { 
-    background: linear-gradient(90deg, transparent, #047338, #4ade80); 
-}
-
+.snake-line.green { background: linear-gradient(90deg, transparent, #047338, #4ade80, #fff); }
 .snake-line.red { 
-    background: linear-gradient(90deg, transparent, #db280a, #ff6b6b);
-    animation-delay: -2s; 
+  background: linear-gradient(90deg, transparent, #db280a, #ff4848, #fff);
+  animation-delay: -1.5s; 
 }
 
 @keyframes snakeMove {
-    from { offset-distance: 0%; }
-    to { offset-distance: 100%; }
-}
-
-/* =========================================
-   3. SMALL GLASS BUTTON WITH SNAKE EFFECT
-   ========================================= */
-.snake-border-container {
-    position: relative;
-    display: inline-flex; /* Keeps it small and tight to text */
-    padding: 2px; 
-    border-radius: 50px; 
-    overflow: hidden;
-    background: rgba(255, 255, 255, 0.05);
-    z-index: 1;
-    backdrop-filter: blur(5px);
-}
-
-.snake-line {
-    position: absolute;
-    z-index: 0;
-    width: 130px; /* Longer snake for better circling */
-    height: 4px; /* Thicker line to see through the glass */
-    offset-path: rect(0% 100% 100% 0% round 50px);
-    animation: snakeMove 3s linear infinite;
-}
-
-.snake-line.green { 
-    background: linear-gradient(90deg, transparent, #047338, #4ade80, #fff); 
-}
-
-.snake-line.red { 
-    background: linear-gradient(90deg, transparent, #db280a, #ff4848, #fff);
-    animation-delay: -1.5s; 
-}
-
-@keyframes snakeMove {
-    from { offset-distance: 0%; }
-    to { offset-distance: 100%; }
+  from { offset-distance: 0%; }
+  to { offset-distance: 100%; }
 }
 
 .sppg-btn-become {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    /* Compact padding for a "Small" button look */
-    padding: 12px 30px; 
-    border-radius: 50px;
-    
-    /* BIG TEXT INSIDE */
-    font-size: 1.3rem; 
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    
-    position: relative;
-    z-index: 2;
-    margin: 0 !important;
-    
-    /* GLASS STYLE */
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    background: rgba(255, 255, 255, 0.08); /* Translucent glass */
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    color: #fff;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 35px;
+  border-radius: 50px;
+  font-size: 1.2rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  z-index: 2;
+  margin: 0 !important; 
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #fff;
+  white-space: nowrap;
 }
 
 .sppg-btn-become:hover {
-    color: red;
-    background: rgba(4, 115, 56, 0.3); /* UBSA Green Glass */
-    transform: scale(1.05);
-    border-color: #4ade80;
-    box-shadow: 0 0 20px rgba(74, 222, 128, 0.2);
+  background: rgba(4, 115, 56, 0.4);
+  transform: scale(1.03);
+  border-color: #4ade80;
 }
-
-.sppg-btn-become svg {
-    font-size: 1.5rem; /* Large icon to match large text */
-    color: #4ade80; /* Green icon for contrast */
-}
-
 
 /* ============================================================
-   --- 4. TIERED SECTIONS & GRID ---
+   --- 4. TIERED LIST & GRID ---
    ============================================================ */
 .sppg-categorized-list {
   display: flex;
@@ -227,7 +168,6 @@
   font-size: 1.8rem;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 1px;
   color: #ffeac8;
 }
 
@@ -239,303 +179,119 @@
 
 .sppg-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-  gap: 40px;
+  grid-template-columns: 1fr;
+  gap: 60px;
 }
 
 /* ============================================================
-   --- 5. THE GLASS CARDS ---
+   --- 5. THE DETAILED PERMANENT GLASS CARDS ---
    ============================================================ */
-.sppg-glass-card {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 30px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-  display: flex;
-  flex-direction: column;
-}
-
-.sppg-glass-card:hover {
-  transform: translateY(-15px);
-  background: rgba(255, 255, 255, 0.07);
-  border-color: rgba(227, 111, 4, 0.5);
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
-}
-
-.sppg-logo-wrapper {
-  position: relative;
-  height: 240px;
-  background: rgba(0, 0, 0, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 40px;
-}
-
-.sppg-logo-wrapper img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  transition: transform 0.6s ease;
-  filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
-}
-
-.sppg-card-overlay-hint {
-  position: absolute;
-  inset: 0;
-  background: rgba(227, 111, 4, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.sppg-glass-card:hover .sppg-card-overlay-hint { opacity: 1; }
-
-.sppg-card-body { padding: 30px; }
-
-.sppg-sponsor-name {
-  font-size: 1.6rem;
-  color: #ffeac8;
-  margin-bottom: 15px;
-  font-weight: 800;
-}
-
-.sppg-sponsor-preview {
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 0.95rem;
-  line-height: 1.5;
-  margin-bottom: 25px;
-}
-
-.sppg-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  border-radius: 12px;
-  font-size: 0.85rem;
-  font-weight: 700;
-}
-
-.sppg-badge-perk {
-  background: rgba(227, 111, 4, 0.2);
-  color: #ffa44f;
-  border: 1px solid rgba(227, 111, 4, 0.3);
-}
-
-.sppg-badge-supporter {
-  background: rgba(4, 115, 56, 0.2);
-  color: #4ade80;
-  border: 1px solid rgba(4, 115, 56, 0.3);
-}
-
-/* ============================================================
-   --- 6. MODAL (DETAIL VIEW) - UPDATED WINDOW STYLE ---
-   ============================================================ */
-.sppg-modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.92); /* Deep dark backdrop */
-  backdrop-filter: blur(15px);
-  z-index: 9999; /* Higher than Navigation */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  animation: fadeIn 0.3s ease-out;
-}
-
-.sppg-modal-glass-card {
-  background: rgba(25, 25, 25, 0.8);
-  backdrop-filter: blur(30px) saturate(150%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+.sppg-detailed-card {
+  background: rgba(25, 25, 25, 0.6);
+  backdrop-filter: blur(25px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 40px;
-  max-width: 1150px;
-  width: 100%;
-  max-height: 90vh;
-  position: relative;
   overflow: hidden;
-  box-shadow: 0 50px 100px rgba(0, 0, 0, 0.9);
-  display: flex;
-  flex-direction: column;
-}
-
-/* Split layout: Photo (Left/Top) and Details (Right/Bottom) */
-.sppg-modal-layout {
   display: grid;
-  grid-template-columns: 45% 55%;
-  height: 100%;
+  grid-template-columns: 42% 58%;
+  min-height: 500px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
 }
 
-/* Close Button - Distinct Right Position */
-.sppg-modal-close-btn {
-  position: absolute;
-  top: 25px;
-  right: 25px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #fff;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  cursor: pointer;
-  z-index: 10010;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.4rem;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.sppg-modal-close-btn:hover {
-  background: #db280a; /* UBSA Red */
-  transform: rotate(90deg) scale(1.1);
-  border-color: transparent;
-  box-shadow: 0 0 20px rgba(219, 40, 10, 0.4);
-}
-
-/* Left Pane: The Hero Photo */
-.sppg-modal-media-pane {
+.sppg-card-media-pane {
   position: relative;
   background: #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0; /* Full bleed for photo */
-  overflow: hidden;
 }
 
-.sppg-modal-hero-img {
+.sppg-card-hero-img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* High quality photo view */
+  object-fit: cover;
 }
 
-/* Category Badge inside Modal */
-.sppg-modal-tier-tag {
+.sppg-card-tier-tag {
   position: absolute;
-  top: 30px;
-  left: 30px;
+  top: 25px;
+  left: 25px;
   padding: 10px 20px;
   border-radius: 50px;
   font-size: 0.8rem;
   font-weight: 900;
   text-transform: uppercase;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.75);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
   color: #ffeac8;
 }
 
-/* Right Pane: Content & Details */
-.sppg-modal-details-pane {
+.sppg-card-details-pane {
   padding: 60px;
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
+  justify-content: center;
 }
 
-.sppg-modal-title {
-  font-size: 3.5rem; /* Bigger Title */
+.sppg-card-title {
+  font-size: clamp(2rem, 3.5vw, 3.2rem);
   font-weight: 900;
   margin-bottom: 25px;
   color: #ffeac8;
-  letter-spacing: -1px;
-  line-height: 1.1;
 }
 
-/* Icon & Action Section */
-.sppg-modal-contact-bar {
+.sppg-card-contact-bar {
   display: flex;
   gap: 15px;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 }
 
-.sppg-modal-action-link {
+.sppg-card-action-link {
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 12px 24px;
-  border-radius: 15px;
-  font-weight: 700;
-  text-decoration: none;
-  background: rgba(255, 255, 255, 0.05);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: #fff;
-  transition: 0.3s;
+  text-decoration: none;
+  font-weight: 700;
 }
 
-.sppg-modal-action-link svg {
-  color: #e36f04; /* Icon color */
-  font-size: 1.2rem;
-}
-
-.sppg-modal-action-link:hover {
-  background: rgba(227, 111, 4, 0.15);
-  border-color: #e36f04;
-}
-
-/* Red Discount Perk Card */
-.sppg-modal-offer-card {
-  background: linear-gradient(135deg, rgba(219, 40, 10, 0.2), rgba(0, 0, 0, 0.3));
+.sppg-card-offer-box {
+  background: linear-gradient(135deg, rgba(219, 40, 10, 0.18), rgba(0, 0, 0, 0.4));
   padding: 25px;
-  border-radius: 25px;
+  border-radius: 24px;
   border: 1px solid rgba(219, 40, 10, 0.3);
   display: flex;
   align-items: center;
   gap: 20px;
-  margin-bottom: 35px;
-}
-
-.offer-icon {
-  font-size: 2rem;
-  color: #db280a; /* Bold Red */
-}
-
-.offer-val {
-  font-size: 1.4rem;
-  font-weight: 800;
-  color: #fff;
-  margin: 0;
-}
-
-.sppg-modal-bio p {
-  font-size: 1.1rem;
-  line-height: 1.8;
-  color: rgba(255, 255, 255, 0.7);
   margin-bottom: 30px;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+.offer-icon-red { font-size: 1.8rem; color: #db280a; }
+.offer-val { font-size: 1.25rem; font-weight: 800; color: #fff; margin: 0; }
+
+.sppg-card-bio {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 30px;
 }
 
-/* Responsive Adjustments */
-@media (max-width: 1024px) {
-  .sppg-modal-layout { grid-template-columns: 1fr; }
-  .sppg-modal-media-pane { height: 350px; }
-  .sppg-modal-title { font-size: 2.5rem; }
+.sppg-card-loc-footer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 /* ============================================================
-   --- 7. RESPONSIVENESS ---
+   --- 6. RESPONSIVENESS ---
    ============================================================ */
-@media (max-width: 1024px) {
-  .sppg-modal-layout { grid-template-columns: 1fr; }
-  .sppg-modal-media-pane { height: 300px; }
-  .sppg-grid { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (max-width: 768px) {
-  .sppg-page-title { flex-direction: column; align-items: center; gap: 5px; }
-  .sppg-grid { grid-template-columns: 1fr; }
-  .sppg-page { padding-top: 100px; }
+@media (max-width: 1100px) {
+  .sppg-detailed-card { grid-template-columns: 1fr; }
+  .sppg-card-media-pane { height: 350px; }
+  .sppg-card-details-pane { padding: 40px; }
 }
 
 @keyframes fadeInDown {
